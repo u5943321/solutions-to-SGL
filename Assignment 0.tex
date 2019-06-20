@@ -1,0 +1,312 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{Assignment 0}
+\newcommand{\hmwkDueDate}{22 March 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+\begin{question}
+    Show that pullbacks of epis are epi for categories of each of the types (i)-(ix)
+    \begin{proof}
+
+        (i) $\Sets$, the category of all small sets $S,T$, and functions $S\to T$ between them.\newline
+        Consider the diagram below where $X,Y, B$ are sets, by the last paragraph in page 29, the pullback is $P=\{\langle x,y\rangle\mid fx = gy\}$ and $f',g'$ are projections. 
+        \begin{center}
+            \begin{tikzcd}
+               P=\{\langle x,y\rangle\mid fx = gy\}\arrow[r,dashed,"f'"]\arrow[d,dashed,"g'"] & Y\arrow[d,"g"]\\
+                X\arrow[r,"f"] & B
+            \end{tikzcd}
+        \end{center}
+        Epis in $\Sets$ are set-theoric surjections. So suppose $g$ is surjective, we prove $g'$ is surjective. This is proving for any $x\in X$, there exists $y\in Y$ such that $fx = gy$, this is because of the surjectiveness of $g$.
+        \newline
+        (ii) $\Sets \times \Sets$, the category of all pairs of sets, with morphisms pairs of functions.
+        \newline
+        An epi in $\Sets^2$ is a pair of epis in $\Sets$. Then the result follows from (i).\newline
+        (iii) $\Sets^n$, the category of all $n$-tuples of sets with morphisms all $n$-tuples of functions. Here $n$ is a fixed natural number.\newline
+        By induction using (ii).\newline
+        (iv) $\BG$, or $G$-$\Sets$, the category of all representations of a fixed group $G$.\newline
+        An epi $X\to Y$ in $\BG$ is just a set-theoric surjection $X\to Y$ which respects the $G$-action.
+        For $X\overset{f}\rightarrow B\overset{g}\leftarrow Y$ in $\BG$, the pullback is $P=\{\langle x,y\rangle\mid fx = gy\}$ with $P\to X,P\to Y$ projection maps. The action by $G$ on $P$ is coordinatewise. So the result follows from (i).\newline
+        (v) $\BM$, or $M$-$\Sets$, the category of all representations $X\times M\to X$ of a fixed monoid $M$ on a variable set $X$.\newline
+        Same as (iv).\newline
+        (vi) $\Sets^2$, the category whose objects are all functions $\sigma:X\to X'$ from one set $X'$, with evident arrows between these objects.\newline
+        An epi in $\Sets$ from $\sigma_X:X_1\to X_2$ to $\sigma_Y:Y_1\to Y_2$ is pair of functions $f_1,f_2$ such that the diagram:
+
+        \begin{center}
+            \begin{tikzcd}
+                X_1 \arrow[r, "\sigma_X"]\arrow[d,"f_1"]& X_2\arrow[d,"f_2"]\\
+                Y \arrow[r,"\sigma_Y"]& Y'
+            \end{tikzcd}
+        \end{center}
+        commutes where both $g_1,g_2$ are surjections. And for morphisms from $X_1\to X_2$, $Y_1 \to Y_2$ to $B_1\to B_2$, a pullback square looks like:
+        \begin{center}
+        \begin{tikzcd}
+            & P_2\arrow[rr,"f'_2"]\arrow[dd,"g'_2",near end] & & Y_2\arrow[dd,"g_2"]\\
+            P_1\arrow[ur,"\sigma_P"]\arrow[rr, "f'_1",crossing over]\arrow[dd,"g'_1"] & & Y_1\arrow[ur,"\sigma_Y"] & \\
+            & X_2\arrow[rr,"f_2",near start] & & B_2\\
+            X_1\arrow[ur,"\sigma_X"]\arrow[rr,"f_1"] & & B_1\arrow[from=uu,"g_1",crossing over]\arrow[ur,"\sigma_B"] &
+
+        \end{tikzcd}
+        \end{center}
+
+        We can check both the forth and back squares are pullback squares in $\Sets$, the result follows by (i).\newline
+        (vii) $\Sets^{\N}$, the category whose objects are all sequences $X$,
+        \[X_0\to X_1\to X_2\to\cdots\]
+        of sets $X_n$ and functions $X_n\to X_{n+1}$, with evident arrows $X\to Y$. \newline
+        Similar to (vi), a pullback in $\Sets^{\N}$ looks like:
+        \begin{center}
+        \begin{tikzpicture}
+            \node at (0,0) (a) {$X_1$};
+            \node at (0,2) (b) {$P_1$};
+            \node at (4,0) (c) {$B_1$};
+            \node at (4,2) (d) {$Y_1$};
+            \node at (1,3) (e) {$P_2$};
+            \node at (1,1) (f) {$X_2$};
+            \node at (5,1) (g) {$B_2$};
+            \node at (5,3) (h) {$Y_2$};
+            \node at (2,4) (i) {$P_3$};
+            \node at (6,4) (j) {$Y_3$};
+            \node at (2,2) (k) {$X_3$};
+            \node at (6,2) (l) {$B_3$};
+            \node at (3,5) (m) {$\cdots$};
+            \node at (7,5) (n) {$\cdots$};
+            \node at (3,3) (o) {$\cdots$};
+            \node at (7,3) (p) {$\cdots$};
+            \path[-stealth,commutative diagrams/.cd, every arrow, every label]
+                     (a) edge (c) 
+                     (b) edge (a)
+                     (d) edge[commutative diagrams/crossing over] (c) 
+                     (b) edge (d)
+                     (e) edge (h)
+                     (f) edge (g)
+                     (a) edge (f)
+                     (c) edge (g)
+                     (b) edge (e)
+                     (d) edge (h)
+                     (e) edge (i)
+                     (h) edge (j)
+                     (g) edge (l)
+                     (e) edge (f)
+                     (h) edge (g)
+                     (f) edge (k)
+                     (k) edge (l)
+                     (i) edge (k)
+                     (j) edge (l)
+                     (i) edge (j)
+                     (i) edge (m)
+                     (k) edge (o)
+                     (l) edge (p)
+                     (j) edge (n)
+                     ;
+\end{tikzpicture}
+\end{center}
+        
+        Each face consists with $P_n,X_n,Y_n,B_n$ are pullback squares, so the result follows from (i).
+    
+
+
+        (viii) $\Sets^{\C^{\op}}$, where $\C$ is a fixed small category. Objects are all functors $P:\C^{\op}\to \Sets$ and arrows $P\to P'$ are all natural transformations $\theta:P\to P'$ between such functors.\newline
+        An epi in $\Sets^{\C^{\op}}$ from $P$ to $P'$ is a natural transformation $\theta$ such that for any object $C$ of $\C$, $\theta_C:P(C)\to P'(C)$ is an epi. By page 30, the pullback of $X\rightarrow B\leftarrow Y$ for $X,Y,B: \C^{\op}\to\Sets$, the pullback $P:\C^{\op}\to\Sets$ is $(X\times_B Y)(C)\cong X(C)\times_{B(C)}Y(C)$. The result follows from (i).\newline
+        (ix) $\Sets / J$, the comma category, with objects all sets over fixed set $J$.\newline
+        By page 29, the comma category $\Sets / J$ is equivalent to the functor category $\Sets^J$, so the result follows from (viii).
+    \end{proof}
+\end{question}
+\begin{question}
+    Prove $\FinSets^{\N}$ has no subobject classifier.
+    \begin{proof}
+        Suppose, in order to get a contradiction, that there exists $\Omega: \N \to \FinSets\subseteq \Sets$ such that $\Omega$ is a subobject classifier of $\FinSets^{\N}$. In particular, $\Omega$ must classify the subobjects of each representable functor $\Hom_{\N^{\op}}(-,n):\N \to \FinSets$ for any object $n$ of $\N$. Therefore,
+        \[\Sub_{\FinSets^{\N}}(\Hom_{\N^{\op}}(-,n))\cong \Hom_{\FinSets^{\N}}(\Hom_{\N^{\op}}(-,n),\Omega)\cong  \Hom_{\Sets^{\N}}(\Hom_{\N^{\op}}(-,n),\Omega)\cong \Omega(n)\]
+        
+        The first equivalence is by definition of subobject classifier, second equivalence is by the fact that $\FinSets^{\N}$ is a full subcategory of $\Sets^{\N}$, and the final equivalence is by Yoneda's lemma. So if such an $\Omega$ exist, it must be defined as $\Omega(n)=\{S \ \mid S \ \text{is a subfunctor of $\Hom_{\N^{\op}}(-,n)$}\}$ for all $n\in \N$. By page 38, the right hand side is $\{S \ \mid S \ \text{is a sieve on $n$}\}$. So to get the contradiction, it suffices to prove that the collection of sieves on some object $n\in\N$ is a infinite set.
+
+        For any $n\in\N$, there exists infinitely many natural numbers which is not less than it, and for each number $a\ge n$, $\{b\ \mid \ b \ge a \}$ is a sieve on $n$. So for each object $n\in\N$, the sieves on $n$ is an infinite set. Hence such an subobject classifier does not exist.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    (a) In $\BM=\Sets^{M^{\op}}$ for $M$ a monoid observe that an object $X$ is a right action $X\times M\to X$ of $M$ on a set $X$ and that, $Y$ being another object, $\Hom(X,Y)$ is the set of equivarient maps $e: X\to Y$ [maps with $e(xm)=(ex)m$ for all $x\in X,m\in M$]. Prove that the exponent $Y^X$ is the set $\Hom(M\times X,Y)$ of equivarient maps $e: M\times X\to Y$, where $M$ is the set $M$ with right action by $M$, with the action $e\mapsto ek$ of $k\in M$ on $e$ defined by $(ek)(g,x)=e(kg,x)$.\newline
+    \begin{proof}
+        By definition of exponential, we are proving the natural bijection $\Hom(Z\times X,Y)\cong \Hom(Z,\Hom(M\times X,Y))$. We define the bijection explicitly.\newline 
+        Given a map $f\in \Hom(Z\times X,Y)$ in $\BM$, it is a function $f: Z\times X\to Y$ such that for all $z\in Z,x\in X, m\in M$, $f(z,x)\cdot m = f(zm, xm)$ $(*_1)$, the map in $\Hom(Z,\Hom(M\times X,Y))$ corresponds to it is defined by $z\mapsto ((m,x)\overset{f'}\mapsto f(zm,x))$. To check such an $f'\in \Hom(M\times X,Y)$, consider the diagram:
+        \begin{center}
+            \begin{tikzcd}
+                (M\times X)\times M\ar[r,"f'\times 1"]\ar[d,"\mu"] & Y \times M\ar[d,"\mu"]\\
+                M\times X\ar[r,"f'"] & Y
+            \end{tikzcd}
+        \end{center}
+        For any $((m,x),a)\in (M\times X)\times M$, following the horizontal map first gives $f(zm,x)\cdot a$, which by $(*_1)$ is $f(zma,xa)$. And note that the action of $M$ on $M\times X$ is defined componentwise, so following the vertical map first gives the same result. Hence the diagram commutes.\newline
+        A map $f\in \Hom(Z,\Hom(M\times X,Y))$ is a map $f:Z\to \Hom(M\times X,Y)$  such the diagram:
+        \begin{center}
+            \begin{tikzcd}
+                Z\times M\ar[r,"f\times 1"]\ar[d,"\mu"] & \Hom(M\times X,Y)\times M\ar[d,"\mu"]\\
+                Z\ar[r,"f"] & \Hom(M\times X,Y)
+            \end{tikzcd}
+        \end{center}
+        commutes, that is, for all $z\in Z, m\in M$, $f(z)\cdot m = f(z\cdot m)$ $(*_3)$. By the definition of the action of $M$ on equivarient maps, this is saying that for all $k\in M,a\in X$, $(f(z)\cdot m) (k,a)=f(z)(mk,a)=f(z\cdot m)(k,a)$ $(*_2)$. Given such a map, it is correspond to the map $f_0: Z\times X\to Y$ defined as $(z,x)\overset{f_0}\mapsto f(z)(id_M,x)$. To check $f'\in \Hom(Z\times X,Y)$, consider the diagram:
+        \begin{center}
+            \begin{tikzcd}
+                (Z\times X)\times M\ar[r,"f_0\times 1"]\ar[d,"\mu"] & Y\times M\ar[d,"\mu"] \\
+                Z\times X\ar[r,"f_0"] & Y
+            \end{tikzcd}
+        \end{center}
+        For any $z\in Z,x\in X,m\in M$, following the horizontal map first gives $f_0(z,m)\cdot m=(f(z)(id_M,x))\cdot m$, and following the vertical map first gives $f_0(z\cdot m,x\cdot m)= f(z\cdot m)(id_M,x\cdot m)$. But by $(*_2)$ we also have $f(z\cdot m)(id_M,x\cdot m)=f(z)(m,x\cdot m) = f(z)((id_M,x)\cdot m)$. So the diagram commutes because $(f(z)(id_M,x))\cdot m = f(z)((id_M,x)\cdot m)$ by $(*_3)$.
+
+        It left to show that the two maps are inverses. Given $f: Z\times X\to Y$, it is sent to $f':Z\to \Hom(M\times X,Y)$ defined by $z\mapsto ((m,x)\mapsto f(z\cdot m,x)$. And this map is then sent to the map $Z\times X\to Y$ defined by $(z,x)\mapsto f'(z)(id_M,x)$, which is $f(z,x)$ by definition of $f'$. So we get the map back. Also, start with a map $f: Z\to \Hom(M\times X,Y)$, it is sent to $f_0: Z\times X\to Y$ defined by $(z,x)\mapsto f(z)(id_M,x)$, and then sent to the map $f_0': Z\to \Hom(M\times X,Y)$ defined by $z\mapsto ((m,x)\mapsto f_0(zm,id_M,x))$, which is $f(zm)(id_M,x)$ by definition of $f_0$. But also $f(zm)(id_M,x)= f(z)(m,k)$ by $(*_2)$. So the maps are inverses.
+
+
+    \end{proof}
+    (b) For objects $X,Y$ in $\Sets^{G^{\op}}$, for $G$ a group, show that the exponent $Y^X$ can be described as the set of all functions $f: X\to Y$, with the right action of $g\in G$ on such a function defined by $(fg)x= [f(xg^{-1})]g$ for $x\in X$.\newline
+    \begin{proof}
+        We are proving that for all $X,Y, Z\in \Sets^{G^{\op}}$, $\Hom(Z\times X,Y)\cong \Hom(Z,\Hom(X,Y))$.
+
+        A map $f:\Hom(Z\times X, Y)$ is a map $Z\times X\to Y$ such that for all $z\in Z,x\in X, g\in G$, $f(z,x)\cdot g = f(z\cdot g,x\cdot g)$ $(*_1)$. Given such a map, it corresponds to the map $f'\in \Hom(Z,\Hom(X,Y))$ defined by $z\mapsto (x\mapsto f(z,x))$. To check such an $f'$ is indeed a map in $\Sets^{\op}$, consider the diagram:
+        \begin{center}
+            \begin{tikzcd}
+                Z\times G\ar[r,"f'\times 1"]\ar[d,"\mu"] & \Hom(X,Y)\times G\ar[d,"\mu"]\\
+                Z\ar[r,"f'"] & \Hom(X,Y)
+
+            \end{tikzcd}
+        \end{center}
+        We should check that for all $z\in Z,g\in G$, $f'(z)\cdot g = f'(z\cdot g)$. That is, for all $x\in X$, $(f'(z)\cdot g)(x)=f'(z\cdot g)(x)$. By definition of action of $G$ on functions $X\to Y$, the left hand side is $(f'(z)(xg^{-1}))\cdot g$. And by definition of $f'$, $(f'(z)(xg^{-1}))\cdot g = f(z,xg^{-1})\cdot g\overset{(*_1)} = f(zg,x)$. Also the right hand side is $f(z\cdot g,x)$ by definition of $f'$. So the diagram above commutes.
+
+        A map $f\in\Hom (Z, \Hom(X,Y))$ is a map $f:Z\to \Hom(X,Y)$ such that for all $g\in G$, $f(z)\cdot g = f(z\cdot g)$ $(*_2)$. Given such a map, it corresponds to a map $f_0:Z\times X\to Y$ defined by $(z,x)\mapsto f(z)(x)$. To check $f_0\in\Hom(Z\times X,Y)$, consider the diagram :
+        \begin{center}
+            \begin{tikzcd}
+                (Z\times X)\times G\ar[r,"f_0\times 1"]\ar[d,"\mu"] & Y \times G\ar[d,"\mu"] \\
+                Z\times X\ar[r,"f_0"] & Y
+            \end{tikzcd}
+        \end{center}
+        We need $(f_0(z,x))\cdot g = f_0(z\cdot g,x \cdot g)$. By definition of $f_0$, it amounts to check $(f(z)(x))\cdot g = f(z\cdot g)(x\cdot g)$. By $(*_2)$, the right hand side is $(f(z)\cdot g)(x\cdot g)$, which equals to $[f(z)((x\cdot g)g^{-1})]\cdot g = f(z)(x)\cdot g$.
+
+        The map we defined here is just currying and uncurrying, so it is obvious that the functions we defined above are inverses.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Generalize Theorem 2 of Section 9 to presheaf categories. More precisely, prove that for a morphism (i.e., a natural transformation) $f: Z\to Y$ in $\widehat{\C}=\Sets^{\C^{\op}}$, the pullback functor 
+    \[f^*: \Sub_{\widehat{\C}}(Y)\to \Sub_{\widehat{\C}}(Z)\]
+    has both a left adjoint $\exists_f$ and a right adjoint $\forall_f$. [Hint: the left adjoint can be constructed by taking the pointwise image. Define the right adjoint $\forall_f$ on a subfunctor $S$ of $Z$ by $\forall_f(S)(C)=\{y\in Y(C)\mid \text{for all $u: D\to C$ in $\C$ and $z\in Z(D)$, $z\in S(D)$ whenever $f_D(z)=yu$}\}$.]
+    \begin{proof}
+        By page 29 and 30, as $T$ is a subfunctor of $Y$, for any $C\in \C$, $f^*T(C)=f^{-1}_C(T(C))\subseteq Z(C)$.\newline
+        Left adjoint: Define $\exists_f:\Sub_{\widehat{\C}}(Z)\to \Sub_{\widehat{\C}}(Y)$ by for any subfunctor $S$ of $Z:\C^{\op}\to \Sets$, $\exists_f S(C)= f_C(S(C))$ is the image of $S(C)$ in $Y(C)$ under $f$. To prove 
+        \[\exists_f:\Sub_{\widehat{\C}}(Z)\rightleftarrows \Sub_{\widehat{\C}}(Y): f^*\]
+        is a pair of adjoints is to prove for any subfunctor $S$ of $Z$ and subfunctor $T$ of $Y$, $\exists_f S$ is a subfunctor of $T$ iff $S$ is a subfunctor of $f^*T$. 
+
+        Saying $S$ is a subfunctor of $f^*T$ is saying that for all $C\in \C$, $S(C)\subseteq f^*(T(C))= \{y\in Y(C)\mid f_C(y)\in T(C)\}$, and it is clear that this is equivalent to saying all $C\in \C$, $f_C(S(C))\subseteq T(C)$.\newline
+
+        Right adjoint: Define $\forall_f$ as in the hint, proving the adjunction:
+        \[f^*:\Sub_{\widehat{\C}}(Y)\rightleftarrows \Sub_{\widehat{\C}}(Z): \forall_f\]
+        is to prove that for all subfunctor $S\in \Sub_{\widehat{\C}}(Z),T\in \Sub_{\widehat{\C}}(Y)$, $f^*T$ is a subfunctor of $S$ iff $T$ is a subfunctor of $\forall_fS$.
+        
+        
+        This amounts to show that $\forall C\in \C,f^{-1}(T(C))\subseteq S(C)$ iff $\forall C\in \C, T(C)\subseteq \forall_fS(C)=\{y\in Y(C)\mid \forall u: D\to C, \forall z\in Z(D), f_D(z)=yu\implies z\in S(D)\}$. 
+
+        Suppose $f^*T$ is a subfunctor of $S$, we prove for any $C\in \C, t\in T(C)\implies \forall u: D\to C,\forall z\in Z(D),f_D(z)=tu \implies z\in S(D)$. Fix such $C,t,u,z$. As $f^*T$ is a subfunctor of $S$, the fact that $f_D(z)=tu\in T(D)$ implies $z\in S(D)$. Conversely, suppose for any $C\in \C, t\in T(C)\implies \forall u: D\to C,\forall z\in Z(D),f_D(z)=tu \implies z\in S(D)$, let $A\in \C$, we prove $f^{-1}(T(A))=\{z\in Z(A)\mid f_A(z)\in T(A)\}\subseteq S(A)$. Let $z\in Z(A)$ such that $f_A(z)\in T(A)$, plug in $A$ for $C$, $f_A(z)$ for $t$, $1:A\to A$ for $u$, $z$ for $z$ gives gives $z\in S(A)$. 
+    \end{proof}
+\end{question}
+
+
+\begin{question}
+    Prove Proposition 5.1, that every functor $P$ to sets is representable, by constructing for each $P: \mathbf C^{\op} \to \Sets$ a coequalizer.
+    $$\underset{\underset{\underset{p\in P(C)}{C'\to C}}u}\coprod \mathbf y (C')\overset{\theta}{\underset{\tau}\rightrightarrows}\underset{p\in P(C)}{\underset{C\in \mathbf C}\coprod}{\mathbf y(C)}\overset{\epsilon}\to P$$
+    where $\coprod$ denotes the coproduct and for each object $B$ the maps are defined for each $v:B\to C$ or $C'$ as follows
+
+    $$\epsilon_B(C,p;v)=P(v)p, \theta_B(u,p;v)=(C,p;uv),\tau_B(u,p;v)=(C',pu;v)$$
+\end{question}
+   \begin{proof}
+
+       Key idea: If there is a surjective map $A\twoheadrightarrow X$, then $X$ can be recovered from $A$ by identifying points in $A$ that is mapped to the same point in $X$.
+
+       By Yoneda's lemma, an element in $P(C)$ is a natural transformation $\y (C) \to P$, and a map $C'\to C$ is a natural tranformation $\y (C')\to \y(C)$. From this point of view, this amounts to prove $P$ is a equalizer:
+
+       $$\underset{\underset{\underset{\y(C)\to P}{\y(C')\to \y(C)}}u}\coprod \mathbf y (C')\overset{\theta}{\underset{\tau}\rightrightarrows}\underset{\y(C)\to P}{\underset{C\in \mathbf C}\coprod}{\mathbf y(C)}\overset{\epsilon}\to P$$
+
+       To make sense of it, we consider affine schemes. The analogue claim in language of schemes is that we can prove every scheme $X$ is a colimit of some affine schemes by proving we have the coequalizer:
+
+       $$\underset{u:V'\to V}\coprod\underset{c:V\to X}\coprod V'\overset{\theta}{\underset{\tau}\rightrightarrows}\underset{a:U\to X}\coprod U\overset{\epsilon}\to X$$
+
+       where the $U,V,V'$'s are affine.
+
+       Let $X$ be the projective space $\Ps^1$, to visualise it, just consider $\Cn\Ps^1$ which is the Riemann sphere. Note that $X$ itself is not affine, but it can be covered by two copies of affine $1$-space $\An^1$. With one copy of $\An^1$ covering everthing in the sphere except for the north pole, and another copy $\widetilde{\An}^1$ covering everthing in the sphere except for the south pole. Also there is an inclusion map from the affine scheme $\Gm$ of multiplicative group to $X$, which covers every point on the sphere except for the poles.
+
+       Just to keep things simple, let $i_N:\An^1\to X$ be the only map we are considering here from $\An^1\to X$, and same for $i_S:\widetilde{\An}^1\to X,i:\Gm\to X$ which are the canonical inclusion maps, so we will have $\coprod_{a:U\to X}U$ has one copy of each of $\An^1,\widetilde{\An}^1,\Gm$. Now we want to recover $X$ from the disjoint union. We have a canonical surjection $\An^1\coprod\widetilde{\An}^1\coprod\Gm\twoheadrightarrow X$, so what we want is to glue the points in $\An^1,\widetilde{\An}^1,\Gm$ which are mapped to the same point.
+
+       We ask when can we get two points in the disjoint union are mapped to the same point in $X$: Analyse the $\underset{u:V'\to V}\coprod\underset{c:V\to X}\coprod V'$. Given an element in it, the element consists the following information: two affine schemes $V$ and $V'$, a map $c:V\to X$, a map $u:V'\to V$ and a point in $V'$. Using these information, it is two ways to construct an element in $\underset{a:U\to X}\coprod U$: We can either take the map $V'\to X$ which is obtained by composing $u$ and $c$, with the point in $V'$, or we can take the map $V\to X$ with the point the image in $V$ under $u$ of the given point in $V'$. And we have a canonical way to get a point in $X$ given a point in $U$ and a map $a:U\to X$, namely sending the give point to $X$ using the map. 
+
+       \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.4\linewidth]{C:/Users/surface/Downloads/fig1.jpg}
+       \end{figure}
+       
+       
+       In our case, the inclusion $\Gm\to \An^1$, the canonical map $\An^1\to X$ and the point in $\Gm$ as shown in the picture consists an element in $\underset{u:V'\to V}\coprod\underset{c:V\to X}\coprod V'$. If we use the first way described above to construct element in $\underset{a:U\to X}\coprod U$, we will get the pair consists of the same point we start with and the map $i_N\circ j_N:\Gm\to X$. If we use the second way, we will get the point $\An^1$ corresponds to the point we start with together with the map $i_N$. Both of these two elements will be sent to the same point in $X$, so we should identify them in the disjoint union $\An^1\coprod\widetilde{\An}^1\coprod\Gm$. So each pair of elements in $\An^1\coprod\widetilde{\An}^1\coprod\Gm$ comes from applying the different map on the same element should be identified. And after identifying all such elements, we will get $X$.
+
+
+       This is saying $X$ is a colimit of the diagram on the left part of:
+
+       \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.8\linewidth]{C:/Users/surface/Downloads/fig2.jpg}
+       \end{figure}
+    
+
+
+
+       This diagram is a diagram of affine schemes, so we can say $X$ is a colimit of affine schemes. 
+       
+       
+       Note that it is not the canonical way of covering the $X$ using the three spaces, the canonical way is to consider any map from each of these schemes to $X$. For instance, we do not only consider the canonical inclusion $\An^1\to X$, but the map $x\to x^{-1}$ which will cover each point of $X$ except for the south pole (instead of north pole, which is not covered by the canonical inclusion). For the canonical cover, the uncovered point will range over all points in $X$.
+
+
+
+       Return to our question, we want to prove $P$ is the equalizer:
+
+       $$\underset{\underset{\underset{\y(C)\to P}{\y(C')\to \y(C)}}u}\coprod \mathbf y (C')\overset{\theta}{\underset{\tau}\rightrightarrows}\underset{\y(C)\to P}{\underset{C\in \mathbf C}\coprod}{\mathbf y(C)}\overset{\epsilon}\to P$$
+
+       By the Yoneda's lemma, $\Hom(\y(C),P)\cong P(C)$ for each $C\in \C$. From the coproduct $\underset{\y(C)\to P}{\underset{C\in \C}\coprod}\y(C)$, we can get the information $\Hom(\y(C),P)\cong P(C)$ for each $C$, in this sense, the coproduct covers $P$. So we can use the surjection $\Hom(\y(C),P)\to P(C)$ and identify the overlapping point together to recover $P$. Hence $P$ is a colimit of representables in the same sense as $X$ is a colimit of affine schemes.
+
+       
+
+
+
+
+
+
+
+      
+       
+    
+   \end{proof}
+\end{document}
