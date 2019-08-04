@@ -1,0 +1,154 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{Assignment 1}
+\newcommand{\hmwkDueDate}{22 March 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\s}{\mathbf s}
+\DeclareMathOperator{\rr}{\mathbf r}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Sh}{\text {Sh}}
+\DeclareMathOperator{\Et}{\text {Etale}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\B}{\mathcal B}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+\begin{question}
+    Prove theorem 3 of $\S 1$. [Hint: define a quasi-inverse $\s: \Sh(\B)\to \Sh(X)$ for $\rr$ as follows. Given a sheaf $F$ on $\B$, and an open set $U\subset X$, consider the cover $\{B_i\mid i\in I\}$ of $U$ by all basic open sets $B_i\in\B$ which are contained in $U$. Define $\s(F)(U)$ by the equalizer
+    $ \s(F)(U)\to\Pi_{i\in I}F(B_i)\rightrightarrows\Pi_{i,j}F(B_i\cap B_j)$]
+\end{question}
+\begin{proof}
+Claim 1: For any $B\in \B$, $\s(F)(B)=F(B)$.\newline
+The claim follows from the fact that $F$ is a sheaf on the base, and the fact that equalizer is unique.
+
+Claim 2: For any functor $F:{\mathcal O}(X)\to \Sets$, to check it is a sheaf, for any open set $U$, it suffices to check the sheaf condition for the cover $U=\bigcup_{i\in I}B_i$ where $B_i\in \B$ for all $i\in I$.\newline
+Proof: Suppose the sheaf condition holds for the bases, we check the sheaf condition holds for any arbitary cover. Consider an open set $U$ covered by $U=\bigcup_{i\in I}$, we check $ F(U)\to\Pi_{i\in I}F(U_i)\rightrightarrows\Pi_{i,j}F(U_i\cap U_j)$ is an equalizer. For each $U_i$, we have $U_i=\bigcup_k {B_i}_k$ for ${B_i}_k\in \B$. We have a diagram:
+
+\begin{center}
+    \begin{tikzcd}
+        F(U)\ar[r,"e"]\ar[dr,"e'"] & \Pi_{i}F(U_i)\ar[r,"p"]\ar[r,shift right, "q"]\ar[d,"t_1"] & \Pi_{i,j}F(U_i\cap U_j)\ar[d,"t_2"]\\
+             & \Pi_{i,k}({B_i}_k)\ar[r,"p'"]\ar[r,shift right,"q'"] & \Pi_{i,j,k,h}F({B_i}_k\cap {B_j}_h)
+    \end{tikzcd}
+\end{center}
+
+The map $t_1,t_2$ are injective, and the diagram commutes. Take $\alpha\in \Pi_{i\in I}F(U_i)$ such that $p(\alpha)=q(\alpha)$. Then for $t_1(\alpha)\in \Pi_{i,k}({B_i}_k)$, we have $p'(t_1(\alpha))=q'(t_1(\alpha))$. By the sheaf condition on the basis, there exists a unique $\alpha_0\in F(U)$ such that $e'(\alpha_0) = t_1(\alpha)$. $e'$ is a mono and hence is injective, $e$ must be injective as well, $\alpha_0$ is the unique element which is mapped to $\alpha$. 
+
+There are three things to check:\newline
+(1) $\s(F)$ is indeed a sheaf:\newline
+By claim 2, it suffices to check the sheaf condition on basis, the sheaf condition on basis holds by claim 1 and definition of $\s$. \newline
+(2) $\rr\circ \s = id$: \newline
+We need to check for any $B\in \B$, $\rr\s(F)(B) = F(B)$. By the claim, as $B\in \B$, $\s(F)(B)= F(B)$, hence $\rr\s(F)(B)=\rr(F)(B)=F(B)$ since $\rr$ is merely a restriction.
+
+(3) $\s\circ\rr = id$:\newline
+We need to check for a sheaf $F_0$ on $X$, $\s\rr(F_0)(U)=F_0(U)$ for any open set $U\subseteq X$. As $F_0$ is a sheaf, for any cover $\{U_i\}_{i\in I}$ of $U$, $F_0(U)$ is the equalizer:$ F_0(U)\to\Pi_{i\in I}F_0(U_i)\rightrightarrows\Pi_{i,j}F_0(U_i\cap U_j)$. In particular, take the cover $U=\bigcup_{i\in I}B_i$ for $B_i\in \B$, then  $F_0(U)\to\Pi_{i\in I}F_0(B_i)\rightrightarrows\Pi_{i,j}F_0(B_i\cap B_j)$ is a equalizer. As equalier is unique, it suffices to show that $\s\rr F_0(U)\to\Pi_{i\in I}F_0(B_i)\rightrightarrows\Pi_{i,j}F_0(B_i\cap B_j)$ is a equalizer as well. But note that $F_0(B_i)=\rr F_0(B_i)$, so it holds by definition of $\s$.
+
+
+%We need that if we take a sheaf, restrict it and then extend it, we get the sheaf back.We claim that given any basis $\B$, any sheaf is uniquely determined by its value on $\B$. The thing we need about $\B$ is that any open set in $X$ is a union of elements in $\B$.
+
+%Hence we have a well-defined function that sends a sheaf $F$ on $\B$ to the sheaf $F'$ that $F$ determines on the whole space $X$. Clearly for $F'$ to be a sheaf, for any open set $U$ and cover $\{B_i\mid i\in I\}$, the diagram 
+%$ F'(U)\to\Pi_{i\in I}F'(B_i)\rightrightarrows\Pi_{i,j}F'(B_i\cap B_j)$ is an equalizer. Moreover, 
+
+\end{proof}
+\begin{question}
+    Let $f:X\to Y$ be an etale map. Show that $f^*:\Sh(Y)\to \Sh(X)$ has a left adjoint. Give an example of map $f:X\to Y$ such that $f^*:\Sh(Y)\to\Sh(X)$ cannot possibly have a left adjoint.
+\end{question}
+\begin{proof}
+    If $f$ is etale, then $f^*$ has a left adjoint:
+    By the definition of $f^*$ as a pullback via eqivalence of Corollary 6.3, it suffices to show that $f^*:\Et (Y)\to \Et(X)$ has a left adjoint. We claim that the map $\sum_f:=-\circ f:\Et(X)\to \Et(Y)$ defined by sending an etale map $p:F\to X$ to the composition $F\overset{p}\to X\overset{f}\to Y$ is its adjoint.
+    \begin{center}
+        \begin{tikzcd}
+            \sum_f:\Et(X)\ar[rr,shift left]& & \Et(Y)\ar[ll]:f^*
+        \end{tikzcd}
+    \end{center}
+    Note that $\sum_f$ is well defined since composition of etale map is etale, so the image of $\sum_f$ indeed lies in $\Et(Y)$.
+    By definition of adjoint, it amounts to show that there is a natural bijection $\Hom_{\Et(Y)}(\sum_f(p),q)\cong\Hom_{\Et(X)}(p,f^*q)$. A map $p\circ f\to q$ in $\Et (Y)$ is a commutative diagram:
+    \begin{center}
+        \begin{tikzcd}
+            F \ar[d,"p"]\ar[r]& E\ar[d,"q"]\\
+            X \ar[r,"f"]& Y
+        \end{tikzcd}
+    \end{center}
+    And a map $p\to f^*q$ is a commutative diagram:
+    \begin{center}
+        \begin{tikzcd}
+            F \ar[dr,"p"]\ar[rr]& & f^*E\ar[dl,"f^*q"]\\
+            & X
+        \end{tikzcd}
+    \end{center}
+    It directly follows from definition (universal property) of pullback that the above diagrams are in bijection.
+    \begin{center}
+    \begin{tikzcd}
+        F\ar[drr]\ar[ddr,"p"]\ar[dr,dotted] & & \\
+          & f^*E\ar[d,"f^*q"]\ar[r] & E\ar[d,"q"]\\
+          & X\ar[r,"f"] & Y
+    \end{tikzcd}
+    \end{center}
+
+    Give an example of a map $f:X\to Y$ such that $f^*:\Sh(Y)\to \Sh(X)$ cannot possibly have a left adjoint:
+
+    Claim: If $f^*$ have a left adjoint, then it must be $\sum_f:= -\circ f$.\newline
+    Proof: 
+    Suppose such a left adjoint $f_!:\Et(X)\to \Et(Y)$ exists, then for any $p:F\to X$ in $\Et(X)$ and $q:E\to Y$ in $\Et(Y)$, $\Hom_{\Et(Y)}(f_!(p),q)\cong \Hom_{\Et(X)}(p,f^*q)$. But as shown in the diagram above, a map from $p$ to $f^*q$ is a map $F\to f^*E$ to the pullback, and hence is uniquely determined by a pair of maps $F\to X,F\to E$, which makes the outside of the diagram above commute. 
+    But such a pair is precisely the same thing as a map from $\sum_f(p)$ to $q$. As adjoint is unique up to isomorphism, if the left adjoint $f_!$ exists, then it must be $\sum_f(p)$.
+
+
+    By the claim above, to give a map $f$ without such a left adjoint, it suffices to give a map $f$ such that composing with it destroy etaleness. As discussed on SGL page 88,  any projection $X\times R\to X$ can be taken as such an example.
+    %Let $X$ be a one-point space with one point $x$, and let $Y$ be a two-point space consisting of $y_1$ and $y_2$. Let $F$ also be the one-point space and $p:F\to X$ be the identity, and let $E$ be the one point space and $p:E\to Y$ is the map that sending the point to $y_2$. Consider $f:X\to Y$ sending $x$ to $y_1$, then the pullback along $f$ is empty, and hence $\Hom_{\Et(X)}(p,f^*q)$ is empty. But the only etale bundle over the one-point space is the one-point space, so if we have a left adjoint $f_!$ of $f^*$, then 
+
+
+\end{proof}
+
+\begin{question}
+    (a) Prove that a map $p:Y\to X$ of topological spaces is etale iff both $p$ and the diagonal $Y\to Y\times_X Y$ are open maps.\newline
+    (b) Prove that in the commutative diagram of continous maps
+    \begin{center}
+        \begin{tikzcd}
+            Y \arrow[rr,"f"]\arrow[dr,"p"]& & Z\arrow[dl,"q"]\\
+            & X &
+        \end{tikzcd}
+    \end{center}
+    where $p$ and $q$ is etale, $f$ must be etale.
+\end{question}
+\begin{proof}
+    For one direction. Suppose $p$ is etale, we prove $p$ is open and the diagonal $\Delta$ is open. 
+    
+    To show $p$ is open: Pick an open set $U\subseteq Y$, we show $p(U)$ is open in $X$. For each $x\in U$, by the fact that $p$ is etale, we have a a neighbourhood $U_x$ that contains $x$ and $U_x$ is homeomorphic to its image $p(U_x)$. By definition of induced topology on $U_x$, $U\cap U_x$ is open in $U_x$ and hence each $p(U\cap U_x)$ is open in $p(U_x)$ (any homeomorphism is open since it has continous inverse) and hence open in $Y$ (open subset of open subset is open). Hence the union $\bigcup_{x\in U}p(U\cap U_x)=p(U)$ is open in $Y$.
+
+    To show the diagonal is open, we need to write any set of the form $\{(a,a)\mid a \in U\}$ where $U$ is open in $Y$ as a union of a family of sets $\bigcup_{i\in I}\{(a,b)\mid a \in U_i,b \in V_i\}\cap \{(a,b)\mid p(a)=p(b)\}$. Given such an open set $U\subseteq Y$, for any point $a\in U$, since $p$ is etale, there is a neighbourhood $U_a$ of $a$ which is mapped homeophically to $X$, as $U$ is open in $Y$, each $U\cap U_a$ is open in $Y$. So $\{(a,a)\mid a\in U\}=\bigcup_{a\in U}\{(x,y)\mid x,y\in U\cap U_a\}$. Note that we have the equality since $p$ is homeomorphism on each $U_a$ and hence is bijective. So for $x,y\in U_a$, $p(x)=p(y)$ implies $x=y$. 
+
+
+    For the other direction. Suppose both $p$ and the diagonal $y\mapsto (y,y)$ are open maps, we prove $p$ is etale. Note that it suffices to prove that $X$ is covered by open sets such that each of them are mapped homeomorphically to $X$. Let $\Delta$ denote the diagonal map, as $\Delta$ is open, in particular, $\{(y,y)\mid y\in Y\}$ is open in $Y\times_X Y=\{(y_1,y_2)\mid p(y_1)=p(y_2)\}$. According to the defintion of topology of the pullback, this means $Y\times_X Y=\bigcup_{i\in I}\{(y_1,y_2)\mid y_1\in U_i,y_2\in V_i,p(y_1)=p(y_2)\}$ for some $U$'s and $V$'s that are all open in $Y$. In particular, it means $\{(y_1,y_2)\mid y_1\in U_i,y_2\in V_i,p(y_1)=p(y_2)\}\subseteq \{(y,y)\mid y\in Y\}$ for all such $U_i$ and $V_i$. Hence for $y_1,y_2\in U_i\cap V_i$, $p(y_1)=p(y_2)$ implies $y_1=y_2$, in other words, $p|_{U_i\cap V_i}$ is a bijection from $U_i\cap V_i$ to its image. As $p$ is also an open map, its restriction to each such $U_i\cap V_i$ is an open map, by the fact that `an open map which is a bijection is a homeomorphism', $p$ is a homeomorphism on such $U_i\cap V_i$.
+
+    (b) Pick a point $a\in Y$, we find an open neighbourhood of $a$ which is mapped homeomorphically to $Z$. As $p$ is etale, we have an open $Y_a$ such that $a\in Y_a$ and $p(Y_a)$ is homeomorphic to $Y_a$. As $q$ is etale, we have an open $Z_{f(a)}$ such that $f(a)\in Z_{f(a)}$ and $q(Z_{f(a)})$ is homeomorphic to $Z_{f(a)}$. As we have both $p(Y_a)\cap q(Z_{f(a)})\subseteq p(Y_a)$ and $p(Y_a)\cap q(Z_{f(a)})\subseteq q(Z_{f(a)})$, we know $p^{-1}(p(Y_a)\cap q(Z_{f(a)}))$ is homeomphic to $q^{-1}(p(Y_a)\cap q(Z_{f(a)}))$ which are both homeomorphic to $p(Y_a)\cap q(Z_{f(a)})$. 
+    By commutativity of the diagram, $f(p^{-1}(p(Y_a)\cap q(Z_{f(a)})))= q^{-1}(p(Y_a)\cap q(Z_{f(a)}))$, which are homeomorphic to $p^{-1}(p(Y_a)\cap q(Z_{f(a)}))$.
+\end{proof}
+\end{document}
