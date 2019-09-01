@@ -1,0 +1,251 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{s(F) is a sheaf}
+\newcommand{\hmwkDueDate}{22 March 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\s}{\mathbf s}
+\DeclareMathOperator{\rr}{\mathbf r}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Sh}{\text {Sh}}
+\DeclareMathOperator{\Et}{\text {Etale}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\B}{\mathcal B}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+\DeclareMathOperator{\CHOICE}{\sf CHOICE}
+
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+\begin{center}
+    \begin{tikzcd}
+        \s(F)(U)\ar[r,"e"]\ar[d,tail] & \Pi_{i\in I}\s(F)(U_i)\ar[r,"p"]\ar[r,shift right, "q"]\ar[d,tail]&\Pi_{i,j}\s(F)(U_i\cap U_j)\ar[d,tail]\\
+        \Pi_{a\in A}F(B_a)\ar[r,dashed,"e"]\ar[d]\ar[d,shift right] & \Pi_{i\in I}\Pi_{m\in M_i}F(B_{m})\ar[r,dashed,"p"] \ar[r,dashed,shift right,"q"]\ar[d]\ar[d,shift right]& \Pi_{i,j}\Pi_{k\in K_{ij}}F(B_{k})\ar[d]\ar[d,shift right]\\
+        \Pi_{a,b}F(B_a\cap B_b)& \Pi_{i\in I}\Pi_{m,n\in M_i}F(B_{m}\cap B_{n}) & \Pi_{i,j}\Pi_{k,g\in K_{ij}}F(B_{k}\cap B_{g})
+    \end{tikzcd}
+\end{center}
+
+Note:
+\begin{itemize}
+\item $\{U_i\}_{i\in I}$ is a covering family of $U$, indexed by $i$.
+\item $A$ is the set indexing all the basic open sets contained in $U$. 
+\item $M$ is a function $M: I\to {\mathcal P}(A)$. $M$ is defined by $M \ i := \{a\in A\mid B_a\subseteq U_i\}$.
+\item $K$ is a function $K:I\times I \to {\mathcal P}(A)$. $K$ is defined by $K \ i \ j := \{a\in A\mid B_a\subseteq U_i\cap U_j\}$.
+\end{itemize}
+
+Goal : Define a bijection between $\s(F)(U)$ and the equalizer of $p$ and $q$.
+
+Subgoal 1: Define a function $\phi:\s(F)(U)\to eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]$. \newline
+Definition of the function:\newline
+Given $\alpha\in \s(F)(U)\subseteq \Pi_{a\in A}F(B_a)$, define $\beta\in \Pi_{i\in I}\Pi_{m\in M_i}F(B_m)$ to be $\beta \ i \ m := \alpha \ m$.
+
+It makes sense, since $m\in (M \ i)\subseteq A$ for all $i\in I$.
+
+The function above is well defined:\newline
+
+Subgoal 1: $\beta\in \Pi_{i\in I}\s(F)(U_i)$\newline
+
+We want to show that $\forall (i\in I),\beta \ i\in \s(F)(U_i)$. Now fix any $i\in I$, we need to prove that $\beta \ i$ is in the equalizer of $p_i$ and $q_i$ in the following diagram (call it $(*_1)$):
+\[\Pi_{m\in M_i}F(B_m)\overset{p_i}{\underset{q_i}\rightrightarrows}\Pi_{m,n\in M_i}F(B_m\cap B_n)\]
+
+Note that the definitions of $p_i$ and $q_i$ are given by:\newline
+For any $b\in \Pi_{m\in M_i}F(B_m)$, denote $p_i(b)$ by $\gamma\in \Pi_{m,n\in M_i}F(B_m\cap B_n)$. Then $\gamma$ is defined by for any $m,n\in M_i$, $\gamma \ m \ n := (b \ m)|_{B_m\cap B_n}$.
+
+Similarly, denote $q_i(b)$ by $\gamma\in \Pi_{m,n\in M_i}F(B_m\cap B_n)$. Then $\gamma$ is defined by for any $m,n\in M_i$, $\gamma \ m \ n := (b \ n)|_{B_m\cap B_n}$.
+
+From the above definitions of $p_i$ and $q_i$, for any $i\in I$, $b \in \Pi_{m\in M_i}F(B_m)$, we have $b\in \s(F)(U_i)$ iff for all $m,n\in M_i$, $(b \ m)|_{B_m\cap B_n}=(b \ n)|_{B_m\cap B_n}$.
+
+Hence what we want to show is that for all $i\in I$ and $m,n\in M_i$, we have $(\beta \ i \ m)|_{B_m\cap B_n}=(\beta \ i \ n)|_{B_m\cap B_n}$. $(a)$
+
+To prove this, we investigate the condition that $\alpha\in \s(F)(U)$, that is, $\alpha$ is in the equalizer of the diagram:
+
+\[\Pi_{a\in A}F(B_a)\overset{p_0}{\underset{q_0}{\rightrightarrows}}\Pi_{a,b\in A} F(B_a\cap B_b)\]
+
+Where the definitions of $p_0$ and $q_0$ are given by:\newline
+Denote $p_0(\alpha)$ as $\alpha'\in \Pi_{a,b\in A}F(B_a\cap B_b)$. Then for any $a,b\in A$, $\alpha' \ a \ b:= (\alpha \ a)|_{B_a\cap B_b}$. 
+
+Denote $q_0(\alpha)$ as $\alpha'\in \Pi_{a,b\in A}F(B_a\cap B_b)$. Then for any $a,b\in A$, $\alpha' \ a \ b:= (\alpha \ b)|_{B_a\cap B_b}$. 
+
+Hence $\alpha\in \s(F)(U)$ means for all $a,b\in A$, $(\alpha \ a)|_{B_a\cap B_b}=(\alpha \ b)|_{B_a\cap B_b}$. $(*_2)$
+
+Return to the discussion of proving $\beta \ i$ is in the equalizer of $(*_1)$ for each $i\in I$, our goal is $(a)$. By definition of $\beta$, for any $i\in I, m,n\in M_i$, we have $\beta\ i \ m := \alpha \ m$ and $\beta \ i \ n := \alpha\ n$. As $m,n\in M_i\subseteq A$, plug in $a,b$ to be $m,n$ in the sentence above gives:
+
+$(\beta \ i \ m)|_{B_m\cap B_n}=(\alpha\ m)|_{B_m\cap B_n}=(\alpha \ n)|_{B_m\cap B_n}= (\beta \ i \ n)|_{B_m\cap B_n}$
+
+as desired.
+
+This completes Subgoal 1 for well-definedness.
+
+Subgoal 2: $p(\beta)=q(\beta)$.
+
+We aim to show that $\beta$ as defined as before is in the equalizer of the maps $p$ and $q$ in the following diagram:
+
+\[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)\]
+
+Note that the maps $p$ and $q$ are defined by:\newline
+For $p$:
+
+For $\beta_0\in \Pi_{i\in I}\s(F)(U_i)\subseteq \Pi_{i\in I}\Pi_{m\in M_i}F(B_m)$, denote $p(\beta_0)$ as $\gamma$, then $\gamma\in \Pi_{i,j\in I}\Pi_{k\in K_{ij}}F(B_k)$, and $\gamma$ is defined as $\gamma \ i \ j \ k :=\beta_0 \ i \ k$. 
+
+Now we show that $p$ is well-defined, that is, such a $\gamma$ we defined above is in $\Pi_{i,j\in I}\s(F)(U_i\cap U_j)$. The aim is to show that for any $i,j\in I$, $\gamma \ i \ j \in \s(F)(U_i\cap U_j)$. 
+
+For any fixed pair of $i,j\in I$, consider the diagram:
+
+\[\Pi_{k\in K_{ij}}F(B_k)\overset{p_{ij}}{\underset{q_{ij}}\rightrightarrows}\Pi_{k,g\in K_{ij}}F(B_k\cap B_g)\]
+
+For any tuple $b_0\in \Pi_{k\in K_{ij}}F(B_k)$, denote $p_{ij}(b_0)$ as $c_0$. Then $c_0\in \Pi_{k,g\in K_{ij}}F(B_k\cap B_g)$ is defined by for any $k,g\in K_{ij}$, $c_0\ k \ g := (b_0\ k)|_{B_k\cap B_g}$.
+
+
+For any tuple $b_0\in \Pi_{k\in K_{ij}}F(B_k)$, denote $q_{ij}(b_0)$ as $c_0$. Then $c_0\in \Pi_{k,g\in K_{ij}}F(B_k\cap B_g)$ is defined by for any $k,g\in K_{ij}$, $c_0\ k \ g := (b_0\ g)|_{B_k\cap B_g}$.
+
+Hence for any $i,j\in I$, $b_0\in \Pi_{k\in K_{ij}}F(B_k)$, $b_0$ is in the equalizer of $p_{ij}$ and $q_{ij}$ iff for any $k,g\in K_{ij}$, we have $(b_0\ k)|_{B_k\cap B_g}=(b_0\ g)|_{B_k\cap B_g}$.
+
+Hence we want to show that for any $i,j\in I$, $k,g\in K_{ij}$, we have $(\gamma\ i \ j \ k)|_{B_k\cap B_g}=(\gamma \ i \ j \ g)|_{B_k\cap B_g}$. By definition of $\gamma$, this is to show $(\beta_0\ i \ k)|_{B_k\cap B_g} = (\beta_0 \ i \ g)|_{B_k\cap B_g}$. Recall $\beta_0\in \Pi_{i\in I}\s(F)(U_i)$, that means the condition $(a)$ holds for $\beta_0$, namely `for all $i\in I$, $m,n\in M_i$, $(\beta_0 \ i \ m)|_{B_m\cap B_n}=(\beta_0\ i \ n)|_{B_m\cap B_n}$'. As $k,g\in K_{ij}\subseteq M_i$, pluggin in $k,g$ to be $m,n$ gives us the result.
+
+For $q$: For $\beta_0\in \Pi_{i\in I}\s(F)(U_i)\subseteq \Pi_{i\in I}\Pi_{m\in M_i}F(B_m)$, denote $q(\beta_0)$ as $\gamma$, then $\gamma\in \Pi_{i,j\in I}\Pi_{k\in K_{ij}}F(B_k)$, and $\gamma$ is defined as $\gamma \ i \ j \ k :=\beta_0 \ j \ k$. Similarly we can show $q$ is well-defined.
+
+Now we start proving that the $\beta$ we defined in the begining of this direction satisfies $p(\beta)=q(\beta)$. By definition of $p$ and $q$ as above and function extensionality, we need to show for all $i,j\in I,k\in K_{ij}$, we have $\beta \ i \ k = \beta \ j \ k$. But by definition of $\beta$, we have $\beta \ i \ k =\alpha \ k$ and $\beta \ j \ k = \alpha \ k$, as desired.
+
+
+Subgoal 2: Define a function $\psi:eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]\to \s(F)(U)$. 
+
+Given $\beta \in \Pi_{i\in I}\s(F)(U_i)\subseteq \Pi_{i\in I}\Pi_{m\in M_i}F(B_m)$ such that $p(\beta)=q(\beta)$, we construct an element $\alpha\in \s(F)(U)$, that is, an element in $\Pi_{a\in A}F(B_a)$ which satisfies the condition as in $(*_2)$. 
+
+Define $S$ to be a function $A\to {\mathcal P}(A)$. For any $a\in A$, $S \ a := \{t\in A\mid \exists i. (i\in I \land t\in (M \ i) \land B_t\subseteq B_a)\}$. In words, $S \ a$ is the set indexing any basic open set which is contained in some $U_i$ and is also contained in $B_a$.
+
+Claim: For all $a\in A$, we have $\bigcup \{B_t\mid t\in S_a\}=B_a$.
+
+Obviously $B_a\supseteq \bigcup\{B_t\mid t\in S_a\}$, it left to show that $B_a\subseteq \{B_t\mid t\in S_a\}$.
+
+$B_a=U\cap B_a$
+
+$= (\bigcup \{U_i\mid i\in I\})\cap B_a$
+
+$= (\bigcup \{\bigcup \{B_t\mid (M \ i)\}\mid i\in I\})\cap B_a$.
+
+$= \bigcup \{\bigcup \{B_t\cap B_a\mid t\in (M \ i)\}\mid i\in I\}$
+
+$=\bigcup_{t\in \bigcup \{M \ i \mid i\in I\}}(B_t\cap B_a)$
+
+As $B$ is closed under intersection, for any $i\in I, t\in M_i$, there exists an $s\in S_a$ such that $B_t\cap B_a=B_s$. Hence the the set above is a subset of $\bigcup_{t\in S_a}B_t$. This completes the proof of the claim.
+
+For any $a\in A$, we can define a function $f_a:eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]\to \Pi_{t\in S_a}B_t$, as follows:
+(Implicitly, $f$ is a function, takes an element $a\in A$ and give the function $f_a$.)
+
+For any $\beta\in eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]\subseteq \Pi_{i\in I}\Pi_{m\in M_i}$, denote $f_a(\beta)\in \Pi_{t\in S_a}F(B_t)$ as $\beta^{0a}$, then for any $t\in S_a$, define $\beta^{0a} \ t := \beta \ (\CHOICE \ \{i\in I\mid t\in M_i\}) \ t$. Here the application of choice function makes sense, since by definition of $S_a$, $t\in S_a$ implies $\{i\in I\mid t\in M_i\}\ne\emptyset$.
+
+Claim: For any $a\in A$, the definition of $f_a$ is independent of choice.
+
+This is, for all $a\in A, t\in S_a$, if $t\in M_i$ and $t\in M_j$, then $\beta \ i \ t = \beta \ j \ t$. Recall $\beta \in eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]$. By definition of $p$ and $q$ as in Direction 1, for any $i,j\in I$ and $k\in K_{ij}$, we have $\beta\ i \ k = \beta \ j \ k$. As $t\in M_i$ and $t\in M_j$, by definition of $M$ and $K$, we have $t\in K_{ij}$. Hence we have $\beta \ i \ t = \beta\ j \  t$, as desire.
+
+Consider the diagram:
+
+\[F(B_a)\overset{e_a}\rightarrowtail\Pi_{t\in S_a}F(B_t)\overset{p_a}{\underset{q_a}\rightrightarrows}\Pi_{t_1,t_2\in S_a}F(B_{t_1}\cap B_{t_2})\]
+
+As proved before, the family of basic open sets $\{B_t\mid t\in S_a\}$ covers $B_a$. Here $p_a$ and $q_a$ are defined by:
+
+For $\delta\in \Pi_{t\in S_a}F(B_a)$, denote $p_a(\delta)$ as $\delta'\in \Pi_{t_1,t_2\in S_a}F(B_{t_1}\cap B_{t_2})$. Then $\delta'$ is given by $\delta' \ t_1 \ t_2 :=(\delta \ t_1)|_{B_{t_1}\cap B_{t_2}}$. 
+
+For $\delta\in \Pi_{t\in S_a}F(B_a)$, denote $q_a(\delta)$ as $\delta'\in \Pi_{t_1,t_2\in S_a}F(B_{t_1}\cap B_{t_2})$. Then $\delta'$ is given by $\delta' \ t_1 \ t_2 :=(\delta \ t_2)|_{B_{t_1}\cap B_{t_2}}$. 
+
+And the map $e_a$ is defined by for $\delta_0\in F(B_a)$, denote $e_a(\delta)$ by $\delta_0'$, then define $\delta_0' \ t:=\delta_0|_{B_t}$.
+
+Claim: For any $\beta\in eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]\subseteq \Pi_{i\in I}\Pi_{m\in M_i}$, and any $a\in A$, the image $\beta^{0a}:=f_a(\beta)\in \Pi_{t\in S_a}F(B_t)$ under $f_a$ is in the equalizer of $p_a$ and $q_a$.
+
+Under the above conditions, we need to prove that for all $t_1,t_2\in S_a$, $(\beta^{0a}\ t_1)|_{B_{t_1}\cap B_{t_2}}=(\beta^{0a} \ t_2)|_{B_{t_1}\cap B_{t_2}}$. By definition of $\beta^{0a}$, it amounts to show $(\beta\ (\CHOICE \ \{i\in I\mid t_1\in M_i\}) \ t_1)|_{B_{t_1}\cap B_{t_2}}=(\beta \ (\CHOICE \ \{i\in I\mid t_2\in M_i\}) \ t_2)|_{B_{t_1}\cap B_{t_2}}$.
+
+By definition of $S_a$, there exists $i_1,i_2\in I$, such that $t_1\in M_{i_1},t_2\in M_{i_2}$, $B_{t_1}\subseteq B_a$ and $B_{t_2}\subseteq B_a$. As we have assumed the base is closed under intersection, there exists $c\in A$ such that $B_{t_1}\cap B_{t_2}=B_c$. As $B_c\subseteq B_{t_1}$ and $t_1\in M_{i_1}$, by definition of $M$, we have $B_{t_1}\subseteq U_{i_1}$, and hence $B_c\subseteq U_{i_1}$ as well. Again by definition of $M$, it follows that $c\in M_{t_1}$ as well. 
+
+We have $(\beta\ (\CHOICE \ \{i\in I\mid t_1\in M_i\}) \ t_1)|_{B_{t_1}\cap B_{t_2}} = (\beta\ i_1 \ t_1)|_{B_{t_1}\cap B_{t_2}}$ by independence of choice, as proved earlier. By definition of $B_c$, we have $B_{t_1}\cap B_{t_2}=B_{t_1}\cap B_c$, so $(\beta\ i_1 \ t_1)|_{B_{t_1}\cap B_{t_2}} = (\beta\ i_1 \ t_1)|_{B_{t_1}\cap B_{c}}$. Recall $\beta\in \Pi_{i\in I}\s(F)(U_i)$, as discussed in last direction (labeled condition $(a)$), it means for all $i\in I$, $m,n\in M_i$, $(\beta \ i \ m)|_{B_m\cap B_n}= (\beta \ i \ n)|_{B_m\cap B_n}$. In particular, we can plug in $i_1$ to be the $i$, $t_1$ to be $m$ and $c$ to be $n$, and hence conclude $(\beta\ i_1 \ t_1)|_{B_{t_1}\cap B_{c}} = (\beta\ i_1 \ c)|_{B_{t_1}\cap B_{c}}$. 
+
+Similarly $(\beta \ (\CHOICE \ \{i\in I\mid t_2\in M_i\}) \ t_2)|_{B_{t_1}\cap B_{t_2}} = (\beta \ i_2 \ c)|_{B_{t_2}\cap B_c}$. 
+
+By definition of $B_c$, we have $B_{t_1}\cap B_c=B_{t_2}\cap B_c = B_c$. So the task reduces to show $(\beta \ i_1 \ c)|_{B_c} = (\beta \ i_2 \ c)|_{B_c}$. Note that for all $i\in I, m\in M_i$, we have $\beta \ i \ m \in F(B_m)$, hence the restrictions are both identities. It remains to show $\beta \ i_1 \ c = \beta \ i_2 \ c$. But recall $\beta$ is in the equalizer of $p$ and $q$, hence for any $i,j\in I, c\in K_{ij}$, we have $\beta \ i \ k = \beta \ j \ k$. We do have $c\in K_{ij}$ by definition of $K$. Hence $\beta \ i_1 \ c = \beta \ i_2 \ c$, as desired.
+
+Hence $\beta^{0a}$ is in the equalizer of $p_a$ and $q_a$. As $F$ is a sheaf on the base, there exists a unique element $\beta^0_a\in F(B_a)$ such that $e_a(\beta^0_a)=\beta^{0a}$. 
+
+Start with the $\beta$ at the start of this direction, denote the element we get from $\beta$ as $\alpha\in \Pi_{a\in A}F(B_a)$. Then $\alpha$ is defined by $\alpha \ a :=\beta^0_a$ as constructed above.
+
+Now we check $\alpha\in \s(F)(U)$. This is, for any $a,b\in A$, we need to show $(\alpha \ a)|_{B_a\cap B_b}=(\alpha \ b)|_{B_a\cap B_b}$. As we have assumed that the base is closed under intersection, there exists $l\in A$ such that $B_a\cap B_b=B_l$. It suffices to prove that $(\alpha \ a)|_{B_a\cap B_b}= \alpha \ l$ and $(\alpha \ b)|_{B_a\cap B_b}= \alpha \ l$.
+
+We prove $(\alpha \ a)|_{B_a\cap B_b}=\alpha \ l$, then the other equation will hold by a symmetric argument. 
+
+Consider the diagram:
+
+\[F(B_l)\overset{e_l}\rightarrowtail\Pi_{t\in S_l}F(B_t)\overset{p_l}{\underset{q_l}\rightrightarrows}\Pi_{t_1,t_2\in S_l}F(B_{t_1}\cap B_{t_2})\]
+
+By definition of $\alpha$, $\alpha \ l$ is the unique element in $F(B_l)$ which is mapped to the element $\beta_l\in \Pi_{t\in S_l}F(B_t)$ defined by for all $t\in S_l$, $\beta_l\ t = (\alpha \ l)|_{B_t}$. Hence to show $(\alpha \ a)|_{B_a\cap B_b}=\alpha \ l$, it suffices to show that for all $t \in S_l$, $((\alpha \ a)|_{B_a\cap B_b})|_{B_t}=(\alpha \ l)|_{B_t}$. By definition of $S$, we have for any $t\in S_l$, $B_t\subseteq B_l$. As $F$ is a functor, $((\alpha \ a)|_{B_a\cap B_b})|_{B_t}= (\alpha \ a)|_{B_t}$. Therefore, it amounts to show that for all $t \in S_l$, $(\alpha \ a)|_{B_t}=(\alpha \ l)|_{B_t}$. 
+
+By definition of $\alpha$, the above amounts to show $\beta^0_a|_{B_t}=\beta^0_l|_{B_t}$. Recall how we picked $\beta^0_a$, it is the unique element in $F(B_a)$ such that $e_a(\beta^0_a)=\beta^{0a}$. By definition of $e_a$, as spelled out before, it means for all $t\in S_a$, $\beta^0_a|_{B_t}=\beta^{0a} \ t$. But we know that $\beta^{0a}\ t = \beta \ (\CHOICE \ \{i\in I\mid t \in M_i\}) \ t$ by definition of $\beta^{0a}$. As $S_l\subseteq S_a$, by conclusion, for all $t\in S_l$, $\beta^0_a|_{B_t} = \beta \ (\CHOICE \ \{i\in I\mid t \in M_i\}) \ t$. 
+
+Also consider $\beta^0_l|_{B_t}$, by the construction of $\beta^0_l$, it is the unique element in $F(B_l)$ such that for all $t\in S_l$, $\beta^0_l|_{B_t}=\beta  \ (\CHOICE \ \{i\in I\mid t \in M_i\}) \ t$.
+
+Thus $\alpha \ a =\alpha \ l$.
+
+Thus we have the two maps, it lefts to show that these two maps $\phi:\s(F)(U)\rightleftarrows eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)] :\psi$ are indeed inverses. Recall the definitions of these maps:
+
+$\phi$ is defined by: Given $\alpha\in \s(F)(U)\subseteq \Pi_{a\in A}F(B_a)$, define $\beta\in \Pi_{i\in I}\Pi_{m\in M_i}F(B_m)$ to be $\beta \ i \ m := \alpha \ m$.
+
+$\psi$ is defined by: Given $\beta\in eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)] \subseteq \Pi_{i\in I}\Pi_{m\in M_i}F(B_m)$, define $\psi (\beta)$ to be $\alpha\in \Pi_{a\in A}F(B_a)$ such that for all $a\in A$, $\alpha \ a := \beta^0_a$.
+
+$\phi\circ \psi = id$:
+
+We want for all $\beta\in eq[\Pi_{i\in I}\s(F)(U_i)\overset{p}{\underset{q}\rightrightarrows}\Pi_{i,j\in I}\s(F)(U_i\cap U_j)]$, Let $\alpha$ denote $\psi (\beta)$, then $\phi(\alpha)=\beta$. It amounts to show that for any $i\in I,m\in M_i$, we have $\phi(\alpha) \ i \ m = \beta\ i \ m$. By definition of $\phi$, $\phi (\alpha) \ i \ m = \alpha \ m$. it remains to show $\alpha \ m :=  \psi (\beta) \ m = \beta\ i \ m$. By definition of $\psi$, it is to show $\beta^0_m=\beta \ i \ m$. By construction of $\beta^0_m$, for all $x\in S_m$, $\beta^0_m|_{B_x}= \beta^{0m}\ x$. In particular, by definition of $S$, we have $m\in S_m$, so $\beta^0_m|_{B_m}= \beta^{0m}\ m$. But we already have $\beta^0_m\in F(B_m)$, as $F$ is a functor, the restriction is the identity map, hence $\beta^0_m= \beta^{0m} \ m$. By construction of $\beta^{0m}$, we have $\beta^{0m} \ m = \beta\ (\CHOICE \ \{i_0\in I\mid m\in M_{i_0}\}) \ m$. As we have already know $i\in I$ and $m\in M_i$, by independence of choice as proved before, $\beta\ (\CHOICE \ \{i_0\in I\mid m\in M_{i_0}\}) \ m = \beta \ i \ m$. This completes the proof. 
+
+
+$\psi\circ \phi = id$:
+
+We want for all $\alpha\in \s(F)(U)\subseteq \Pi_{a\in A}F(B_a)$, $\psi(\phi(\alpha))=\alpha$. Let $\beta$ denote $\phi(\alpha)$, we prove for all $a\in A$, $\psi(\beta) \ a=\alpha \ a$. By definition of $\psi$, this is to prove $\beta^0_a = \alpha \ a$. By definition of $\beta^0_a$, it is the unique element in $F(B_a)$ such that for all $t\in S_a$, its restriction to $B_t$ is  $\beta^0_a|_{B_t}$. Hence it suffices to prove that for all $t\in S_a$, $\beta^0_a|_{B_t} = (\alpha \ a)|_{B_t}$. By construction of $\beta^0_a$, $\beta^0_a|_{B_t} = \beta^{0a} \ t$. And $\beta^{0a}\ t = \beta \ (\CHOICE \ \{i\in I\mid t\in M_i\}) \ t$. By definition of $\phi$, $\beta \ (\CHOICE \ \{i\in I\mid t\in M_i\}) \ t = \alpha \ t$. Then the task reduced to showing $\alpha \ t = (\alpha \ a)|_{B_t}$. As $\alpha \in \s(F)(U)$, for any $a_1,a_2\in A$, $(\alpha \ a_1)|_{B_{a_1}\cap B_{a_2}}= (\alpha \ a_2)|_{B_{a_1}\cap B_{a_2}}$. In particular, plug in $t$ and $a$ as $a_1$ and $t_2$. Note that as $t\in S_a$, $B_t\subseteq B_a$ and hence $B_t\cap B_a = B_t$. Hence $(\alpha \ t)|_{B_t}= (\alpha \ a)|_{B_t}$. As the first restriction map is identity, the result follows.
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Define a function $C:A\to {\mathcal P} (A)$ as for all $a\in A$, $C \ a := \{c\in A\mid B_c\subseteq B_a\}$. That is, for $a\in A$, $C \ a$ is the set indexing all the basic open sets contained in $B_a$. Consider the diagram:
+
+% \[F(B_a)\overset{e^0_a}\to \Pi_{c\in C_a}F(B_c)\overset{p^0_a}{\underset{q^0_a}\rightrightarrows}\Pi_{c_1,c_2\in C_a}F(B_{c_1}\cap B_{c_2})\]
+
+% Where $p^0_a$ is defined by for $\epsilon\in \Pi_{c\in C_a}F(B_c)$, let $\epsilon'$ denote $p^0_a(\epsilon)$, then for all $c_1,c_2\in C_a$, $\epsilon \ c_1 \ c_2 := (\epsilon \ c_1)|_{B_{c_1}\cap B_{c_2}}$. And $q^0_a$ is defined by for $\epsilon\in \Pi_{c\in C_a}F(B_c)$, let $\epsilon'$ denote $q^0_a(\epsilon)$, then for all $c_1,c_2\in C_a$, $\epsilon \ c_1 \ c_2 := (\epsilon \ c_2)|_{B_{c_1}\cap B_{c_2}}$.
+
+% As $F$ is a sheaf on base, $F(B_a)$ is the equalizer of $p^0_a$ and $q^0_a$. In particular, for all $\varepsilon\in F(B_a)$, $p^0_a(e^0_a(\varepsilon))=q^0_a(e^0_a(\varepsilon))$.
+
+
+
+% By construction, we have $\beta^0_a\in F(B_a)$ and $\beta^0_b\in F(B_b)$. 
+
+\end{document}
