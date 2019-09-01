@@ -1,0 +1,450 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{Assignment 2}
+\newcommand{\hmwkDueDate}{August 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\s}{\mathbf s}
+\DeclareMathOperator{\rr}{\mathbf r}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Aut}{\text {Aut}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Sh}{\text {Sh}}
+\DeclareMathOperator{\Et}{\text {Etale}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\B}{\mathcal B}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+\DeclareMathOperator{\mcO}{\mathcal {O}}
+\DeclareMathOperator{\CHOICE}{\sf CHOICE}
+\DeclareMathOperator{\pr}{\sf pr}
+\DeclareMathOperator{\dom}{\text {dom}}
+\DeclareMathOperator{\cod}{\text {cod}}
+\DeclareMathOperator{\colim}{\text {colim}}
+\DeclareMathOperator{\eqlz}{\text {eq}}
+
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+\begin{question}
+    Let $X$ be a topological space. For a sieve $S$ on an open subset $U$ of $X$ define $S$ covers $U$ iff $U$ is the union of the sets in $S$. Prove that this defines a Grothendieck topology on the partially ordered set $\mcO (X)$ of all open subsets of $X$.
+\end{question}
+\begin{proof}
+    We check the axioms in Definition 1 on page 110. \newline
+
+    Observe that if $U\in \mcO (X)$, $h:V\subseteq U$ and $S$ is a sieve on $U$, then $h^*(S)=\{W\mid W\subseteq V \subseteq U,W\in S\}$. 
+
+
+    (i) The maximal sieve $t_C=\{f\mid cod(f)= C\}$ is in $J(C)$.\newline
+    This is for all $U\in \mcO (X)$, $\bigcup\{V\mid V\subseteq U\}=U$. This is true because $U\subseteq U$.
+
+    (ii) (stability axiom) if $S\in J(C)$, then $h^*(S)\in J(D)$ for any arrow $h:D\to C$.\newline
+    This is for all $U\in \mcO (X)$ and sieve $S$ on $U$, if $\bigcup S= U$, then for any $V\subseteq U$, we need to show $\bigcup \{W\mid W\subseteq V\subseteq U, W\in S\}= V$. 
+
+    We have $V=U\cap V$
+
+    $=(\bigcup S)\cap V$
+
+    $= \bigcup \{W\cap V\mid W\in S\}$
+
+    The last set is a subset of $\bigcup \{W\mid W\subseteq V\subseteq U, W\in S\}$, since $S$ is a sieve and hence $W\in S$ implies $W\cap V\in S$. So $V\subseteq \bigcup \{W\mid W\subseteq V\subseteq U, W\in S\}$, clearly the inclusion for the other direction holds. 
+
+    (iii) (transitivity axiom) if $S\in J(C)$ and $R$ is any sieve on $C$ such that $h^*(R)\in J(D)$ for all $h:D\to C$, then $R\in J(C)$.
+
+    This is for all $U\in \mcO (X)$ and sieve $S$ on $U$ such that $\bigcup S=U$, and $R$ is any sieve on $U$ such that for any $V\in S$, $\bigcup \{W\mid W\subseteq V\subseteq U,W\in R\}= V$, then $\bigcup R= U$. 
+
+    Obviously $\bigcup R\subseteq U$, we show $U\subseteq \bigcup R$. 
+
+    $U=\bigcup S$
+
+    $=\bigcup \{V\mid V\in S\}$
+
+    $= \bigcup \{\bigcup \{W\mid W\subseteq V \subseteq U,W\in R\}\mid V\in S\}$
+
+    $\subseteq \bigcup R$
+
+    as desired.
+\end{proof}
+
+\begin{question}
+    Let $\mathbf T$ be in $\S 2$, Example (b), with the open cover topology given by the basis $K$ as defined there. Define $K'$ by $\{f_i:Y_i\to X\mid i\in I\}\in K'(X)$ iff each $f_i$ is etale, and moreover $X=\bigcup_i f_i(Y_i)$. Show that $K$ and $K'$ generates the same topology $J$ on $\mathbf T$.
+\end{question}
+\begin{proof}
+   By definition on page 112, if $K$ is a basis on $\mathbf T$, then $K$ generated a topology $J$ by $S\in J(C)\Leftrightarrow \exists R\in K(C), R\subseteq S$. Then our task is to show that for a space $X\in \mathbf T$ and a sieve $S$ on $X$, then $S$ contains a set $\{f_i:Y_i\to X\mid i\in I\}$ where each $f_i$ is etale, and moreover $X=\bigcup_i f_i(Y_i)$ iff $S$ contains a set $\{g_m:Y_m\to X\mid m\in M\}$ where $\{Y_m\}$ is an open cover of $X$ and the $\{g_m\}_{m\in M}$ is the corresponding embedding. 
+
+   If $S$ contains a set $\{g_m:Y_m\to X\mid m\in M\}$ where $\{Y_m\}$ is an open cover of $X$ and the $\{g_m\}_{m\in M}$ is the corresponding embedding, then as an inclusion of open set is an etale map, we also have $\{g_m:Y_m\to X\mid m\in M\}\in K'(X)$. 
+
+   Conversely, if $S$ contains a set $\{f_i:Y_i\to X\mid i\in I\}$ where each $f_i$ is etale, and moreover $X=\bigcup_i f_i(Y_i)$, then for each $Y_i$, it is covered by open subsets $\{U_{i_m}\}$, each mapped homeomorphically to $X$, with its image denoted as $U_{i_m}\cong V_{i_m}\subseteq X$. As $S$ is a sieve, all the maps $V_{i_m}\to U_{i_m}\hookrightarrow Y_i\to X$ are in $S$, and as the image of $\{Y_i\}_{i\in I}$ covers $X$, the open sets $V_{i_m}$ indexed over $i$ and $m$ covers $X$ as well. Hence $S$ contains $\{V_{i_m}\to X\}_{i,m}$, which is a family of open sets that covers $X$.    
+
+
+\end{proof}
+\begin{question}
+    Let $X$ be a topological space, and let $G$ be a (discrete) group acting on $X$ by a continuous map $G\times X\to X$, $(g,x)\mapsto g\cdot x$. An etale $G$-space over $X$ is an etale map $p:E\to X$ (as in Chapter II, $\S$6), where $E$ is equipped with an action $G\times E\to E$ by $G$ such that $p$ is compactible with the two actions on $E$ and on $X$.\newline
+    (a) Use the correspondence between etale spaces and sheaves of $\S$II.6 to show that the category of etale $G$-spaces is a Grothendieck topos, by explicitly describing a site. \newline
+    (b) Prove that if the action og $G$ on $X$ is proper, then the category of etale $G$-space is equivalent to the category $\Sh(X/G)$ of sheaves on the orbit space $X/G$, where $X/G$ is equipped with the quotient topology. (Recall that an action by $G$ on $X$ is called proper if for each point $x\in X$ there is a neighborhood $U_x$ of $x$ with the property that for any $g\in G$, if $g\cdot U_x\cap U_x\ne\emptyset$ then $g=e$.)
+\end{question}
+
+Comment: A etale $G$-space is NOT a sheaf with a $G$ action in the usual sense of $G$ acting on an object in some category. The usual notion is: For $X\in \mathcal C$, a $G$ action on $X$ is a homomorphism $G\to \Aut(X)$. Instead, it is a $G$-equivarient sheaf. 
+\begin{proof}
+    (a) Claim : $\Et_G(X)\cong \Sh(\C,J)$ for $\C$ the category defined by :
+    \begin{itemize}
+        \item Object : $\mcO (X)$.
+        \item Morphism : $\Hom_{\C}(U_1,U_2)=\Hom_{\Et(X)}(U_1,G\times U_2)$. That is, maps $q$ from $U_1$ to $G\times U_2$ such that 
+        \begin{center}
+            \begin{tikzcd}
+                U_1\ar[dr,hook,"i_1"]\ar[rr,"q"] & & G\times U_2\ar[dl,"\alpha_X|_{G\times U_2}"] \\
+                    & X & 
+            \end{tikzcd}
+        \end{center}
+        commutes.
+    \end{itemize}
+
+    Note the composition of morphism is defined by: for $f:U_1\to U_2,g:U_2\to U_3$, $g\circ f:U_1\to U_3$ is defined by 
+    \begin{center}
+        \begin{tikzcd}
+            G\times U_2\ar[r,"\tilde{g}"] & G\times U_3\\
+            U_1\ar[u,"f"]\ar[ur,"g\circ f"]
+        \end{tikzcd}
+    \end{center}
+
+    Here $\tilde{g}(\sigma, u):=\sigma \cdot g(u)$, where the action of $\sigma\in G$ is given by $\sigma\cdot (\sigma_0,u_0)=(\sigma\cdot \sigma_0,u_0)$. 
+
+    And the topology $J$ on $\C$ is given by: a family of arrows $\{f_i:U_i\to U\mid i\in I\}$ covers $U$ iff $\bigcup_{i\in I}U_i=U$. In other words, $\{f_i:U_i\to U\mid i\in I\}\in J(U)$ iff $\bigcup_{i\in I}U_i=U$.
+
+    Observe that for any open set of $U$ and any sieve $S$ on $U$, if there exists some arrow $f:U_0\to G\times U$ in $S$, then the arrow $e_{U_0}:U_0\to G\times U$ defined by $u_0\mapsto (e,u_0)$ is also in $S$. Since it is the composition $f\circ g_{U_0}$ where $g_{U_0}:U_0\to G\times U_0$ is defined by $u_0\mapsto (f.1(u_0)^{-1},u_0)$.
+
+    Also observe that for any matching family $(s_f)_{f\in S}$ for any covering sieve $S$ on $U\in \mcO(X)$, the whole family are completely determined by the values $s_{f_i}$ where $f_i:V\to G\times U$ is such that $f(v)=(e,v)$ for all $v\in V$.
+
+    Also observe that any sheaf $F$ on $(\C,J)$ is a sheaf on $X$. For consider open $U\subseteq X$ and an open cover $\{U_i\}_{i\in I}$. 
+
+    \begin{center}
+        \begin{tikzcd}
+           F(U)\ar[r,"e"] & \Pi_{i\in I}F(U_i)\ar[r,"p"]\ar[r,"q",shift right] &\Pi_{i,j\in I}F(U_i\cap U_j)
+        \end{tikzcd}
+    \end{center}
+
+    Pick $\alpha\in \i \Pi_{i\in I}F(U_i)$ such that $p(\alpha) = q(\alpha)$, we need to find a unique element in $F(U)$ which is mapped to it. 
+
+    Consider the sieve $S$ generated by the family $\{f_i:U_i\to G\times U\}$ defined by for each $i\in I$, $f_i(u)=(e,u)$, which is the minimal sieve contains this family, then this sieve is a covering sieve by the topology on $\C$. For each arrow $f\in S$, we have $f:V\overset{f_V}\to U_i \overset{f_i}\to U$ is a composition, let $s_f\in F(V)$ be $(\alpha \ i)\cdot f_V$, then $(s_f)_{f\in S}$ is a matching family by definition, hence there exists an element in $F(U)$ which is mapped to $(s_f)_{f\in S}$, and this is the element we want.
+    
+    
+    
+    Proof: 
+    direction 1: Given an etale $G$-space $p: E\to X$, our claim is that it corresponds to the sheaf on $(\C,J)$ defined by sending $U\in \mcO (X)$ to the cross section over $U$, that it, the elements of $\Gamma_p(U)$ are maps $s: U\to E$ such that:
+
+    \begin{center}
+        \begin{tikzcd}
+            p^{-1}(U)\ar[r,hook]\ar[d,"p|_{p^{-1}(U)}"] & E\ar[d,"p"]\\
+            U\ar[ur,"s"]\ar[r,hook] & X
+        \end{tikzcd}
+    \end{center}
+    
+    commutes.
+
+    And for morphisms. Given a morphism from $U_1$ to $U_2$, that is, given $U_1\subseteq U_2$ and a map $q:U_1\to G\times U_2$ of etale spaces over $X$, we need a map $\Gamma_p(q):\Gamma_p(U_2)\to \Gamma_p(U_1)$. $\Gamma_p(q)$ is given by sending $s\in \Gamma_p(U_2)$ to the map $s':U_1\to E$ defined by $u\in U_1\mapsto q.1(u)\cdot s(u)$. This is indeed a cross section since $p(q.1(u)\cdot s(u))=q.1(u)\cdot (p(s(u)))=q.1(u)\cdot u = u$ since $q$ is a map of etale spaces over $X$. 
+    
+    % $s'(u):= s(\alpha (q(u)))$. We can check that $s'$ is indeed a cross section: $p(s'(u))= p(s(\alpha (q(u))))\overset{\text{$q$ is a map in $\Et(X)$}} = p(s(u))\overset{\text{$s$ is a cross section}}= u$. 
+
+    To justify that it is indeed a sheaf on the site $(\C,J)$:
+
+    Consider an object $U\in \mcO(X)$ in $\C$ and a covering sieve $S$ of $U$, and family $(s_{f})_{f\in S}$ where $s_f\in \Gamma_p(\dom f)$ for each $f\in S$, we prove the diagram:
+    \begin{center}
+       \begin{tikzcd}
+         \Gamma_p(U)\ar[r,"e"]&\Pi_{f\in S}\Gamma_p(\dom f)\ar[r,"c"]\ar[r,shift right,"a"]&\Pi_{f,g,f\in S, \dom f = \cod g}\Gamma_p(\dom g)
+       \end{tikzcd}
+    \end{center}
+
+    is an equalizer of sets. 
+
+    
+    % Here the map $e$ is given by for a cross section $s:U\to E$, send it to the element $\alpha\in \Pi_{f\in S}\Gamma_p(\dom f)$ defined by for each $f:V:=\dom f \to G\times U\in S$, $\alpha \ f$ is the cross section $s_V:V\to E$ defined by $s_V(u):= s(\alpha (f(u)))$. 
+    
+    % The map $c$ is given by for $\alpha\in \Pi_{f\in S}\Gamma_p(\dom f)$, send it to the element $\beta \in \Pi_{f,g,f\in S,\dom f = \cod g}\Gamma_p(\dom g)$ defined by for each $f\in S$ from $V$ to $U$ and $g$ from $W$ to $V$ where $V\in\mcO (X)$ and $g$ is a map in $\Et(X)$, $\beta \ f \ g$ the cross section $s_V:V\to E$ defined by $s_V(v):= s_f(\alpha (g(v)))$.
+    
+    % The map $a$ is given by for $\alpha\in \Pi_{f\in S}\Gamma_p(\dom f)$, send it to the element $\beta \in \Pi_{f,g,f\in S,\dom f = \cod g}\Gamma_p(\dom g)$ defined by for each $f\in S$ from $V$ to $U$ and $g$ from $W$ to $V$ where $V\in\mcO (X)$ and $g$ is a map in $\Et(X)$, send it to the element $s_{f\circ g}\in \Gamma_p(\dom g)$. 
+    
+    For a family $\alpha=\{s_f\}_{f\in S}\in \Pi_{f\in S}(\dom f)$ which agrees on $c$ and $a$, we need a unique element in $\Gamma_p(U)$ which is mapped to it by $e$. Our claim is that such an element the cross section $s:U\to E$ defined by $u\mapsto \alpha \ \{\CHOICE \ f\mid f\in S\land f.1(u)=e\land u\in \dom f\} \ u$. 
+
+    This definition is independence of choice. We will prove if $f\in S,f'\in S$, $f.1(u)=f'.1(u)=e$ and $u\in \dom (f),u\in \dom f'$, then $\alpha \ f \ u = \alpha \ f' \ u$. We have $\alpha\ f = s_f,\alpha \ f'=s_{f'}$. Suppose $\dom f = U_1,\dom f' = U_2$. The arrow $f_1:U_1\cap U_2\to U_1$ defined by $u\mapsto (e,u)\in G\times U_1$ and the arrow $f_2:U_1\cap U_2\to U_2$ defined by $u\mapsto (e,u)\in G\times U_2$. Then $f\circ f_1=f'\circ f_2$. Hence $s_f\ u = s_f\cdot f_1\ u$ (by definition of behaviour of our functor on morphisms) $=s_{f\circ f_1}\ u = s_{f'\circ f_2}\ u = s_{f'}\cdot f_2\ u= s_{f'}\ u$, as desired.
+
+    
+
+    direction 2: Given a sheaf $P$ on the site $(\C,J)$, we find a corresponding etale $G$-space. Our space is the space of all the germs of $P$. That is, the underlying set is $\coprod_{x}P_x=\{\text{all germ}_xs\mid x\in X,s\in PU\}$, the topology is taken as in SGL page 85. The action is given by $g\cdot \text{germ}_xs:=\text{germ}_{g\cdot x}g\cdot s$, where $g\cdot s\in P(g\cdot U)$ is the function given by $g\cdot u\mapsto g\cdot s(u)$, then $g\cdot s$ is indeed a cross section because $s$ is. To show the projection $\text{germ}_xs\mapsto x$ is indeed a map of $G$-spaces, consider the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            G\times \coprod_{x}P_x\ar[r]\ar[d] & \coprod_{x}P_x\ar[d]\\
+            G\times X\ar[r] & X
+        \end{tikzcd}
+    \end{center}
+
+    We have $(g,\text{germ}_xs)\mapsto \text{germ}_{g\cdot x}(g\cdot s)\mapsto g\cdot x$ and $(g,\text{germ}_xs)\mapsto (g,x)\mapsto g\cdot x$. Hence the diagram commutes.
+
+    Also the projection map is etale by page 85 of SGL.
+
+    To show they are indeed inverses of each other. 
+
+    direction 1: etale $G$-space $p:E\to X$ $\mapsto$ sheaf on $(\C,J)$ given by cross-section $\Gamma_p$ $\mapsto$ get back the etale $G$-space.
+
+    For an etale $G$-space $p:E\to X$, the sheaf we construct on the site $(\C,J)$ is in particular, also a sheaf on $X$, hence by the correspondence in chapter II, taking the germs get the etale space $E\to X$ back.
+
+    direction 2: sheaf on $(\C,J)$ $\mapsto$ $G$-space $\mapsto$ get back the sheaf on $(\C,J)$.
+
+    As a sheaf on $(\C,J)$ is also a sheaf on $X$, by the correspondence in chapter II, taking the germ and then the cross section get back the sheaf on $X$, but then as we get back a sheaf which is isomorphic to the original sheaf as a functor, the sheaf condition on the site is automatic.
+    
+    (b) By the equivalence between etale $G$ space and sheaves, it suffices to show the category of etale $G$-space is then equivalent to the category of etale bundle on $X/G$.
+
+    $\Et_G(X)\to \Et(X/G)$: Given an etale $G$ space $p: E\to X$, we define an etale $G$-space over $X/G$. This is the space $p/G:E/G\to X/G$. By universal mapping property of $E/G$, a map $E/G\to X/G$ is a map $f:E\to X/G$ such that for all $g\in G,e\in E$, $f(g\cdot e) = f(e)$. Such an $f$ is given by the composition of $\pi:X\to X/G$ and $p$. We have $\pi\circ p(g\cdot e)=\pi(g\cdot p(e))=\pi(p(e))$. 
+    
+    % To show that the map $p/G$ induced by $f$ is etale, for any $e\in E/G$, pick a lift $\tilde{e}\in E$ of $e$. As $p:E\to X$ is etale, there exists a neighborhood $\tilde{e}\in U_{\tilde{e}}\cong p(U_{\tilde{e}})$. It suffices to prove $e\in U_{\tilde{e}}/G\cong p(U_{\tilde{e}})/G$ via the map $p/G|_{U_{\tilde{e}}}$, that is $p/G|_{U_{\tilde{e}}}$ is a homeomorphism. It suffices to show that $p/G|_{U_{\tilde{e}}}$ is a bijective open map. It is open by the induced topology on quotient space, and it is obviously surjective. It remains to show that it is injective as well. 
+
+    % Given $[x_1],[x_2]\in U_{\tilde{e}}/G$, where $x_1,x)2\in U_{\tilde{e}}$ and $p/G([x_1])=p/G([x_2])$, we want $[x_1]=[x_2]$, that is, exists $g\in G$ such that $g\cdot x_1= x_2$. $p/G([x_1])=p/G([x_2])$ means $p(x_1)=g\cdot p(x_2)$. Now for point $p(U_{\tilde{e}})$, we have $g\cdot p(U_{\tilde{e}})\cap p(U_{\tilde{e}})\ne \emptyset$, since $p(x_1)=g\cdot p(x_2)$ is in the interesection. Hence $g=e$. So $p(x_1)=p(x_2)$. As $p$ is local homeomorphism in $U_{\tilde{e}}$, we conclude $x_1=x_2$. 
+
+    Claim: If $p:E\to X$ is a map of $G$-spaces $E$ and $X$, then if the action on $X$ is proper action, then the action of $G$ on $E$ is also proper.
+
+    Proof: Let $e\in E$, then $p(e)\in X$, as the action on $X$ is proper, there exists an open neighbourhood $U_{p(e)}$ such that $p(e)\in U_{p(e)}$ and for all $g\in G$, $g\cdot U_{p(e)}\cap U_{p(e)}\ne \emptyset \implies g = e$. We will prove $p^{-1}(U_{p(e)})$ is the neighborhood of $e$ with the desired property. Let $g\in G$ and $g\cdot (p^{-1}(U_{p(e)}))\cap p^{-1}(U_{p(e)})\ne \emptyset$, then there exists $a\in E$ such that $a\in g\cdot p^{-1}(U_{p(e)})$ and also $a\in p^{-1}(U_{p(e)})$. This means $g^{-1}\cdot a\in p^{-1}(U_{p(e)})$ and also $p(a)\in U_{p(e)}$, where the first conjunct implies $p(g^{-1}\cdot a)=g^{-1}(p(a))\in U_{p(e)}$. Hence $p(a)\in g\cdot U_{p(e)}\cap U_{p(e)}$, which implies $g=e$ by the way we pick $U_{p(e)}$.
+
+    Now we prove $p_{/G}:E/G\to X/G$ is etale. 
+
+    Let $e\in E/G$, pick $\tilde{e}\in E$ such that $\pi_E(\tilde{e})=e$. By etaleness of $p$, exists neighbourhood  $U_{\tilde{e}}$ of $\tilde{e}$ such that $U_{\tilde{e}}\cong p(U_{\tilde{e}})$. As the action on $X$ is proper, $p(\tilde{e})$ has neighbourbood $V_{p(\tilde{e})}\subseteq X$ such that for all $g\in G$, $g\cdot V_{p(\tilde{e})}\cap V_{p(\tilde{e})}\ne\emptyset \implies g = e$. The neighbourhood of $e$ we need is $(U_{\tilde{e}}\cap p^{-1}(V_{p(\tilde{e})}))/G$. We need $p_{/G}|_{(U_{\tilde{e}}\cap p^{-1}(V_{p(\tilde{e})}))/G}$ is a homeomorphism. It is open by induces topology on quotient, use the fact that $p_{U_{\tilde{e}}}$ is an open map, and also it is surjective on its image, it lefts to show that it is injective. 
+
+    Given $[x_1],[x_2]\in (U_{\tilde{e}}\cap p^{-1}(V_{p(\tilde{e})}))/G$, pick lifts $x_1,x_2\in U_{\tilde{e}}$ such that $p(x_1),p(x_2)\in V_{p(\tilde{e})}$. We have $p_{/G}([x_1])=p_{/G}([x_2])$ implies $p(x_1)=g\cdot p(x_2)$, then $g\cdot V_{p(\tilde{e})}\cap V_{p(\tilde{e})}\ne\emptyset$, thus $g=e$, so $p(x_1)=p(x_2)$. As $p$ is local homeomorphism in $U_{\tilde{e}}$, this implies $x_1=x_2$, as desired.
+
+    % Let $e\in E/G$, pick $\tilde{e}\in E$ such that $\pi_E(\tilde{e})=e$. As $p:E\to X$ is etale, there exists a neighbourhood $U_{\tilde{e}}$ of $\tilde{e}$ such that $U_{\tilde{e}}\cong p(U_{\tilde{e}})$. As $\alpha_E:G\times E\to E$ is proper by the claim proved above, there exists open $V_{\tilde{e}}\subseteq E$ such that $\tilde{e}\in V_{\tilde{e}}$ such that for all $g\in G$, $g\cdot V_{\tilde{e}}\cap V_{\tilde{e}}\ne\emptyset\implies g = e$. We will prove $(U_{\tilde{e}}\cap V_{\tilde{e}}/G$ is the  desired neighbourhood of $e$, which means $p_{/G}|_{(U_{\tilde{x}}\cap V_{\tilde{x}})/G}$ is a homeophism. It suffices to show it is a bijective open map. It is open by induced topology on quotient, and is obviously surjective onto its image, it lefts to show that it is injective.
+
+
+    % If $[x_1],[x_2]\in (U_{\tilde{e}}\cap V_{\tilde{e}})/G$ and $p_{/G}([x_1])=p_{/G}([x_2])$, we want $[x_1]=[x_2]$. Let $x_1,x_2\in U_{\tilde{e}}\cap V_{\tilde{e}}$ by lifts of $x_1$ and $x_2$ respectively, then $p_{/G}([x_1])=p_{/G}([x_2])$ implies $p(x_1)=g\cdot p(x_2)$, so $g\cdot p(V_{\tilde{e}}\cap U_{\tilde{e}})\cap p(V_{\tilde{e}}\cap U_{\tilde{e}})\ne \emptyset$.
+
+
+    
+    $\Et(X/G)\to \Et_G(S)$: Given an etale map $p_0:E_0\to X/G$, we need to define an etale $G$-space over $X$. Consider the pullback $p$ of $p_0$ along the quotient map $\pi:X\to X/G$:
+    \begin{center}
+        \begin{tikzcd}
+            E=\{(x,e_0)\mid x\in X, e_0\in E_0,\pi(x)=p_0(e_0)\} \ar[r]\ar[d,"p"] & E_0\ar[d,"p_0"]\\
+            X\ar[r,"\pi"] & X/G
+        \end{tikzcd}
+    \end{center}
+    The $p:E\to X$ is the etale map we want. It is indeed etale since pullback of etale map is etale. 
+
+    To equip $p:E\to X$ with an action, define $G\times E\to E$ by for $x\in X, e_0\in E_0$, $g\cdot (x,e_0)=(g\cdot x,e_0)$. Hence consider the maps:
+    \begin{center}
+        \begin{tikzcd}
+            G\times E\ar[r,"\alpha_E"]\ar[d,"id\times p"] & E\ar[d,"p"]\\
+            G\times X\ar[r,"\alpha_X"] & X
+        \end{tikzcd}
+    \end{center}
+
+    We have $p\circ \alpha_E(g,(x,e_0))=p(g\cdot (x,e_0))=p(g\cdot x,e_0)=g\cdot x$ and also $\alpha_X\circ id\times p(g,(x,e_0))=\alpha_X(g,x)=g\cdot x$. Hence the diagram commutes. 
+
+    To see they are indeed inverses:
+
+    direction 1: Under assumptions as given in the question:
+
+    \begin{center}
+        \begin{tikzcd}
+            E\ar[r]\ar[d,"p"] & E/G\ar[d,"p_{/G}"]\\
+            X\ar[r] & X/G
+        \end{tikzcd}
+    \end{center}
+
+    is a pullback square.
+
+    We claim that the map $m:e\mapsto (p(e),\pi_E(e))$ from $E$ to the pullback $P=\{(x,[e])\mid p(x)=p_{/G}([e])\}$ is an isomorphism of etale $G$-spaces over $X$.
+
+    It suffices to prove that there is a cover $\{U_i\}_{i\in I}$ of $X$ such that for each $U_i$, let $E_i$ be the pullback:
+
+    \begin{center}
+        \begin{tikzcd}
+            E_i=p^{-1}(U_i)\ar[r,hook]\ar[d,"p_{|_{E_i}}"] & E\ar[d,"p"]\\
+            U_i\ar[r,hook] & X
+        \end{tikzcd}
+    \end{center}
+
+    And $P_i$ be the pullback:
+    \begin{center}
+        \begin{tikzcd}
+            P_i=\pr_1^{-1}(U_i)\ar[r,hook]\ar[d,"p_{|_{E_i}}"] & P\ar[d,"\pr_1"]\\
+            U_i\ar[r,hook] & X
+        \end{tikzcd}
+    \end{center}
+    
+    then $m|_{E_i}$ is an isomorphism from $E_i$ to $P_i$ for each $i\in I$. 
+
+    As the action on $X$ is proper, $X$ is covered by neighbourhood $U_x$ of $x\in X$, each satisfies $\forall g\in G, g\cdot U_x\cap U_x\ne\emptyset \implies g=e$. Let the cover be $\{U_x\}_{x\in X}$. For each $U_x$,we need to prove $p^{-1}(U_x)$ is homeomorphic to $\{(a,[e])\mid a\in U_x\land \pi_X(a)=p_{/G}([e])\}$ via the map $e\mapsto (p(e),\pi_E(e))$. Clearly the map has the correct codomain by definition of etale $G$-space. To prove it is a homeomorphism, we prove that it has a continuous inverse.
+    
+    By the claim proved earlier, $\pi_X$ is an isomorphism on $U_x$ implies $\pi_E$ is an isomorphism on $p^{-1}(U_x)$. For $e\in E$ satisfies $p_{/G}([e])=\pi_X(a)$ for $a\in U_x$, we have $[p(e)]=p_{/G}([e])=\pi_X(a)$. As $\pi_X$ is an isomorphism on $U_x$, we conclude $p(e)=a$, which says $e\in p^{-1}(U_x)$. Hence for all element $(a,[e])\in \{(a,[e])\mid a\in U_x\land \pi_X(a)=p_{/G}([e])\}$, it is an element of form $(p(e),[e])$ for $e\in p^{-1}(U_x)$. Also if $(p(e_1),[e_1])=(p(e_2),[e_2])$ for $e_1,e_2\in p^{-1}(U_x)$, then $[e_1]=[e_2]$, and hence $e_1=e_2$. By conclusion, any element in the pullback can be uniquely written in such form.
+
+    With the observation above, we define our inverse: For an element $(p(e),[e])$ with $e\in p^{-1}(U_x)$, forget its first coordinate and remove the bracket on the second coordinate. This map is continuous since it is a composition of continous maps, namely the projection on the second component and the inverse of $\pi_E|_{p^{-1}(U_x)}$. 
+    
+   
+    % direction 1: Start with an etale $G$-space $E\to X$, we need to prove that if we pullback the map $p/G:E/G\to X/G$ along the quotient $\pi:X\to X/G$, we get back the bundle $E\to X$. It amounts to show that there is an isomorphism $E\cong \{(x,e_0)\mid x\in X,e_0\in E/G, \pi(x)=p/G(e_0)\}$ of etale $G$-spaces. 
+
+    % Firstly, $E\cong \{(x,e_0)\mid x\in X,e_0\in E/G, \pi(x)=p/G(e_0)\}$ as etale bundle. Define map $E\to \{(x,e_0)\mid x\in X,e_0\in E/G, \pi(x)=p/G(e_0)\}$ by $e\mapsto (p(e),\pi(e))$. 
+
+    direction 2: If $p_0:E_0\to X/G$ is etale, then pulling back and then quotient get back the map $p_0$. 
+
+    Pullback of $p_0$ is the set $\{(x,e_0)\mid x\in X,e_0\in E_0,[x]=p_0(e_0)\}$, and it is an etale bundle over $X$ with projection map. The action is given by $g\cdot (x,e_0):=(g\cdot x, e_0)$. Then identifying elements in the same orbit gives the set $\{(x,e_0)\mid x\in X,e_0\in E_0,[x]=p_0(e_0)\}/(x,e_0)\sim (g\cdot x,e_0)$, it is just the set of elements of form $(p_0(e_0),e_0)$, which is the same as $E_0$ itself.
+    
+    
+
+    To see it indeed suffices, we prove the lemma: 
+
+    Claim: For to spaces $E,F$ over $X$, and a map $\phi:E\to F$ such that 
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[rr,"\phi"]\ar[dr,"p"] & & F\ar[dl,"q"]\\
+              & X & 
+        \end{tikzcd}
+    \end{center}
+    
+    if $\bigcup_{i\in I}U_i=X$ and for any $i\in I$, $E|_{U_i}\cong F|_{U_i}$ via $\phi|_{U_i}$, then $E\cong F$.
+
+    Proof: Let $E_{j,k}$ denote the pullback of $p$ along the inclusion $U_i\cap U_j\rightarrowtail X$, that is, $E_{j,k}=(E|_{U_j})|_{U_k}=E_{U_j\cap U_k}$, similar for $F$, consider the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            \coprod_{j,k}E_{j,k}\ar[r,"\coprod_{j,k}(\phi|_{U_j\cap U_k})"]\ar[d,shift left]\ar[d] & \coprod_{j,k}F_{j,k}\ar[d]\ar[d,shift right]\\
+            \coprod_{i\in I}E_i\ar[d]\ar[r,"\coprod_i\phi_i"] & \coprod_{i\in I}F_i\ar[d]\\
+            E\ar[r,"\phi"] & F
+        \end{tikzcd}
+    \end{center}
+
+    The vertical double arrows indicate the inclusions $E_{j,k}\rightarrowtail E_j$ and $E_{i,j}\rightarrowtail E_k$ respectively. Then $E$ is the coequalizer of the two maps on the left and $F$ is the coequalizer of the two maps on the right hand side. As the upper square commutes, and the horizontal lines are isomorphisms, it induces an isomorphism on the bottom line, which is exactly our $\phi$. 
+
+
+    More generally, if we do not have a globally defined function, but we have a cover $\{U_i\}_{i\in I}$ of $X$ such that for each $i\in I$, we have an isomorphism $\phi_i:E_i\to F_i$, and moreover, the isomorphism $\phi_i$'s agrees on all the overlaps. Then the argument above still applies, and we have a induced isomorphism $E|cong F$, obtained by gluing all these $phi$'s on the overlap. In the case in our question, we have a globally defined $\phi$, so the `agree on the overlap' condition is automatic.    
+    
+    
+    % $E= \coprod_{i\in I}p^{-1}(U_i)/\sim$ where $\sim$ is the relation that identifying two points if their image under the map $\coprod_{i\in I}p^{-1}(U_i)\to\bigcup_{i\in I}U_i$ are the same. And $F=\coprod_{i\in I}q^{-1}(U_i)/\sim'$. Consider the diagram:
+
+    % \begin{center}
+    %     \begin{tikzcd}
+    %         \coprod_{i\in I}E|_{U_i}\ar[r,"\coprod \phi|_{i}"]\ar[d,"\pi_E"]& \coprod_{i\in I}F|_{U_i}\ar[d,"\pi_F"]\\
+    %         \coprod_{i\in I}E|_{U_i}/\sim \ar[r,dashed]& \coprod_{i\in I}F|_{U_i}/\sim'
+    %     \end{tikzcd}
+    % \end{center}
+
+    % The top horizontal map is an isomorphism, and two points in $\coprod_{i\in I}F|_{U_i}$ are identified by $\pi_F$ iff their preimages are identified by $\pi_E$, so the bottom map, which is $\phi$ itself, is an isomorphism.
+
+\end{proof}
+\begin{question}
+    Let $X$ be a topological space. Recall for a set $S$, $\Delta(S)\in \Sh(X)$ is the associated sheaf of the constant presheaf ${\mathcal O}(X)^{\op}\to\Sets$ with value $S$. [cf. (4) of $\S$6]\newline
+    (a) Show that $\Delta(S)$ is the sheaf of continuous $S$-valued functions on $X$, where $S$ is given the discrete topology. \newline
+    (b) Show that if $X$ is locally connected, then $\Delta$ has left adjoint $\pi_0:\Sh(X)\to \Sets$. [Hint: What is $\Delta(S)$ as an etale space over $X$]\newline
+    (c) Show that if $X$ is locally conected, then the functor $\Delta: \Sets\to \Sh(X)$ commutes with exponentials (meaning that for any two sets $S$ and $T$, the canonical morphism $\Delta(T^S)\to \Delta(T)^{\Delta(S)}$ of sheaves on $X$ is an isomophism).
+\end{question}
+\begin{proof}
+    (a) Using the definition in the textbook `Grothendieck Topologies', for a presheaf $P:{\mathcal O}(X)^{\op}\to\Sets$ and $V\in {\mathcal O}(X)$, the plus construction is given by $P^+(V):=\colim_{\text{$\mathcal U$ covering $V$}}\check{H}^0({\mathcal U},P)$, where ${\mathcal U}=(U_i)_{i\in I}$ and $\check{H}^0({\mathcal U},P)=\eqlz[\Pi_{i\in I}P(U_i)\rightrightarrows\Pi_{j,k\in I}P(U_j\cap U_k)]$. 
+    Start with the presheaf ${\cal O(X)}\to \Sets$ defined by $U\mapsto S$, and sending all the arrows to identity on $S$, we claim $S^+(U)=S$ for $U\ne\emptyset$, and $S^+(\emptyset)=\{*\}$. It suffices to check the universal propserty of equalizer. 
+    
+    Firsty, consider an open set $U\subseteq X$ and $U\ne\emptyset$. Consider the diagram below, here $(U_i)_{i\in I}$ is the limit of the covering families of $U$.
+    \begin{center}
+        \begin{tikzcd}
+            S^+(U)=S\ar[r,"e"] & \Pi_{i\in I}S(U_i)\ar[r,"p"]\ar[r,"q",shift right] & \Pi_{i,j\in I}S(U_i\cap U_j)\\
+            A\ar[ur,"f"]\ar[u,"\exists !t",dashed] & & 
+        \end{tikzcd}
+    \end{center}
+    The map $e:S\to \Pi_{i\in I}S(U_i)$. is given by for $s\in S$, sending it to $\alpha\in \Pi_{i\in I}S(U_i)$ such that for all $i\in I$, $\alpha \ i = s$. The maps $p$ is given by sending $\alpha\in \Pi_{i\in I}S(U_i)$ to $\alpha_p\in \Pi_{i,j\in I}S(U_i\cap U_j)$ defined by for any $i,j\in I$, $\alpha_p\ i\ j:= (\alpha\ i)|_{U_i\cap U_j}=\alpha \ i$ (since restriction is identity). And the map $q$ is given by sending $\alpha\in \Pi_{i\in I}S(U_i)$ to $\alpha_p\in \Pi_{i,j\in I}S(U_i\cap U_j)$ defined by for any $i,j\in I$, $\alpha_p\ i\ j:= (\alpha\ j)|_{U_i\cap U_j}=\alpha \ j$.\newline
+    Given a map $f: A\to \Pi_{i\in I}S(U_i)$ such that $p\circ f = q\circ f$, we claim we have a unique map $t:A\to S$ such that $f=e\circ t$, defined by for each $a\in A$, sending $a$ to $f \ a \ (\CHOICE \ I)$. The choice here makes sense since $U$ is nonempty, so any cover cannot be indexed by an empty set. \newline
+    Claim 1: The definition of $t$ is independent of choice.
+    \begin{proof}
+        This is, for any $i\in I, j\in I$, we need $f \ a \ i = f \ a \ j$. This is directly implied by the fact that $p\circ f = q\circ f$ and the definitions of $p$ and $q$.
+    \end{proof}
+
+    Claim 2: $f=e\circ t$.
+    \begin{proof}
+        By function extensionality, we need to show for all $a\in A,i\in I$, we have $f \ a \ i = (e\circ t) \ a \ i$. We have $(e\circ t) \ a \ i = (e (f \ a \ (\CHOICE \ I)))\ i = f\ a \ (\CHOICE \ i)$ by definition of $t$ and $e$, which is the same as $f \ a \ i$ by independence of choice which is just proved above.
+    \end{proof}
+    
+    Claim 3: Such a map $t$ is unique. 
+
+    For any map $t:A\to S$ which satisfies $f=e\circ t$, it means that for all $a\in A, i\in I$, we have $f\ a\ i = (e\circ t)(a) \ i$. By definition of $e$, it means for all $a\in A,i\in I$, we have $t(a)=f \ a \ i$. Hence such $t$ is uniquely determined.
+
+    For $U=\emptyset$, since the limit of the covering family is indexed over empty set, the case is trivial.
+
+    By conclusion $S^+$ is given by $S^+(U)= S$ for $U\ne\emptyset$, and $S^+(\emptyset)=\{*\}$.
+
+    % By the same reason as when we consider $S^+$, $S^{++}(\emptyset)= \{*\}$. We claim $S^{++}(U)=\{f: U\to S\mid \text{$f$ is locally constant}\}$. Consider an open, non-empty $U\subseteq X$, and $(U_i)_{i\in I}$ the limit  covering family of $U$.
+
+    % \begin{center}
+    %     \begin{tikzcd}
+    %         S^{++}(U)\ar[r,"e"] & \Pi_{i\in I}S^+(U_i)\ar[r,"p"]\ar[r,"q",shift right] & \Pi_{i,j\in I}S^+(U_i\cap U_j)\\
+    %         A\ar[ur,"f"]\ar[u,"\exists !t",dashed] & & 
+    %     \end{tikzcd}
+    % \end{center}
+
+    % Here the map $e$ is defined by for a locally constant function $g:U\to S$, send it to the element $\alpha\in \Pi_{i\in I}S^+(U_i)$ such that $\alpha \ i :=$ `if $U_i=\emptyset$ then $*$ else $\CHOICE \ (g(U_i))$'. As $(U_i)_{i\in I}$ is a limit covering family and $g$ is locally constant, we can assume $g(U_i)$ is a singleton. 
+
+    % We will check the universal property of equalizer. Given $A\in \Sets$ and $g: A\to\Pi_{i\in I}S^+(U_i)$, we need a unique map $t: A\to S^{++}(U)$ such that $f = e\circ t$. Define $t$ as $a\mapsto g:U\to S$ defined by $x\in U\mapsto f\ a \ (\CHOICE \ \{i\in I\mid x\in U_i\})$. The choice makes sense since $(U_i)_{i\in I}$ covers $U$.
+
+
+    Having known that $S^+(\emptyset)= \{*\}$ and $S^+(U)=S$ for $U\ne \emptyset$, we will show $S^{++}(\emptyset)=\{*\}$ and $S^{++}(U)=\colim_{\text{$\mathcal U$ covering $U$}}\check{H}^0({\mathcal U},S^+)$, where for each cover $\mathcal U$ of $U$, $\check{H}^0({\mathcal U},S^+)$ is the equalizer $\eqlz[\Pi_{i\in I}S^+(U_i)\rightrightarrows\Pi_{j,k\in I}S^+(U_j\cap U_k)]$. We claim that for each cover, this set is the set of functions $U\to S$ which is constant over $\mathcal U$, more precisely, it is the set $\{g:U\to S\mid \forall i\in I,\forall x, y \in U_i, g(x)=g(y)\}$. To see this, consider the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            \{g:U\to S\mid \text{$g$ is constant over $U_i$}\}\ar[r,"e"] & \Pi_{i\in I}S^+(U_i)\ar[r,"p"]\ar[r,"q",shift right] & \Pi_{i,j\in I}S^+(U_i\cap U_j)\\
+            A\ar[ur,"f"]\ar[u,"\exists !t",dashed] & & 
+        \end{tikzcd}
+    \end{center}
+
+    For any $f: A\to \Pi_{i\in I}S^+(U_i)$ such that $p\circ f = q\circ f$, the unique $t$ will be given by sending $a\in A$ to the function $g$ defined by $g(u):= f \ a \ (\CHOICE \ {i\in I\mid u\in U_i})$. 
+
+
+    
+    
+    The colimit over these $\check{H}^0({\mathcal U},S^+)$ is the set $\{f: U\to S\mid\text{$\exists$ a cover $\mathcal U$ of $U$ such that $f$ is constant over $\mathcal U$}\}$, which ia precisely the set of locally connected functions $U\to S$.
+
+
+
+
+    (b) We need an adjunction:
+    \begin{center}
+        \begin{tikzcd}
+            \pi_0: \Sh(X)\ar[r] & \Sets: \Delta\ar[l,shift left]
+        \end{tikzcd}
+    \end{center}
+
+    For any $S\in \Sets$, $\Delta(S)\in \Sh(X)$ is the etale bundle $\pr_1:X\times S\to X$ where the map is projecting to the first coordinate. Hence what we want is that for any etale bundle $p:E\to X$, $[\pi_0(p),S\times X]_{\Sets} \cong [p,\pr_1:X\times S\to X]_{\Et(X)}$. 
+
+    By definition of product and definition of map between etale bundles, $[p,\pr_1:X\times S\to X]_{\Et(X)}$ is continuous map from $E$ to the discrete set $S$, which is locally constant functions $E\to S$. A function $E\to S$ is locally constant iff it sends each connected component of $E$ to the same point in $S$, hence $\Pi_0$ is the functor that taking the connected components of a space.
+
+    (c) If $X$ is locally connected, by wikipedia: Connected space - Local connectedness, $X$ has a base of connected sets. Let $\{\mathcal B_i\}_{i\in I}$ be this base. By assignment 1 Q1, as a whole sheaf is completely determined by its value on a basis, it suffices to show that the canonical map is an isomorphism on the basis $\{\mathcal B_i\}_{i\in I}$.
+    
+    
+    For any such $\mathcal B_i$, $\Delta(T^S)(\mathcal B_i)=\{f:\mathcal B_i\to (S\to T)\mid \text{$f$ is locally constant}\}$, As $\mathcal B_i$ is connected, each such $f$ is just a function $S\to T$ between sets. And $\Delta(T)^{\Delta(S)}(\mathcal B_i)$ is the set of functions from $\{f:\mathcal B_i\to S\mid \text{$f$ is locally constant}\}\cong S$ to $\{f:\mathcal B_i\to T\mid \text{$f$ is locally constant}\}\cong T$.
+
+    The canonical morphism $\Delta(S^T)\to \Delta(S)^{\Delta(T)}$. is defined by: For $U\in\mcO(X)$, sending a locally constant map $g:U\to (T\to S)$ to the map $g:(U\to T)\to (U\to S)$ defined by for a locally connected function $t: U\to T$, send it to the locally connected function $U\to S$ defined by $u\mapsto g(u,t(u))$. In the case that $U$ is connected, this map takes a constant function $U\to (T\to S)$ to a function $c:T\to S$ and give a function that sending a constant function $U\to T$ at $t_0\in T$ to a constant function $U\to S$ at $c(t_0)\in S$. 
+
+    Hence for each of $\mathcal B_i$, both $\Delta(T^S)(\mathcal B_i)$ and $\Delta(T)^{\Delta(S)}(\mathcal B_i)$ are equal to the set of functions $S\to T$ between sets, and the canonical morphism translates into the identity under this characterisation. Hence $\Delta(T^S)(\mathcal B_i)\cong \Delta(T)^{\Delta(S)}(\mathcal B_i)$ for each of $\mathcal B_i$. 
+
+\end{proof}
+
+
+
+
+\end{document}
