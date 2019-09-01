@@ -1,0 +1,762 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{Assignment 3}
+\newcommand{\hmwkDueDate}{August 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\s}{\mathbf s}
+\DeclareMathOperator{\rr}{\mathbf r}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Aut}{\text {Aut}}
+\DeclareMathOperator{\Sh}{\text {Sh}}
+\DeclareMathOperator{\Et}{\text {Etale}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\B}{\mathcal B}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+\DeclareMathOperator{\mcO}{\mathcal {O}}
+\DeclareMathOperator{\CHOICE}{\sf CHOICE}
+\DeclareMathOperator{\pr}{\sf pr}
+\DeclareMathOperator{\dom}{\text {dom}}
+\DeclareMathOperator{\cod}{\text {cod}}
+\DeclareMathOperator{\colim}{\text {colim}}
+\DeclareMathOperator{\eqlz}{\text {eq}}
+\DeclareMathOperator{\coeq}{\text {coeq}}
+\DeclareMathOperator{\ev}{\text {ev}}
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+\begin{question}
+    In any cartesian closed category $\C$, prove that the internal composition $C^B\times B^A\to C^A$ defined in $\S 2$ is associative. Also show that for a given object $C$, $C^C$ is a monoid object in $\C$ with a two-side unit $e:1\to C^C$ which is the transpose of the identity $C\to C$. If, in addition, $\C$ has pullbacks, construct the object $\Aut(C)$ of automorphisms of a given object $C$ of $\C$, and prove that $\Aut(C)$ is a group object in $\C$.
+\end{question}
+\begin{proof}
+    (a) internal composition is associative. 
+
+    Consider the diagram:
+    \begin{center}
+        \begin{tikzcd}
+            & D^C\times C^B\times B^A\times A\ar[dl,"m_C\times 1_{B^A}\times 1_A"]\ar[d,"1_{D^C}\times 1_{C^B}\times \ev_{AB}"]\ar[dr,"1_{D^C}\times m_B\times 1_A"] & \\
+            D^B\times B^A\times A\ar[d,"1_{D^B}\times\ev_{AB}"] & D^C\times C^B\times B\ar[dl,"m_C\times 1_B"]\ar[d,"1_{D^C}\times \ev_{BC}"] & D^C\times C^A\times A\ar[dl,"1_{D^C}\times\ev_{AC}"]\ar[d,"1_{D^C}\times \ev_{AC}"] \\
+            D^B\times B\ar[dr,"\ev_{BD}"] & D^C\times C\ar[d,"\ev_{CD}"] \ar[r,"="] & D^C\times C\ar[dl,"\ev_{CD}"] \\
+            & D &
+        \end{tikzcd}
+    \end{center}
+
+    This diagram commutes. The parallelogram on the left commutes because it is just switch the order of applying `$\ev_{AB}$' and `$m_C$'. The triangle on the left corner commutes by definition of $m_C$. The triangle on the right upper corner commutes by the definition of $m_B$ (multiply by $D^C$ on the left of its definition.)
+
+    (b) For a given object $C$, $C^C$ is a monoid object with a two-side unit $e:1\to C^C$, which is the transpose of the identity $C\to C$.
+
+    The multiplication is given by the internal composition, it is proved to be associate as in (a), it lefts to show that $e$ is left and right unit. 
+
+    Left unit: Stuck on diagram chasing for left unit. 
+
+    Right unit: Consider the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            C^C\times C\ar[dddrrr,"\ev"]\ar[d,"\cong"] &  & &\\
+            C^C\times 1\times C\ar[d,"1_{C^C}\times e\times 1_C"]\ar[dr,"\cong^{-1}"] & & &\\
+            C^C\times C^C \times C\ar[d,"m\times 1_C"]\ar[r,"1_{C^C}\times \ev"] & C^C\times C\ar[drr,"\ev"] & &\\
+            C^C\times C\ar[rrr,"\ev"] &  & & C
+        \end{tikzcd}
+    \end{center}
+
+    The diagram above commutes. The buttom part commutes by definition of $m$ (internal composition). The triangle commutes by definition of $e$ (triangle of definition of $e$ with $C^C$ mutiplied on the left hand side.)
+
+    (c) If $\C$ has pullbacks, construct $\Aut(C)$ and prove it is a group object. 
+
+
+    There is a twist map $C^C\times C^C\to C^C\times C^C$ induced by swiching the order of projection.
+
+    \begin{center}
+        \begin{tikzcd}
+            & C^C\times C^C\ar[dl,"\pi_1"]\ar[dr,"\pi_2"]\ar[d,"\tau"] & \\
+            C^C & C^C\times C^C\ar[l,"\pi_2"]\ar[r,"\pi_1"] & C^C
+        \end{tikzcd}
+    \end{center}
+
+    Again, $m$ is the internal composition, and $m\tau$ can be thought as switching the order, and then compose. The maps $m,m\tau : C^C\times C^C\to C^C$ induces a map $C^C\times C^C\to C^C\times C^C$. And the transpose of the identity $1_C$, which is $e:1\to C^C$ induces a map $1\to C^C\to C^C$. Then $\Aut(C)$ is the pullback:
+    \begin{center}
+        \begin{tikzcd}
+            \Aut(C)\ar[r,"p_1"]\ar[d,"p_2"] & 1\ar[d,"{(e,e)}"] \\
+            C^C\times C^C\ar[r,"{(m,m\tau)}"] & C^C\times C^C
+        \end{tikzcd}
+    \end{center}
+
+    For the unit $1\to \Aut(C)$, it is the dashed arrow in the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            1 \ar[drr]\ar[ddr,"{(e,e)}"]\ar[dr,dashed] & & \\
+            & \Aut(C)\ar[r,"p_1"]\ar[d,"p_2"] & 1\ar[d,"{(e,e)}"] \\
+            & C^C\times C^C\ar[r,"{(m,m\tau)}"] & C^C\times C^C
+        \end{tikzcd}
+    \end{center}
+
+    For the composition $\Aut(C)\to \Aut(C)\to \Aut(C)$, it is the dashed arrow in the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            \Aut(C)\times \Aut(C) \ar[drr]\ar[ddr,"{(a,b)}"]\ar[dr,dashed] & & \\
+            & \Aut(C)\ar[r,"p_1"]\ar[d,"p_2"] & 1\ar[d,"{(e,e)}"] \\
+            & C^C\times C^C\ar[r,"{(m,m\tau)}"] & C^C\times C^C
+        \end{tikzcd}
+    \end{center}
+
+    Where $a$ is given by the composing $m$ after the dashed map in 
+    \begin{center}
+        \begin{tikzcd}
+            & & & \Aut(C)\times \Aut(C)\ar[dl,"\pr_1"]\ar[dr,"\pr_2"]\ar[ddd,"a",dashed] & & & \\
+            & & \Aut(C)\ar[dl,"p_2"] & & \Aut(C)\ar[dr,"p_2"] & & \\
+            & C^C\times C^C\ar[dl,"\pi_1"] & & & & C^C\times C^C\ar[dr,"\pi_1"] &\\
+            C^C & & & \ar[lll]C^C\times C^C\ar[rrr] & & & C^C
+        \end{tikzcd}
+    \end{center}
+
+    And $b$ is obtained similarly from the diagram where the $\pi_1$ in the above diagram is replaced by $\pi_2$.
+
+    (Tedious! Any elegant way to do this?)
+
+    For inverse, it is the dashed arrow in 
+
+    \begin{center}
+        \begin{tikzcd}
+            \Aut(C) \ar[drr]\ar[ddr,"{\tau p_2}"]\ar[dr,dashed] & & \\
+            & \Aut(C)\ar[r,"p_1"]\ar[d,"p_2"] & 1\ar[d,"{(e,e)}"] \\
+            & C^C\times C^C\ar[r,"{(m,m\tau)}"] & C^C\times C^C
+        \end{tikzcd}
+    \end{center}
+
+
+
+
+
+
+
+
+
+\end{proof}
+
+\begin{question}
+    If $S$ and $T$ are subobjects of some object $E$ of a topos $\mathcal E$, show that the square of inclusion maps
+    \begin{center}
+        \begin{tikzcd}
+            S\cap T \ar[r,tail]\ar[d,tail]& S\ar[d,tail]\\
+            T\ar[r,tail] & S\cup T
+        \end{tikzcd}
+    \end{center}
+    is both a pushout and a pullback. (Hint: Use Theorem 7.8.)
+\end{question}
+\begin{proof}
+    Recall the `intersection' and union are defined by:
+    intersection: Given two subobjects $S\rightarrowtail A$ and $T\rightarrowtail A$ we can form their intersection as their greatest lower bound (g.l.b.) in $\Sub(A)$ simply by taking the pullback, as in
+
+    \begin{center}
+        \begin{tikzcd}
+           S\cap T \ar[r,tail]\ar[d,tail] & T\ar[d,tail] \\
+           S \ar[r,tail] & A
+        \end{tikzcd}
+    \end{center}
+
+    To get their union or least upper bound (l.u.b.) in $\Sub(A)$ we first form the coproduct (sum) $S+T$ in the topos, as in the square:
+
+    \begin{center}
+        \begin{tikzcd}
+            S+T\ar[dr] &  & T\ar[ll]\ar[dd,tail]\\
+             & M\ar[dr,tail] & \\
+            S\ar[uu]\ar[rr] & & A
+        \end{tikzcd}
+    \end{center}
+
+    by the definition of a coproduct, the monics $S\rightarrowtail A$ and $T\rightarrowtail A$ then determine uniquely an arrow $S+T\to A$ which need not be monic, but which by Proposition 1 (on SGL page 185) has an image $M$ as displayed. This $M\rightarrowtail A$ is then a subobject of $A$ which clearly contains both given subobjects $S$ and $T$. The minimal property defining the image $M$ then readily shows that $M$ is a least upper bound of $S$ and $T$ in $\Sub(A)$, so $M=S\cup T$.
+
+    Claim 1: The canonical map $S\to S + T,T\to S+T$ are monic.
+    \begin{proof}
+        As $S$ and $T$ are both subobject of $A$, consider the diagram:
+
+        \begin{center}
+            \begin{tikzcd}
+                & S+T\ar[d] & \\
+                S\ar[r, tail]\ar[ur] & A & T\ar[l,tail]\ar[ul]
+            \end{tikzcd}
+        \end{center}
+
+        So the canonical arrows $S\to S+T,T\to S+T$ compose with some other arrow to get a mono, then themselves are monos. 
+    \end{proof}
+
+    Claim 2: In the diagram above with $M=S\cup T$, the arrows on the diagonal is an epi followed by a mono. That is, $S+T\twoheadrightarrow S\cup T\rightarrowtail A$. 
+
+    \begin{proof}
+        By Proposition 1 on page 185 and the comment below Proposition 2, $S+T\to A$ factorize uniquely through its image as a mono and a epi, so the diagram above is exactly `the' factorization.
+    \end{proof}
+
+    Claim 3: In the diagram for the definition of the union $M= S\cap T$, the compositions $T\rightarrowtail S+T\twoheadrightarrow S\cup T$ and $S\rightarrowtail S+T\twoheadrightarrow S\cup T$ are monos.
+
+    \begin{proof}
+        In the diagram, the bottom map and the right vertical map are monos, so both of these two maps compose with some other map to a mono, this implies these two maps themselves are monos. 
+    \end{proof}
+
+    To prove the diagram is a pullback, consider maps $g_1,g_2:X\to T, X\to S$ such that $(X\to T\rightarrowtail S\cup T) = (X\to S\rightarrowtail S\cup T)$, we can augment the diagram as:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"g_1"]\ar[ddr,"g_2"]\ar[dr,dashed] & & & \\
+            & S\cap T\ar[r,"i_1",tail]\ar[d,"i_2",tail] & S\ar[d,"j_1",tail]\ar[ddr,"m_1",tail] & \\
+            & T\ar[r,"j_2",tail]\ar[drr,"m_2",tail] & S\cup T\ar[dr,"m",tail] & \\
+            & & & A
+        \end{tikzcd}
+    \end{center}
+
+    All the monos are proved in previous claims. Hence the dotted arrow is obtained from the pullback in the definition of intersection, which is the square with vertices $T,S\cap T, S, A$. 
+    
+    (Later I realised that I do not need to prove that the diagram is a pullback, since once I prove that it is a pushout, then the pullback is automatic by Corollary 4 on page 211 o f SGL.)
+
+    To prove the diagram is a pushout:
+
+    Definition: A coherent category (also called a pre-logos) is a regular category in which the subobject posets $\Sub(X)$ all have finite unions which are preserved by the base change functors $f^*:\Sub(Y)\to \Sub(X)$.
+
+    Claim: Any topos is coherent. (nLab page `coherent category-Examples')
+    Proof: By Proposition 3 on page 186 of SGL, a topos has binary and hence all finite unions. By Theorem 2 on SGL page 193, $f^*$ has both right and left adjoint, and hence will preserve union, which is a colimit. It remains to show that any topos is a regular category.
+
+    Definition: A category $\C$ is called regular if
+
+    (1) It is finitely complete;
+    
+    (2) the kernel pair of any morphism $f:d\to c$ admits a coequalizer $d×\times_cd\rightrightarrows d\to \coeq(p_1,p_2)$;
+    
+    (3) the pullback of a regular epimorphism along any morphism is again a regular epimorphism.
+
+    Definition: A regular epimorphism is a morphism $f:c\to d$ (in a given category) that is the coequalizer of some parallel pair of morphisms.
+
+    (1) is by definition of a topos on SGL page 161. (2) is by Q14 in chapter IV. (By Q14(a), any kernel pair is an equivalence relation, the result follows from Q14(f).) (3) is by the hint (by Theorem 7.8) together with Proposition 3 on page 194 (pullbacks of an epi is an epi).
+
+    
+
+    The proof is taken from Johnstone (Sketch of an elephant, A1.4, page 32, Proposition 1.4.3).
+
+    nLab page `coherent category-Examples' says: Any topos is coherent.
+
+
+    Johnstone, Sketch of elephant, A1.4, Lemma 1.4.2: Let $A_1,A_2,A_3$ be three subobjects of an object $A$ in a coherent category. The distributive law $A_1\cap (A_2\cup A_3)\cong (A_1\cap A_2)\cup (A_1\cap A_3)$ holds in $\Sub(A)$.
+
+    \begin{proof}
+
+        Denote $m:A_1\rightarrowtail A$,
+        then the `intersecting with $A_1$' operation is the composite $\Sub(A)\overset{m^*}\to \Sub(A_1)\overset{\exists_m}\to \Sub(A)$. As we are working in a coherent category, $m^*$ preserves union by definition of coherent category. Hence for any subobject $A_2,A_3$ of $A$, $(A_1)\cap (A_2\cup A_3) = \exists_m(m^*(A_2\cup A_3))= \exists_m(m^*(A_2)\cup m^*(A_3))$. As $\exists_m$ is a left adjoint, it preserves colimits and hence preserves union, $\exists_m(m^*(A_2)\cup m^*(A_3)) = \exists_m(m^*(A_2))\cup\exists_m(m^*(A_3)) = (A_1\cap A_2)\cup (A_1\cap A_3)$.
+
+    \end{proof}
+
+    % Claim: The diagram:
+
+    % \begin{center}
+    %     \begin{tikzcd}
+    %         S\cap T\ar[r,"{\langle i_1,i_2\rangle}"]\ar[d,"{\langle i_1,i_2\rangle}"] & S+T \\
+    %         S+T & S\cup T
+    %     \end{tikzcd}
+    % \end{center}
+
+    % As shown in Claim 2, the canonical map $S+T\to S\cup T$ as displayed as the upper diagonal map in the definition of union is a epi. Using the hint, by Theorem 7.8, in the topos $\mathcal E$, every epi is the coequalizer of 
+
+    Consider maps $f_1:S\to X,f_2:T\to X$ such that the solid diagram commutes, we want a unique dashed arrow which makes the whole diagram commute:
+
+    \begin{center}
+        \begin{tikzcd}
+            S\cap T\ar[r,"n_1",tail]\ar[d,"n_2",tail] & S\ar[d,"p_1",tail]\ar[ddr,"f_1"] & \\
+            T\ar[r,"p_2",tail]\ar[drr,"f_2"] & S\cup T\ar[dr,dashed] & \\
+            & & X
+        \end{tikzcd}
+    \end{center}
+
+    Consider the product $(S\cup T)\times X$, we have arrows $(p_1,f_1):S\rightarrowtail (S\cup T)\times X$ and $(p_2,f_2):T\rightarrowtail (S\cup T)\times X$, they are monic since $p_1$ and $p_2$ are. These two monos are subobjects of $C\times D$. Hence we can form their union in $(S\cup T)\times X$, denoted $(S\cup T)'$. The map $(S\cup T)'\rightarrowtail (S\cup T)\times X$ is a map to a product, write it as $(g,h)$, where $g:(S\cup T)'\to (S\cup T),h:(S\cup T)'\to X$.
+
+    \begin{center}
+        \begin{tikzcd}
+            S+T\ar[dr] & &\ar[ll,tail]\ar[dl,"u_1"]\ar[dd,"{(p_1,f_1)}"] S \\
+            & (S\cup T)'\ar[dr,"{(g,h)}",tail] & \\
+            T\ar[uu,tail]\ar[ur,"u_2",tail]\ar[rr,"{(p_2,f_2)}"] & & (S\cup T)\times X
+        \end{tikzcd}
+    \end{center}
+
+    First reduction: It suffices to show that $g$ is an isomorphism.
+
+    Proof: If $g$ is an isomorphism, then $hg^{-1}:S\cup T\to X$ is what we want. It satisfies $hg^{-1}p_1=f_1$ since from the diagram above, $hu_1=f_1$ and $g^{-1}p_1=u_1$, similarly, $hg^{-1}p_2=f_2$. 
+    
+    This decomposition is unique. Consider the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            S\cap T\ar[rr,tail]\ar[dd,tail] & & S\ar[dd,tail]\ar[dl,tail]\ar[dddr,"f_1"] & \\
+            & S+T\ar[dr] & & \\
+            T\ar[ur,tail] \ar[rr,tail]\ar[drrr,"f_2"] & & S \cup T\ar[dr]\ar[dr,shift right] & \\
+            & & & X
+        \end{tikzcd}
+    \end{center}
+
+    If we have two parallel arrows which makes the diagram commute, then they will compose with the map $S+T\to S\cup T$ to get the same map from $S+T$ from the universal property of coproduct. But here the map $S+T\to S\cup T$ is an epi, as discussed earlier. So composing with this map to get the same map implies the two parallel arrows themselves are equal. 
+
+    This completes the first reduction.
+
+    By SGL page 167, Proposition 2, as $\mathcal E$ is a topos, it suffices to show that $g$ is both a mono and an epi. 
+
+    To show $g$ is an epi. Consider the projection $\pi: (S\cup T)\times X\to S\cup T$. By SGL page 186 Proposition 3, it has left adjoint $\exists_\pi$. As left adjoints preserves colimits, it preserves union. (Vague!) Hence $\exists_\pi (g,h)=\exists_{\pi} (p_1,f_1) \cup \exists_\pi (p_2,f_2)=p_1\cup p_2 = 1_{S\cup T}$ by definition of $\exists_{\pi}$ as in SGL page 186 Proposition 3. Hence $g$ is a cover (Vague!). 
+
+    It remains to show that $g$ is monic. Consider two arrows $k,l:F\to (S\cup T)'$ such that the compositions: $F\overset{k}{\underset{l}{\rightrightarrows}} (S\cup T)'\to (S\cup T)$ are equal. Then as $g$ is epi, $F$ is covered by the pullbacks $k^*(S)$ and $k^*(T)$. By the same reason, it is covered by the pullbacks $l^*(S)$ and $l^*(T)$. That is $F=k^*(S)\cup k^*(T)=l^*(S)\cup l^*(T)$. By the lemma quoted from Johnstone, as in the begining of the question, this implies that $F$ is the union of $k^*(S)\cap l^*(S)$, $k^*(S)\cap l^*(T)$, $k^*(T)\cap l^*(S)$ and $k^*(T)\cap l^*(T)$. We aim to show that $hk=hl$ as will, then together with the fact that $gk = gl$ and $(g,h)$ is a mono, we can conclude $k=l$. It suffices to check that $hk$ and $hl$ agrees on the cover of $F$ formed by the four intersections. We prove the one for $k^*(S)\cap l^*(T)$, the others are similar.
+
+    Consider the intersection of the pullbacks $k^*(S)\cap l^*(T)$, let $v_1,v_2$ be the arrows such that the diagram:
+    
+    \begin{center}
+        \begin{tikzcd}
+            S\ar[d,"u_1",tail] & k^*(S)\cap l^*(T)\ar[l,"v_1"]\ar[r,"v_2"]\ar[d,"w",tail] & T\ar[d,"u_2",tail] \\
+            (S\cup T)' & F\ar[l,"k"]\ar[r,"l"] & (S\cup T)'
+        \end{tikzcd}
+    \end{center}
+
+    commutes. By the diagram defined $(g,h)$, we have $p_1 = gu_1,p_2=gu_2$. Together with the commutivity of the diagram above, we have $p_1v_1=gu_1v_1=gkw=glw=gu_2v_2=p_2v_2$. Hence by the pullback as proved in the first part in this question, there exists $x:k^*(S)\cap l^*(T):S\cap T$ such that $v_1 = n_1x,v_2 = n_2x$.
+
+    Also by the diagram defining $(g,h)$, we have $hu_1 = f_1,hu_2=f_2$. Hence $hu_1n_1=f_1n_1=f_2n_2=hu_2n_2$. And thus $hkw=hu_1v_1=hu_1n_1x=hu_2n_2x=hu_2v_2=hlw$. This shows $hk=kl$ agrees on this intersection.
+    
+
+
+
+    
+
+
+
+
+
+\end{proof}
+
+\begin{question}
+    Let $\mathcal E$ be a topos, and $A$ and object of $\mathcal E$. An equivalence relation on $A$ is a monomorphism $(p,q):R\to A\times A$ such that $R$ is reflexive, symmetric and transitive (expressed by appropriate diagrams). One also says that the pair $p,q:R\rightrightarrows A$ ``is'' an equivalence relation.
+\end{question}
+
+(a) Let $f:A\to B$ be a map in $\mathcal E$. Prove that the kernel pair $A\times_B A\rightrightarrows A$ of $f$ is an equivalence relation ocn $A$. (The propose of the rest of this exercise is to show the converse; see also the Appendix, $\S 4$.)
+\begin{proof}
+    Firstly we need the definition of equivalence relation. That is, for a pair $p,q:R\rightrightarrows A$, we need suitable concepts of reflexivity, symmetry and transitivity. 
+
+    Reflexivity: A pair of arrows $p,q:R\rightrightarrows A$ is reflexive if the diagonal $\Delta:A\to A\times A$ factor through $p,q$. 
+
+    \begin{center}
+        \begin{tikzcd}
+            A\ar[r,"\Delta"]\ar[dr,dashed]& A\times A\\
+            & R\ar[u,"{(p,q)}"]
+        \end{tikzcd}
+    \end{center}
+
+    Symmetry: A pair of arrows $p,q:R\rightrightarrows A$ is symmetric if there exists a `twist map' $\tau:R\to R$ such that the diagram below commutes:
+
+    \begin{center}
+        \begin{tikzcd}
+            R\ar[rr,"\tau"]\ar[dr,"{(p,q)}"] & & R\ar[dl,"{(q,p)}"]\\
+              &A\times A &
+        \end{tikzcd}
+    \end{center}
+
+    A pair of arrows $p,q:R\rightrightarrows A$ is transitive if for the pullback:
+
+    \begin{center}
+        \begin{tikzcd}
+            R*R\ar[r,"\pi_1"]\ar[d,"\pi_2"] & R\ar[d,"q"]\\
+            R\ar[r,"p"] & A
+        \end{tikzcd}
+    \end{center}
+
+    The arrow $(p\pi_2,q\pi_1):R*R\to A\times A$ factors through $R$.
+
+    Consider the kernel pair of $f$:
+    \begin{center}
+        \begin{tikzcd}
+            A\times_B A\ar[r,"\pr_2"]\ar[d,"\pr_1"] & A\ar[d,"f"]\\
+            A\ar[r,"f"] & B
+        \end{tikzcd}
+    \end{center}
+
+    Reflexivity: As the kernel pair is a pullback and the diagonal is induced by a pair of identity maps of $A$, by the commutivity of:
+
+    \begin{center}
+        \begin{tikzcd}
+            A\ar[drr,"\sf 1"]\ar[ddr,"\sf 1"]\ar[dr,dashed] & & \\
+              & A\times_B A\ar[r,"\pr_2"]\ar[d,"\pr_1"] & A\ar[d,"f"] \\
+              & A\ar[r,"f"] & B
+        \end{tikzcd}
+    \end{center}
+
+    We have the dashed arrow is exactly the arrow that makes:
+
+    \begin{center}
+        \begin{tikzcd}
+            A\ar[r,"\Delta"]\ar[dr,dashed] & A\times A\\
+              & A\times_B A\ar[u,"{(\pr_1,\pr_2)}"]
+        \end{tikzcd}
+    \end{center}
+
+    commute.
+
+    Symmetry: Consider the diagram:
+     
+    \begin{center}
+        \begin{tikzcd}
+            A\ar[drr,"\pr_1"]\ar[ddr,"\pr_2"]\ar[dr,dashed,"\tau"] & & \\
+              & A\times_B A\ar[r,"\pr_2"]\ar[d,"\pr_1"] & A\ar[d,"f"] \\
+              & A\ar[r,"f"] & B
+        \end{tikzcd}
+    \end{center}
+
+    The dashed arrow is exactly the map $\tau$ which makes the diagram below commutes:
+
+    \begin{center}
+        \begin{tikzcd}
+            A\times_B A\ar[rr,"\tau"]\ar[dr,"{(p,q)}"] &  & A\times_B A\ar[dl,"{(q,p)}"]\\
+              & A\times A &
+        \end{tikzcd}
+    \end{center}
+
+    Transitivity: Consider the pullback diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            (A\times_B A) * (A\times_B A)\ar[r,"\pi_1"]\ar[d,"\pi_2"] & A\times_B A\ar[d,"p"]\\
+            A\times_B A\ar[r,"p"] & A
+        \end{tikzcd}
+    \end{center}
+    
+    We need the dashed arrow:
+    \begin{center}
+        \begin{tikzcd}
+           &  & (A\times_B A) * (A\times_B A)\ar[dr,"\pi_1"]\ar[dl,"\pi_2"]\ar[d,dashed] &  & \\
+            & A\times_B A\ar[dl,"p"] & A\times_B A\ar[dll,"p"]\ar[drr,"q"]\ar[d,tail] & A\times_B A\ar[dr,"q"] &\\
+            A & & A\times A\ar[ll]\ar[rr] & & A
+        \end{tikzcd}
+    \end{center}
+
+    this is the dashed arrow in the following diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            (A\times_B A)* (A\times_B A)\ar[drr,"q\pi_1"]\ar[ddr,"p\pi_2"]\ar[dr,dashed] & & \\
+              & A\times_B A\ar[r,"\pr_2"]\ar[d,"\pr_1"] & A\ar[d,"f"] \\
+              & A\ar[r,"f"] & B
+        \end{tikzcd}
+    \end{center}
+
+
+    This completes the proof
+\end{proof}
+
+(b) Prove that if $p,q:R\rightrightarrows A$ is the kernel pair of some map $A\to B$, then it is also the kernel pair of the coequalizer of $p$ and $q$.
+
+\begin{proof}
+    Let $R=A\times_B A$ be the kernel pair:
+
+    \begin{center}
+        \begin{tikzcd}
+            R = A\times_B A\ar[r,"q"]\ar[d,"p"] & A\ar[d,"f"] \\
+            A\ar[r,"f"] & B 
+        \end{tikzcd}
+    \end{center}
+
+    Consider the coequalizer:
+
+    \begin{center}
+        \begin{tikzcd}
+            A\times_B A\ar[r,"p"]\ar[r,"q",shift right] & A\ar[r,"e"] & E
+        \end{tikzcd}
+    \end{center}
+
+    It suffices to prove that the square in the diagram below is a pullback:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"g_2"]\ar[ddr,"g_1"]\ar[dr,dashed] & & \\
+              & A\times_B A\ar[r,"\pr_2"]\ar[d,"\pr_1"] & A\ar[d,"e"] \\
+              & A\ar[r,"e"] & E
+        \end{tikzcd}
+    \end{center}
+
+    As $R=A\times_B A$ is the pullback square, we have $fp = fq$, so we can consider the diagram:
+    
+    \begin{center}
+        \begin{tikzcd}
+            A\times_B A\ar[r,"p"]\ar[r,"q",shift right] & A\ar[r,"e"]\ar[dr,"f"] & E\ar[d,"t"]\\
+              & & B
+        \end{tikzcd}
+    \end{center}
+
+    Here $t$ is the unique arrow $E\to B$ that makes the right hand side commute. 
+
+    Given $g_1,g_2:X\to A$ such that $eg_1 = eg_2$, we then have $fg_1=fg_2$, then the required dashed arrow is the dashed arrow in:
+
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[drr,"g_2"]\ar[ddr,"g_1"]\ar[dr,dashed] & & \\
+              & A\times_B A\ar[r,"\pr_2"]\ar[d,"\pr_1"] & A\ar[d,"e"] \\
+              & A\ar[r,"e"] & E
+        \end{tikzcd}
+    \end{center}
+\end{proof}
+
+(c) Let $R$ be an equivalence relation on $A$, Show, using symmetry and transitivity, that $(p\times 1)^{-1}(R)=(q\times 1)^{-1}(R)$; i.e., that the pullbacks $(p,q):R\rightarrowtail A\times A$ along $p\times 1$, respectively along $q\times 1:R\times A\to A\times A$, are isomorphic as subobject of $R\times A$.
+
+\begin{proof}
+
+    Let $R* R$ be the pullback:
+
+    \begin{center}
+        \begin{tikzcd}
+            R * R\ar[r,"\pi_1"]\ar[d,"\pi_2"] & R \ar[d,"q"]\\
+            R\ar[r,"p"] & A 
+        \end{tikzcd}
+    \end{center}
+
+
+    We claim the pullbacks in the question are given by:
+
+    \begin{center}
+        \begin{tikzcd}
+            R* R\ar[r,"\pi_2"]\ar[d,"{(\pi_1,q\pi_2)}"] & R\ar[d,"{(p,q)}"] \\
+            R\times A\ar[r,"q\times 1"] & A\times A
+        \end{tikzcd}
+    \end{center}
+
+    \begin{center}
+        \begin{tikzcd}
+            R* R\ar[r,"\tau\pi_1"]\ar[d,"{(\pi_2,p\pi_1)}"] & R\ar[d,"{(p,q)}"] \\
+            R\times A\ar[r,"p\times 1"] & A\times A
+        \end{tikzcd}
+    \end{center}
+
+    To show the two squares are indeed pullbacks:
+
+    For the first one, given $(g_1,g_2):X\to R\times A$ and $k$ satisfying $(p,q)k = (q\times 1)(g_1,g_2)$, we can augment the diagram as:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"k"]\ar[ddr,"{(g_1,g_2)}"]\ar[dr,dashed] & & & \\
+            &  R* R\ar[r,"\pi_2"]\ar[d,"{(\pi_1,q\pi_2)}"] & R\ar[d,"{(p,q)}"]\ar[r,"1"] & R\ar[dd,"p"] \\
+            & R\times A\ar[r,"q\times 1"]\ar[d,"p_1"] & A\times A\ar[dr,"\pr_1"] & \\
+            & R\ar[rr,"q"] & & A
+        \end{tikzcd}
+    \end{center}
+
+    The required dashed arrow is the dashed arrow in:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"g_1"]\ar[ddr,"k"]\ar[dr,dashed] & &\\
+             & R * R\ar[r,"\pi_1"]\ar[d,"\pi_2"] & R \ar[d,"q"]\\
+             & R\ar[r,"p"] & A 
+        \end{tikzcd}
+    \end{center}
+
+    For the second one, for $k$ and $(g_1,g_2)$ satisfies $(p,q)k=(p\times 1)(g_1,g_2)$, augment the diagram into:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"k"]\ar[ddr,"{(g_1,g_2)}"]\ar[dr,dashed] & & & \\
+            &  R* R\ar[r,"\tau\pi_1"]\ar[d,"{(\pi_2,p\pi_1)}"] & R\ar[d,"{(p,q)}"]\ar[r,"\tau"] & R\ar[dd,"q"] \\
+            & R\times A\ar[r,"p\times 1"]\ar[d,"p_1"] & A\times A\ar[dr,"\pr_2"] & \\
+            & R\ar[rr,"p"] & & A
+        \end{tikzcd}
+    \end{center}
+
+    The dashed arrow required is the dashed arrow in:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"\tau k"]\ar[ddr,"g_1"]\ar[dr,dashed] & &\\
+             & R * R\ar[r,"\pi_1"]\ar[d,"\pi_2"] & R \ar[d,"q"]\\
+             & R\ar[r,"p"] & A 
+        \end{tikzcd}
+    \end{center}
+
+    Hence the above two squares are indeed pullbacks. The next claim is that $(\pi_1,p\pi_1)\cong (\pi_1,q\pi_2)$. 
+
+    As $R$ is transitive, we have arrow $\rho:R*R\to R$ such that:
+    \begin{center}
+        \begin{tikzcd}
+            & R*R\ar[ddl,"p\pi_1"]\ar[ddr,"q\pi_2"]\ar[d,"\rho"] & \\
+            & R\ar[d,"{(p,q)}",tail] & \\
+            A & A\times A\ar[l]\ar[r] & A
+        \end{tikzcd}
+    \end{center}
+
+    commutes, that is, $p\rho = p\pi_1,q\rho = q\pi_2$.
+
+    Consider arrows $\alpha,\beta$ given by the below diagrams respectively:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"\pi_2"]\ar[ddr,"\tau\rho"]\ar[dr,"\alpha",dashed] & &\\
+             & R * R\ar[r,"\pi_1"]\ar[d,"\pi_2"] & R \ar[d,"q"]\\
+             & R\ar[r,"p"] & A 
+        \end{tikzcd}
+    \end{center}
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[drr,"\tau\rho"]\ar[ddr,"\pi_1"]\ar[dr,dashed,"\beta"] & &\\
+             & R * R\ar[r,"\pi_1"]\ar[d,"\pi_2"] & R \ar[d,"q"]\\
+             & R\ar[r,"p"] & A 
+        \end{tikzcd}
+    \end{center}
+
+    We will prove $\beta\alpha = \alpha\beta = 1$. We spell out the proof of $\beta\alpha =$, then $\alpha\beta = 1$ is symmetric. Consider the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            R*R\ar[rr,"\beta"]\ar[dr,"{(\pi_2,p\pi_1)}",tail] & & R*R\ar[ll,"\alpha",shift right]\ar[dl,"{(\pi_1,q\pi_2)}",tail]   \\
+                & R\times A&
+        \end{tikzcd}
+    \end{center}
+
+    The diagram commutes, since $q\pi_2\alpha \overset{\text{laft hand side of definition of $\alpha$}}= q\tau\rho = p\rho = p\pi_1$, $\pi_1\alpha = \pi_2$ by upper part of definition of $\alpha$. And $p\pi_1\beta\overset{\text{upper part of definition of $\beta$}}=p\tau\rho=q\rho = q\pi_2$.
+
+    We have $\pi_1\beta = \tau\rho$, hence $\pi_1\beta\alpha = \tau\rho\alpha = \tau\rho(\pi_2,\tau\rho)$. And hence 
+
+    $p(\pi_1\beta)\alpha = p(\tau\rho(\pi_2,\tau\rho))=q\rho(\pi_2,\tau\rho)=q\pi_2(\pi_2,\tau\rho)=q\tau\rho=p\rho=p\pi_1$.
+
+    $q(\pi_1\beta)\alpha=q(\tau\rho(\pi_2,\tau\rho))=p\rho(\pi_2,\tau\rho)=p\pi_1(\pi_2,\tau\rho)=p\pi_2=q\pi_1$.
+
+    As $(p,q)$ is mono, by the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            & & A \\
+            R*R\ar[r,"\pi_1"]\ar[r,"\pi_1\beta\alpha",shift right] & R\ar[r,tail]\ar[ur,"p"]\ar[dr,"q"] & A\times A\ar[u]\ar[d]\\
+            & & A
+        \end{tikzcd}
+    \end{center}
+
+    implies $\pi_1=\pi_1(\beta\alpha)$. We have $\pi_2 = \pi_2(\beta\alpha)$ since $\pi_2\beta = \pi_1$ by definition of $\beta$ and $\pi_1\alpha = \pi_2$ by definition of $\alpha$. Hence $\beta\alpha = (\pi_1,\pi_2)=1$.
+
+    (d) Let $\hat{r}:A\to\Omega^A$ be the transpose of the characteristic map $r:A\times A\to\Omega$ of $R\rightarrowtail A\times A$. Deduce from $c$ that $\hat{r}p=\hat{r}q:R\to \Omega$.
+
+    \begin{proof}
+        Putting pullbacks horizontally side by side gives another pullback, so we can put the pullbacks together like:
+
+        \begin{center}
+            \begin{tikzcd}
+                R*R\ar[r,"\pi_2"]\ar[d,"{(\pi_1,q\pi_2)}",tail] & R\ar[r,"!"]\ar[d,"{(p,q)}",tail] & 1\ar[d,"\text{true}"] \\
+                R\times A\ar[r,"q\times 1"] & A\times A\ar[r,"r"] & \Omega
+            \end{tikzcd}
+        \end{center}
+
+        Hence the characteristic map of $(\pi_1,q\pi_2):R*R\rightarrowtail R\times A$ is given by $r\circ (q\times 1)$. Similarly, the characteristic map of $(\pi_2,p\pi_1):R*R\rightarrowtail R\times A$ is $r\circ (p\times 1)$. Since the two subobjects are isomorphic, they have the same characteristic map, so $r\circ (q\times 1)= r\circ (p\times 1)$.
+
+        We have $\hat{r}p$ is the transpose of $r\circ (p\times 1)$, as shown in:
+
+        \begin{center}
+            \begin{tikzcd}
+                A\times \Omega^A\ar[r] & \Omega \\
+                A\times A\ar[u,"1\times \hat{r}"]\ar[ur,"r"] & \\
+                A\times R\ar[u,"1\times p"]\ar[uur,"r\circ (p\times 1)"] &
+            \end{tikzcd}
+        \end{center}
+
+        Similarly, $\hat{r}q$ is the transpose of $r\circ (q\times 1)$. As the maps are same, we conclude they have the same transpose, hence $\hat{r}p=\hat{r}q$.
+    \end{proof}
+
+    (e) Prove that the square 
+
+    \begin{center}
+        \begin{tikzcd}
+            R\ar[r,"p"]\ar[d,"q"] & A\ar[d,"\hat{r}"] \\
+            A\ar[r,"\hat{r}"] & \Omega^A
+        \end{tikzcd}
+    \end{center}
+
+    which commutes by (d), is a pullback (use the symmetry of $R$).
+
+    \begin{proof}
+        Consider maps $t_1,t_2:X\to A$ such that $\hat{r}t_1=\hat{r}t_2$, we prove there is a unique map $t:X\to R$ such that $qt=t_1,pt=t_2$. As $(p,q):R\to A\times A$ is monic, if such a map exists, then it must be unique. Hence it suffices to prove existence of such $t$. 
+
+        Consider the pullbacks along $1\times t_1,1\times t_2$, as shown in:
+        
+        \begin{center}
+            \begin{tikzcd}
+                A\times X\ar[r,"1\times t_1"] & A\times A & A\times X\ar[l,"1\times t_2"] \\
+                P_{t_1}\ar[u,"a_{t_1}",tail]\ar[r,"b_{t_1}"] & R\ar[u,"{(p,q)}",tail] & P_{t_2}\ar[l,"b_{t_2}"]\ar[u,"a_{t_2}",tail]
+            \end{tikzcd}
+        \end{center}
+
+        Putting pullbacks together:
+
+        \begin{center}
+            \begin{tikzcd}
+                P_{t_1}\ar[r,"b_{t_1}"]\ar[d,"a_{t_1}",tail] & R\ar[d,"{(p,q)}",tail]\ar[r,"!"] & 1\ar[d,"\text{true}"]\\
+                A\times X\ar[r,"1\times t_1"] & A\times A\ar[r,"r"] & \Omega
+            \end{tikzcd}
+        \end{center}
+
+        We obtain a pullbacl which allows us to conclude that the characteristic map of $P_{t_1}$ is $r\circ (1\times t_1)$. As $\hat{r}t_1 = \hat{r}t_2$ are equal by assumption, so does their transposes. That is, $r\circ (1\times t_1)= r\circ (1\times t_2)$.
+
+        Hence $P_{t_1}\cong P_{t_2}$ as subobjects of $A\times X$, and there exists an isomorphism $\theta:P_{t_1}\to P_{t_2}$, such that $a_{t_2}\theta = a_{t_1}$. 
+
+        Consider the map $(t_1,1):X\overset{(t_1,1)}\to A\times A$, as $(t_1,t_1):X\to A$ factor through the diagonal and $R$ is reflexive, then $(t_1,t_1)$ factor through $(p,q):R\rightarrowtail A\times A$. 
+
+        Hence by the pullback diagram of $P_{t_1}$, consider:
+
+        \begin{center}
+            \begin{tikzcd}
+                X\ar[drr,"{(t_1,t_1)}"]\ar[ddr,"{(t_1,1)}"]\ar[dr,"\exists ! k",dashed] & \\
+                & P_{t_1}\ar[r,"b_{t_1}"]\ar[d,"a_{t_1}",tail] & R\ar[d,"{(p,q)}",tail]\\
+                & A\times X\ar[r,"1\times t_1"] & A\times A
+            \end{tikzcd}
+        \end{center}
+
+        Hence we have $(t_1,t_2) = (1\times t_2)(t_1,1) = (1\times t_2)(a_{t_1}\circ k) = (1\times t_2)(a_{t_2}\theta\circ k) = (p,q)b_{t_2}\theta k$.
+
+        The map $b_{t_1}\theta k$ is what we want.
+    \end{proof}
+
+
+
+    (f) Wrap up by the statement that every equivalence relation is the kernel pair of its coequalizer.
+
+    \begin{proof}
+        By (e), every equivalence relation is the kernel pair of some map. The result follows from (b).
+    \end{proof}
+
+     
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+    
+\end{proof}
+\end{document}
