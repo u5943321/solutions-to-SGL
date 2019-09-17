@@ -1,0 +1,284 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{Assignment 4}
+\newcommand{\hmwkDueDate}{August 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\rwh[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+\parskip 1ex
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\s}{\mathbf s}
+\DeclareMathOperator{\rr}{\mathbf r}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Aut}{\text {Aut}}
+\DeclareMathOperator{\Sh}{\text {Sh}}
+\DeclareMathOperator{\Et}{\text {Etale}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\B}{\mathcal B}
+\DeclareMathOperator{\E}{\mathcal E}
+\DeclareMathOperator{\F}{\mathcal F}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\abf}{\mathbf a}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+\DeclareMathOperator{\mcO}{\mathcal {O}}
+\DeclareMathOperator{\CHOICE}{\sf CHOICE}
+\DeclareMathOperator{\pr}{\sf pr}
+\DeclareMathOperator{\dom}{\text {dom}}
+\DeclareMathOperator{\cod}{\text {cod}}
+\DeclareMathOperator{\im}{\text {im}}
+\DeclareMathOperator{\colim}{\text {colim}}
+\DeclareMathOperator{\eqlz}{\text {eq}}
+\DeclareMathOperator{\coeq}{\text {coeq}}
+\DeclareMathOperator{\ev}{\text {ev}}
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+\begin{question}
+    Let $j$ be a Lawvere-Tierney topology on an elementary topos $\E$, with a corresponding natural closure operator on subobject lattice $A\mapsto \overline{A}$, and with an associated sheaf functor $\abf:\E\to \Sh_j\E$ left adjoint to the inclusion $i:\Sh_j\E\to \E$.
+\end{question}
+
+(a) Prove that if $u:A\to B$ is a $j$-dense mono in $\E$, then so is $1\times u:E\times A\to E\times B$ for any object $E$ of $\E$.
+\begin{proof}
+    Given $u: A\rightarrowtail B$ is a $j$-dense mono, then $\overline{A}= B$. To prove $1\times u:E\times A\to E\times B$ is a $j$-dense mono, we need to show $\overline{E\times A} = E\times B$. 
+
+    Consider the projection map $\pi:E\times A\to A$, we have $\overline{E\times A} = \overline{\pi^{-1}(A)}$. By page 221 of SGL, $\overline{\pi^{-1}(A)}= \pi^{-1}(\overline{A})=\pi^{-1}(B)=E\times B$, as desired. 
+\end{proof}
+
+(b) Deduce from (a) that an object $E$ of $\E$ is a $j$-sheaf iff for any $j$-dense mono $u:A\to B$, the map $E^u:E^B\to E^A$ is an isomorphism.
+\begin{proof}
+    Using generalized elements, it suffices to show that for any object $X$ of $\E$, the map ${E^u}^*:\Hom_{\E}(X,\E^B)\to \Hom_{\E}(X,E^A)$ induces by $E^u$ is an isomorphism. By tensor-hom adjunction, it suffices to show that for any $X$ in $\E$, $(1_X\times u)^*:\Hom_{\E}(X\times B,E)\to \Hom_{\E}(X\times A,E)$ is an isomorphism. As $E$ is a $j$-sheaf, by definition of $j$-sheaf on page 223 on SGL, it suffices to show that the mono $1_X\times u$ is $j$-dense, the result follows from (a).
+\end{proof}
+
+(c) Prove that for objects $E$ and $F$ of $\E$, if $F$ is a $j$-sheaf, then the unit $\eta:E\to i\abf(E)=\abf(E)$ induces an isomorphism $F^{i\abf(E)}\overset{\cong}\to  F^E$.
+\begin{proof}
+    Claim: if an object $F$ of $\E$ is a sheaf, then for any object $B$, $F^B$ is again a sheaf.
+
+    Proof: Consider a $j$-dense mono $A\rightarrowtail E$, we want an isomorphism $\Hom_{\E}(E,F^B)\cong \Hom_{\E}(A,F^B)$. By tensor-hom adjunction, it amounts to show that $\Hom_{\E}(B,F^E)\cong \Hom_{\E}(B,F^A)$ is an isomorphism,  the result follows from (b).
+
+    Using generalized elements and tensor-hom adjunction, it suffices to prove for any object $X$ of $\E$, $\Hom_{\E}(X\times \abf (X),F)\cong \Hom_{\E}(X\times E,F)$.
+
+    As $\abf$ is the left adjoint of the inclusion functor, for every object $A$ of $\E$ and sheaf $F$, we have $\Hom_{\Sh_j\E}(\abf(A),F)=\Hom_{\E}(\abf(A),F)\cong \Hom_{\E}(A,F)$.
+
+    Start from $\Hom_{\E}(X\times E,F)$, we have $\Hom_{\E}(X\times E,F)= \Hom_{\E}(\abf(X\times E),F)$ by above, as $\abf$ preserves limits, as in SGL page 231, the right hand side is equal to $ \Hom_{\E}(\abf(X)\times\abf (E),F)$. By tensor-hom adjunction again, right hand side is $ \Hom_{\E}(\abf(X),F^{\abf (E)})$. By adjunction of $\abf$ again, as $F^{\abf(E)}$ is a sheaf by the claim proved above, the right hand side is $ \Hom_{\E}(X,F^{\abf (E)})\cong  \Hom_{\E}(X\times \abf (E),F)$, as desired.
+\end{proof}
+
+(d) Prove that for object $E$ of $\E$ and any subobject $A\in\Sub(E)$, the closure $\overline{A}$ can be constructed as a pullback.
+\begin{center}
+    \begin{tikzcd}
+        \overline{A}\ar[r]\ar[d] & \abf(A)\ar[d]\\
+        E\ar[r] & \abf(E)
+    \end{tikzcd}
+\end{center}
+\begin{proof}
+    Claim : For any object $A$ of $\E$, we have $\abf(A)=\abf(\overline{A})$.
+
+    Proof: It suffices to check the universal property. We prove for any sheaf $F$, $\Hom_{\Sh_j\E}(\abf(\overline{A}),F) = \Hom_{\E}(A,F)$. By adjunction of $\abf$, left hand side is $\Hom_{\E}(\overline{A},F)$. As $F$ is a sheaf and the mono $A\rightarrowtail \overline{A}$ is $j$-dense, the result follows.
+
+    Thus the problem reduces to prove:
+
+    \begin{center}
+        \begin{tikzcd}
+            \overline{A}\ar[r]\ar[d] & \abf(\overline{A})\ar[d]\\
+            E\ar[r] & \abf(E)
+        \end{tikzcd}
+    \end{center}
+
+    is a pullback.
+
+    As $\Omega_j$ classifies closed subobjects, we have:
+    \begin{center}
+        \begin{tikzcd}
+            \overline{A}\ar[r]\ar[d] & 1\ar[d]\\
+            E\ar[r] & \Omega_j
+        \end{tikzcd}
+    \end{center}
+
+    is a pullback.
+
+    As $\abf$ preserves limits, it preserves pullback and terminal object, hence $\abf(1)=1$. And by page 225 of SGL, $\Omega_j$ is a sheaf, so $\abf(\Omega_j)=\Omega_j$. Hence the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            \abf(\overline{A})\ar[r]\ar[d] & \abf(1)=1\ar[d]\\
+            \abf(E)\ar[r] & \abf(\Omega_j)=\Omega_j
+        \end{tikzcd}
+    \end{center}
+
+    is a pullback. Pasting it to the first square gives:
+
+    \begin{center}
+        \begin{tikzcd}
+            \overline{A}\ar[r]\ar[d] & \abf(\overline{A})\ar[d]\ar[r] & 1\ar[d]\\
+            E\ar[r] & \abf(E)\ar[r] & \Omega_j
+        \end{tikzcd}
+    \end{center}
+
+    The outside is the second square above, by 2-out-of-3 of pullback, as the outmost square and the right hand side are pullbacks, so does the left hand side. 
+\end{proof}
+
+\begin{question}
+    Let $G$ be a group object in a topos $\E$. Prove directly that $U:\E^G\to\E$ has a right adjoint [cf. $\S$7 (8).]
+\end{question}
+\begin{proof}
+    The right adjoint is a functor $R:\E\to \E^G$ that sends a object $B$ of $\E$ to the exponential $B^G$ in $\E$. For the action of $G$ on $B^G$, we need to define a map $G\times B^G\to B^G$. 
+    
+    
+    %By tensor-hom adjunction, it amounts to define a map $G\times B^G\times G\to B$. For distinguish the two copies of $G$, call the one that acting on $B^G$ by $G_1$, and the one that comes from adjunction by $G_2$. That is, we need to find a map $G_1\times B^G\to B^G$, and to find this map, we define a map $G_1\times G_2\times B^G\to B$. 
+
+    To define a map $G\times B^G\to B^G$, it suffices to give a map $G\times B^G\times G\to B$. For distinguish the two copies of $G$, call the one acting on $B^G$ by $G_1$, and the one from the exponential $G_2$. Consider a generalized element $\langle g,\phi,h\rangle:X\to G_1\times B^G\times G_2$, we need a generalized element $X\to B$. As $h,g:X\to G$ (2,1) repectively, according to discussion on page 237 in SGL, composing with the multiplication $m:G_2\times G_1\to G$ with $\langle h,g\rangle: X\times G_2\times G_1$ gives a generalized element $m\circ \langle h,g\rangle :X\to G_2\times G_1\to G$. Recall $\phi:X\to B^G$ is a generalized element of $B^G$, this map gives its transpose $\hat{\phi}:X\times G\to B$. Now the generalized element $X\overset{\langle 1_X,m\circ \langle h,g\rangle\rangle}\to X\times G\overset{\hat{\phi}} \to B$ of $B$ is what we want. 
+    
+    
+    %consider a generalized element $\langle g,\phi\rangle:X\to G\times B^G$, where $g:X\to G$ is a generalized element of $G$ and $\phi:X\to B^G$ is a generalized element of $B^G$, we need a generalized element $X\to B^G$, which is a map $X\times G\to B$. To obtain this map, 
+    
+    
+    
+    %Such a map is given by the composition $G_1\times G_2\times B^G\overset{\tau\times 1_{B^G}}\to G_2\times G_1\times B^G\overset{m\times 1_{B^G}}\to G\times B^G\overset{\ev}\to B$, where $\tau$ is the twisting map. The fact that this map does give an action comes from the associativity and unit of group $G$.
+    
+    For what does the functor $R$ do on morphisms: For a map $B_1\to B_2$ in $\E$, it induces a map $B_1^G\to B_2^G$, defined by given a generalized element of $B_1^G$, which is a map $X\to B_1^G$, take the transpose $X\times G\to B_1$, compose it with the given map $B_1\to B_2$, and then take the transpose $X\times G\to B_2$ to get a map $X\to B_2^G$.
+
+    Now we check the adjunction. We want the adjunction:
+    $U:\E^G\rightleftarrows \E: R$, means that for any $G$-object $A\in \E^G$ and object $B$ of $\E$, $\Hom_{\E}(A,B)\cong \Hom_{\E^G}(A,B^G)$. It suffices to define a pair of maps and check they are inverses.
+
+    For the map $\Hom_{\E}(A,B)\cong \Hom_{\E^G}(A,B^G)$. Given a map $h:A\to B$, we need a map $A\to B^G$ in $\E^G$, which is a map $A\times G\to B$. It suffices to give a map that sends a generalized element $X\to A\times G$ to a generalized element $X\to B$. Given a generalized element $\langle a,g\rangle:X\to A\times G$, where $a:X\to A$ and $g:X\to G$ are generalized elements of $A$ and $G$ respectively. Recall we have an action $\mu_A:G\times A\to A$, the generalized element $X\to B$ we need is given by the composition $X\overset{\langle a,g\rangle}\to A\times G\overset{\tau}\to G\times A\overset{\mu_A}\to A\overset{h}\to B$.  
+    
+    For the map $\Hom_{\E^G}(A,B^G)\to \Hom_{\E}(A,B)$. Given a $G$-map $A\to B^G$, which is a map $u:A\times G\to B$, we need a map $A\to B$ in $\E$. Consider a generalized element $a:X\to A$, and the generalized element $c:X\to 1\overset{e}\to G$, then we have a generalized element $\langle a,c\rangle :X\to A\times G$, composing with $u$ gives the generalized element $X\to A\times G\overset{u}\to B$ which we want. 
+    
+
+    
+    %It suffices to give a map which maps generalized element $X\to A$ to a generalized element $X\to B^G$, where the later one is a map $X\times G\to B$. 
+    
+    
+    %we obtain a map $A\to B^G$ defined by taking the transpose of the map $G\times A\overset{\mu_A}\to A\overset{f}\to B$.
+\end{proof}
+
+\begin{question}
+    $[$Artin Glueing a la Wraith (1974)$]$ Let $\phi:\E\to \F$ be a functor. Recall that the comma category $\F/\phi$ has as objects pairs $(X,a:Y\to \phi X)$, where $X\in \E,Y\in \F$, and as morphisms pairs of morphisms which give commutatives squares [CWM, p. 47].
+\end{question}
+
+(a) Suppose that $\E$ and $\F$ have finite products, and that $\phi$ preserves them. Show that $\mathcal F/\phi$ is the category of coalgebras for the comonad on $\E\times F$, which has the underlying functor $G:\E\times \F\to \E\times \F, G(X,Y)=(X,Y\times \phi X)$.
+\begin{proof}
+    The comonad $G$ on $\E\times \F$ which we are considering about is the functor $:\E\times \F\to \E\times \F$ defined by on object, $(X,Y)\mapsto (X,Y\times \phi X)$, and on morphism, for $f:X_1\to X_2,g:Y_1\to Y_2$, the morphism $(f,g):(X_1,Y_1)\to (X_2,Y_2)$ is sent to $(f,g\times \phi f):(X_1,Y_1\times \phi X_1)\to (X_2,Y_2\times \phi X_2)$. The natural transformation $\delta:G\to G\circ G$ is defined by on object $(X,Y)$ of $\E$, $\delta_{(X,Y)}:(X,Y\times \phi X)\to (X,Y\times \phi X\times \phi X)$ is the map $(1_X,1_Y\times \Delta)$, where $\Delta:\phi X\to \phi X\times \phi X$ is the diagonal map. The natural transformation $\epsilon :G\to I$ is defined on object $(X,Y)$ of $\E$, $\epsilon_{(X,Y)}:(X,Y\times \phi X)\to (X,Y)$ is the map $(1_X,\pi_1)$, where $\pi_1$ is the projection $\pi_1:Y\times \phi X\to Y$. The triple $(G,\delta,\epsilon)$ does give a comonad, to check the commutative square, note that $G^2(X,Y)=G(X,Y\times \phi X) = (X,Y\times \phi X\times \phi X)$, so consider the square
+    \begin{center}
+        \begin{tikzcd}
+            (X,Y\times \phi X)\ar[r,"\delta_{(X,Y)}"]\ar[d,"\delta_{(X,Y)}"] & (X,Y\times \phi X\times \phi X)\ar[d,"\delta_{(X,Y\times \phi X)}"]\\
+            (X,Y\times \phi X\times \phi X)\ar[r,"G\delta_{(X,Y)}"]  & (X,Y\times \phi X\times \phi X\times \phi X)
+        \end{tikzcd}
+    \end{center}
+
+    The map $\delta_{(X,Y\times \phi X)}:(X,Y\times \phi X\times \phi X)\to (X,Y\times \phi X\times \phi X\times \phi X)$ is, by definition of $\delta$, $(1_X,1_{Y\times \phi X}\times \Delta)$. And the map $G\delta_{(X,Y)}$ is $G$ applied on the map $(1_X,1_Y\times\Delta)$, which is $(1_X,1_Y\times\Delta\times \phi(1_X))= (1_X,1_Y\times\Delta\times 1_{\phi X})$, so the square above commutes.
+
+    For the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            & (X,Y\times \phi X)\ar[dl,"="]\ar[dr,"="]\ar[d,"{(1_X,1_Y\times\Delta)}"] & \\
+            (X,Y\times \phi X) & (X, Y\times \phi X\times \phi X)\ar[l,"\epsilon_{G(X,Y)}"]\ar[r,"G\epsilon_{(X,Y)}"] & (X, Y \times \phi X)
+        \end{tikzcd}
+    \end{center}
+
+    By definition of $\epsilon$ and $G$, $\epsilon_{G(X,Y)}$ is the map $(1_X,\pi_{Y\times \phi X\times \phi X\to Y\times \phi X})$. $\epsilon_{(X,Y)}:(X, Y\times \phi X)\to (X,Y)$ is $(1_X,\pi_1)$, so $G\epsilon_{(X,Y)}$ is $(1_X,\pi_1\times \phi 1_X)=(1_X,\pi_1\times 1_{\phi X})$, the diagram above commutes.
+
+    Now consider the category of coalgebras on $G$, a $G$-coalgebra is an object $(X,Y)$ of $\E\times \F$, with $k:(X,Y)\to (X,Y\times \phi X)$ such that $1_{(X,Y)}=\epsilon_{(X,Y)}\circ k:(X,Y)\to (X,Y\times \phi X)\overset{(1_X,\pi_1)}\to (X,Y)$ and $Gk\circ k=\delta_{(X,Y)}\circ k:(X,Y)\to (X,Y\times \phi X)\overset{(1_X,1_Y\times \Delta)}\to  (X,Y\times \phi X\times \phi X)$. The first clause require $k:(X,Y)\to (X,Y\times \phi X)$ to be $(1_X,\langle 1_Y, a\rangle)$ for  some map $Y\to \phi X$, and we can check any map of such form $(1_X,\langle 1_Y, a\rangle)$ can serve as such a $k$.
+
+    A morphism $f$ from a coalgebra $k_1=(1_{X_1},\langle 1_{Y_1},a_1\rangle):(X_1,Y_1)\to (X_1,Y_1\times \phi X_1)$  to a coalgebra $k_2=(1_{X_2},\langle 1_{Y_2},a_2\rangle ):(X_2,Y_2)\to (X_2,Y_2\times \phi X_2)$ is a map $f=(f_1,f_2):(X_1,Y_1)\to (X_2,Y_2)$, such that the diagram:
+    \begin{center}
+        \begin{tikzcd}
+            (X_1,Y_1)\ar[r,"k_1"]\ar[d,"f"] & (X_1,Y_1\times \phi X_1)\ar[d,"Gf"] \\
+            (X_2,Y_2)\ar[r,"k_2"] & (X_2,Y_2\times \phi X_2)
+        \end{tikzcd}
+    \end{center}
+
+    commutes. With the constrain on $k$, the commutivity condition precisely requires the square:
+
+    \begin{center}
+        \begin{tikzcd}
+            Y_1\ar[r,"a_1"]\ar[d,"f_2"] & \phi X_1\ar[d,"\phi f_1"] \\
+            Y_2\ar[r,"a_2"] & \phi X_2
+        \end{tikzcd}
+    \end{center}
+
+    such a map is precisely a map in $\F/\phi$. This completes the proof.
+\end{proof}
+(b) Conclude that if $\E$ and $\F$ are topoi and $G$ is left exact, then $\F/\phi$ is again a topos. Prove that the projection $\F/\phi\to \E$ is logical.
+\begin{proof}
+    Finite product of topoi is again a topos. Hence from textbook page, as $\E\times \F$ is a topos, $\F/\phi$ is a topos as the category of coalgebras over the comonad $G$.
+
+    (Alternative: Johnstone Sketch of an elephant Volume 1, Glueing construction, directly identify the limites, exponential and subobject classifier of a comma category. This also gives a more direct answer to the second subquestion of this question.)
+
+    Under the identification of an object of $\F/\phi$ with a coalgebra on $G$, an object $Y\overset{a}\to \phi X$ for $X$ in $\E$ is the coalgebra $(X,Y)\overset{(1_X,\langle 1_Y,a\rangle)}\to (X,Y\times \phi X)$, and the projection map sending $Y\overset{a}\to \phi X$ to $X$ is the map that sending the coalgebra  $(X,Y)\overset{(1_X,\langle 1_Y,a\rangle)}\to (X,Y\times \phi X)$ to $X$. Our aim is to prove the projection is a logical morphism, that is, prove that the first component of the underlying object of the limit of a diagram of coalgebras is the limit of the the first component of the diagram, the first component of the underlying object exponential of two coalgebras is the exponential of the first component of the underlying object of these two coalgebras, etc. That is, to prove the projection is logical, we only need to keep track on the first component of the underlying object of a coalgebra.
+
+    For limit, we consider products, the others are similar. Follow the construction on SGL page 251, here for two coalgebras $k_1:(X_1,Y_1)\to (X_1,Y_1\times \phi X_1),k_2:(X_2,Y_2)\to (X_2,Y_2\times \phi X_2)$, the underlying object of their product is the product $(X_1,Y_1)\times (X_2,Y_2)$ in $\E\times F$, by uniqueness of product, we can check the product is $(X_1\times X_2,Y_1\times Y_2)$, and the first component is $X_1\times X_2$, which is the product of $X_1$ and $X_2$ in $\E$, as desired.
+
+    For exponential. For two coalgebras $(B,t),(C,u)$ in $\E\times \F$, as $G$ is left exact, we have an isomorphism $\phi:G(C^B\times B)\to G(C^B)\times GB$, let $\rho:G(C^B)\to (GC)^{GB}$ denote the exponential transpose of the composition $G(C^B)\times GB\overset{\phi^{-1}}\to (GC)^{GB}\overset{Ge}\to GC$, by page 253, the underlying object of ther exponential is the equalizer of the two maps in:
+
+    \begin{center}
+        \begin{tikzcd}
+            G(C^B)\ar[r,"G(u^B)"]\ar[d,"\delta"] & G((GC)^B)\ar[d,"G((GC)^t)"] \\
+            G(G(C^B))\ar[r,"G(\rho)"] & G((GC)^{GB})
+        \end{tikzcd}
+    \end{center}
+
+    Note that our $B,C$ are in $\E\times \F$, so the diagram above consists of two separate pieces of information on each component. We are interested in the first component, but every map in the above diagram does nothing to the first component. Hence the equalizer is the whole $G(C^B)$, if the underlying objects of $B,C$ are $(X_1,Y_1),(X_2,Y_2)$ repectively, then the underlying object of $C^B$ is $(X_2^{X_1},Y_2^{Y_1})$, and the first component is $X_2^{X^1}$, as desired.
+
+    For the subobject classifier. According to the construction on page 255, the underlying object is the equalizer of the two maps $G\Omega\overset{G\tau\circ \delta_{\Omega}}{\underset{1}\rightrightarrows} G\Omega$, where $\Omega$ is the subobject classifier in $\E\times \F$ and $\tau:G\Omega\to \Omega$ is the classifying map of $\Omega$. The object $\Omega$ here is the object $(\Omega_{\E},\Omega_{\F})$ in $\E\times \F$. Again, the two maps both does nothing to the first component. Hence the first component of the equalizer is $\Omega_{\E}$, as desired.
+
+\end{proof}
+
+(c) Consider the special case where $\F=\Sets$ and $\phi$ is the global sections functor $\Gamma:\Hom(1,-):\E\to \Sets$. Prove that if $\E=\Sh(X)$ for a topological space $X$, then $\Sets/\Gamma$ is again a topos of sheaves on a space $\hat{X}$, by giving an explicit description of the space $\hat{X}$.
+\begin{proof}
+    Reference: taken the idea in the paper `On the Freyd Cover of a Topos' by Ieke Moerdijk.
+
+    The space $\hat{X}$ is a space $X\cup \{*\}$ where $*$ is a closed but not open point (take the basis as open sets in $X$ and the whole space $X\cup \{*\}$). (Have seen why we allow such a topology on this space but forgot where to find it... Remember it is obtained by taking the mapping cone with two point set with one point open and one point closed, anyway such a topology on such a space is allowed.)
+
+    Our aim is to show the comma category $\Sets/\Hom(1,-)$ is equivalent to the category of sheaves on $\hat{X}$. An object in $\Sets/\Hom(1,-)$ is an etale bundle $p:E\to X$ with set-theoric function from a set $S$ to the set of global sections of $E\to X$. For each such object, we need to associate it with an etale bundle on $\hat{X}$, and vice versa.
+
+    Given an etale bundle $p:E\to X$ and a map from a set $S$ of the set of global sections of $p$, construct an etale space $E\cup A\to X\cup \{*\}$ by taking the basis of $E\cup A$ as open sets are sets $U\cup \{a\}$ where $U$ is open in $E$ and $a\in A$, thus the map $p_A:E\cup A\to X\cup \{*\}$ defined by $p_A|_{E}=p:E\to X$ and $p_A(a)=*$ for all $a\in A$ is etale.
+
+    Claim: For any etale map $p:E\to X\cup \{*\}$, we have $E=(E\setminus p^{-1}\{*\})\cup p^{-1}\{*\}$ where $p^{-1}\{*\}$ is a set of points, each is closed and not open, and $p|_E$ is etale.
+
+    Given an etale map $E\to X\cup \{*\}$, firstly, for any point $a\in E$ that is mapped to $*$, the point cannot be open, otherwise, consider the map $V_a\to X\cup \{*\}$ where $V_a$ is the a open neighbourhood of $a$ which is mapped homeomorphically to $X\cup\{*\}$. Then $p|_{V_a}$ is a homeomorphism and hence a local open map, if $\{a\}$ is open, then the fact that $p\{a\}=\{*\}$ contradicts the openess of $p|_{V_a}$.
+
+    Secondly, we prove $p|_{E_0}$ where $E_0= (E\setminus p^{-1}\{*\})$ is an etale map to $X$, it has the correct codomain by definition. It is continuous since since $p$ is. And for any $x\in E_0$, take a neighbourhood $V_x$ of $x$ in $E$ which is mapped homeomorphically to $X\cup \{*\}$, if it $V_x$ does not contain any preimage of $*$ then we are done, if $V_x$ contain some preimage of $*$, firstly, there is only one $s$ point in $V_x$ which is mapped to $*$, since we need $p$ to be a local homeomorphism on $V_x$. We will have $V_x\setminus \{s\}$ is also a neighbourhood of $x$ which is mapped homeomophically to its image, since restriction of homeomorphism is again a homeomorphism.
+
+    For an etale map $p:E_0\cup A\to X\cup \{*\}$, if $*$ is not hitted by any point from $E$, then $p|_{E}:E\to X$ is etale, associate it to the map from $\emptyset$ to the set of global sections of the etale map $p|_{E}:E\to X$. If $*$ is hitted by some point in $E$, then for element $a$ in the set $p^{-1}(*)$ of preimage of $*$, there exists an open neighbourhood $V_a$ in $E$ which is mapped homeomorphically to $p(V_a)$. As homeomorphisms are bijective open maps, the image $p(V_a)$ of $V_a$ in $X\cup \{*\}$ must be open. By the topology we define on $X\cup \{*\}$, the only open set that contains $*$ is the whole $X\cup \{*\}$. Hence $p(V_a)\cong X\cup \{*\}$, and the map $(p|_{V_a})^{-1}_{|X}$ which is the restriction on $X$ of the inverse of the restriction of $p$ on $V_a$ is a global section of $p:E\to X$.
+
+  
+\end{proof}
+
+
+\end{document}
