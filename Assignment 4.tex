@@ -155,35 +155,158 @@
     Let $G$ be a group object in a topos $\E$. Prove directly that $U:\E^G\to\E$ has a right adjoint [cf. $\S$7 (8).]
 \end{question}
 \begin{proof}
-    The right adjoint is a functor $R:\E\to \E^G$ that sends a object $B$ of $\E$ to the exponential $B^G$ in $\E$. For the action of $G$ on $B^G$, we need to define a map $G\times B^G\to B^G$. 
+    We want the adjoint $U:\E^G\rightleftarrows \E:R$. 
+    The functor $R:\E\to \E^G$ is defined by: 
     
-    
-    %By tensor-hom adjunction, it amounts to define a map $G\times B^G\times G\to B$. For distinguish the two copies of $G$, call the one that acting on $B^G$ by $G_1$, and the one that comes from adjunction by $G_2$. That is, we need to find a map $G_1\times B^G\to B^G$, and to find this map, we define a map $G_1\times G_2\times B^G\to B$. 
+    On object: $B\mapsto B^G$ (exponential with $G$ in $\E$.), where the action $\mu_{B^G}:G\times B^G$ is defined by for each generalized element $\langle g,f,g'\rangle: X\to G\times B^G\times G$, $(\mu (g,f)) (g')=f(m(g,g'))$, where $m$ is the multiplication $G\times G\to G$. In set-theoretic notation, we can write $(g\cdot f)(g')=f(gg')$, where for generalized elements $\langle g,f\rangle:X\to G\times B^G$, $g\cdot f$ denotes the generalized element obtained by acting $g$ on $f$, which is the composition:
+    \begin{center} 
+        \begin{tikzcd}
+            X\ar[r,"{\langle g,f\rangle}"] & G\times B^G\ar[r,"\mu_{B^G}"] & B^G
+        \end{tikzcd}
+    \end{center}
 
-    To define a map $G\times B^G\to B^G$, it suffices to give a map $G\times B^G\times G\to B$. For distinguish the two copies of $G$, call the one acting on $B^G$ by $G_1$, and the one from the exponential $G_2$. Consider a generalized element $\langle g,\phi,h\rangle:X\to G_1\times B^G\times G_2$, we need a generalized element $X\to B$. As $h,g:X\to G$ (2,1) repectively, according to discussion on page 237 in SGL, composing with the multiplication $m:G_2\times G_1\to G$ with $\langle h,g\rangle: X\times G_2\times G_1$ gives a generalized element $m\circ \langle h,g\rangle :X\to G_2\times G_1\to G$. Recall $\phi:X\to B^G$ is a generalized element of $B^G$, this map gives its transpose $\hat{\phi}:X\times G\to B$. Now the generalized element $X\overset{\langle 1_X,m\circ \langle h,g\rangle\rangle}\to X\times G\overset{\hat{\phi}} \to B$ of $B$ is what we want. 
-    
-    
-    %consider a generalized element $\langle g,\phi\rangle:X\to G\times B^G$, where $g:X\to G$ is a generalized element of $G$ and $\phi:X\to B^G$ is a generalized element of $B^G$, we need a generalized element $X\to B^G$, which is a map $X\times G\to B$. To obtain this map, 
-    
-    
-    
-    %Such a map is given by the composition $G_1\times G_2\times B^G\overset{\tau\times 1_{B^G}}\to G_2\times G_1\times B^G\overset{m\times 1_{B^G}}\to G\times B^G\overset{\ev}\to B$, where $\tau$ is the twisting map. The fact that this map does give an action comes from the associativity and unit of group $G$.
-    
-    For what does the functor $R$ do on morphisms: For a map $B_1\to B_2$ in $\E$, it induces a map $B_1^G\to B_2^G$, defined by given a generalized element of $B_1^G$, which is a map $X\to B_1^G$, take the transpose $X\times G\to B_1$, compose it with the given map $B_1\to B_2$, and then take the transpose $X\times G\to B_2$ to get a map $X\to B_2^G$.
+    So for generalized element $\langle g,f,g'\rangle: X\to G\times B^G\times G$, $f(gg')$ is the notation for the composition:
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[r,"{\langle g,f,g'\rangle}"] & G\times B^G\times G\ar[r,"\text{move the first $G$ to the last $G$}"] & B^G\times G\times G\ar[r,"1_{B^G}\times m"] & B^G\times G\ar[r,"\ev_B"] & B
+        \end{tikzcd}
+    \end{center}
+    More formally, $\mu_{B^G}$ is in the diagram:
 
-    Now we check the adjunction. We want the adjunction:
-    $U:\E^G\rightleftarrows \E: R$, means that for any $G$-object $A\in \E^G$ and object $B$ of $\E$, $\Hom_{\E}(A,B)\cong \Hom_{\E^G}(A,B^G)$. It suffices to define a pair of maps and check they are inverses.
+    \begin{center}
+        \begin{tikzcd}
+        G\times B^G\times G\ar[r,"\text{move $G$}"]\ar[dd,"\mu_{B^G}\times 1_G"] & B^G\times G\times G\ar[d,"1_{B^G}\times m"]\\
+        & B^G\times G\ar[d,"\ev_B"] \\
+        B^G\times G\ar[r,"\ev_B"] & B
+        \end{tikzcd}
+    \end{center}
 
-    For the map $\Hom_{\E}(A,B)\cong \Hom_{\E^G}(A,B^G)$. Given a map $h:A\to B$, we need a map $A\to B^G$ in $\E^G$, which is a map $A\times G\to B$. It suffices to give a map that sends a generalized element $X\to A\times G$ to a generalized element $X\to B$. Given a generalized element $\langle a,g\rangle:X\to A\times G$, where $a:X\to A$ and $g:X\to G$ are generalized elements of $A$ and $G$ respectively. Recall we have an action $\mu_A:G\times A\to A$, the generalized element $X\to B$ we need is given by the composition $X\overset{\langle a,g\rangle}\to A\times G\overset{\tau}\to G\times A\overset{\mu_A}\to A\overset{h}\to B$.  
+    The above does define a $G$-action by the associativity of multiplication of $G$.
+
+
+
+    On morphism: $h:B\to C$ is sent to the map $B^G\to C^G$ defined by for each generalized element $\langle f,g\rangle :X\to B^G\times G$, $h(f(g))$, where by this notation, we mean the composition: 
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[r,"{\langle f,g\rangle}"] & B^G\times G\ar[r,"\ev"] & B\ar[r,"h"] & C
+        \end{tikzcd}
+    \end{center} 
+
+    That is, the map $h$ takes a generalized element $f(g)$ of $B$, and gives a generalized element of $C$ (from the same object), whereas the generalized element $f(g)$ itself is obtained by evaluating the map $f$, which is a generalized element of $B^G$, at the generalized element $g$ of $G$. More formally, the map $h:B\to C$ is sent to the $R(h)$ as in 
+    \begin{center}
+        \begin{tikzcd}
+            B^G\times G\ar[dr,"\ev_B"]\ar[dd,"R(h)\times 1_G"] & & \\
+            & B\ar[dr,"h"] & \\
+            C^G\times G\ar[rr,"\ev_C"] & & C
+        \end{tikzcd}
+    \end{center}
+
+    We check the $R$ is the right adjoint of $U$. That is, we need natural bijection $\Hom_{\E}(A,B)\cong \Hom_{\E^G}(A,B^G)$.
+
+    $\Hom_{\E}(A,B)\to \Hom_{\E^G}(A,B^G)$: Given $h:A\to B$, send it to $h_0:A\to B^G$ which is the transpose of $\tilde{h_0}:A\times G\to B$ defined by $\tilde{h_0}(a,g)=h(g\cdot a)$. That is, $h_0$ is the map in:
+    \begin{center}
+        \begin{tikzcd}
+            A\times G\ar[r,"h_0\times 1_G"]\ar[d,"\tau"] & B^G\times G\ar[dddl,"\ev_{B}"] \\
+            G\times A\ar[d,"\mu_A"] &  \\
+            A\ar[d,"h"] & \\
+            B & 
+        \end{tikzcd}
+    \end{center}
+
+    To check $h_0$ is indeed a $G$-map, we need to check the diagram:
+    \begin{center}
+        \begin{tikzcd}
+            G\times A\ar[r,"\mu_A"]\ar[d,"1_G\times h_0"] & A\ar[d,"h_0"] \\
+            G\times B^G\ar[r,"\mu_{B^G}"] & B^G
+        \end{tikzcd}
+    \end{center}
+
+    Both path are maps $G\times A\to B^G$, so it suffices to check their transposes $G\times A \times G\to B$ are equal, that is, these two maps times $1_G$ and compose with $\ev_B$ are equal. This amounts to check the commutivity of ($\langle g,a,g'\rangle: X\to G\times A\times G$ any generalized element): 
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[dr,"{\langle g,a,g'\rangle}"] & & & \\
+              & G\times A\times G\ar[r,"\mu_A\times 1_G"]\ar[d,"1_G\times h_0\times 1_G"] & A\times G\ar[d,"h_0\times 1_G"] & \\
+              & G\times B^G\times G\ar[r,"\mu_{B^G}\times 1_G"] & B^G\times G\ar[dr,"\ev_B"] & \\
+              & & & B
+        \end{tikzcd}
+    \end{center}
+
+    Horizontal then vertical: $\langle g,a,g\rangle\mapsto \langle g\cdot a,g'\rangle \mapsto \langle h_0(g\cdot a),g'\rangle\mapsto (h_0(g\cdot a))(g')$, and $(h_0(g\cdot a))(g') = h(g'\cdot (g\cdot a))$ by definition of $h_0$.
+
+    Vertical then horizontal: $\langle g,a,g'\rangle \mapsto \langle g,h_0(a),g'\rangle\mapsto \langle g\cdot (h_0(a)),g'\rangle\mapsto (g\cdot (h_0(a)))(g')$. By definition of action, $(g\cdot (h_0(a)))(g') = (h_0(a))(g'\cdot g)$. By definition of $h_0$, $(h_0(a))(g'\cdot g) = h((g'\cdot g)\cdot a)$. 
     
-    For the map $\Hom_{\E^G}(A,B^G)\to \Hom_{\E}(A,B)$. Given a $G$-map $A\to B^G$, which is a map $u:A\times G\to B$, we need a map $A\to B$ in $\E$. Consider a generalized element $a:X\to A$, and the generalized element $c:X\to 1\overset{e}\to G$, then we have a generalized element $\langle a,c\rangle :X\to A\times G$, composing with $u$ gives the generalized element $X\to A\times G\overset{u}\to B$ which we want. 
+    The result follows from $(g'\cdot g)\cdot a = g'\cdot (g\cdot a)$, since $G$ acts on $A$.
+
+    $\Hom_{\E^G}(A,B^G)\to \Hom_{\E}(A,B)$: Given $G$-map $u:A\to B^G$, we map it to $u':A\to B$ such that $u_0(a)=\tilde{u}(a,e)$ for any generalized element $a:X\to A$, and $\tilde{u}$ is the transpose of $u$. That is, $u'$ is the composition:
+    \begin{center}
+        \begin{tikzcd}
+             A\ar[r,"\cong"] & A\times 1\ar[r,"1\times e"] & A\times G\ar[r,"\tilde{u}"] & B
+        \end{tikzcd}
+    \end{center} 
+
+    Now we check the above two maps are inverses:
+
+    Start from $u:A\to B^G$, denote its transpose as $\tilde{u}:A\times G\to B$, $u$ is sent to $u':A\to B$, which is the composition
+    \begin{center}
+        \begin{tikzcd}
+             A\ar[r,"\cong"] & A\times 1\ar[r,"1\times e"] & A\times G\ar[r,"\tilde{u}"] & B
+        \end{tikzcd}
+    \end{center} 
+
+    Then $u'$ is sent to $u_0':A\to B^G$, which is the transpost of the map $\tilde{u_0'}:A\times G\to B$, defined by $\tilde{u_0'}(a,g)=u'(g\cdot a)$.
+
+    We want $u=u_0'$. It suffices to show $\tilde{u_0'}(a,g)=\tilde{u}(a,g)$ for all generalized element $\langle a,g\rangle: X\to A\times G$. On the LHS, we have $\tilde{u_0'}(a,g)=u'(g\cdot a)$ by definition of $u_0'$, this is the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[r,"{\langle g,a\rangle}"] & G\times A\ar[r,"\mu_A"] & A \ar[r,"\cong"] & A\times 1\ar[r,"1_A\times e"] & A\times G\ar[r,"\tilde{u}"] & B
+        \end{tikzcd}
+    \end{center}
+
+    which sends $\langle g,a\rangle\mapsto g\cdot a \mapsto \langle g\cdot a,*\rangle \mapsto \langle g\cdot a,e\rangle \mapsto \tilde{u}(g\cdot a,e)$. So we need to check $\tilde{u}(g\cdot a,e)=\tilde{u}(a,g)$.
+
+    Using the fact that $u$ is a $G$-map, the diagram commutes:
+
+    \begin{center}
+        \begin{tikzcd}
+            X\ar[dr,"{\langle g,a,e\rangle}"] & & & \\
+              & G\times A\times G\ar[r,"\mu_A\times 1_G"]\ar[d,"1_G\times h_0\times 1_G"] & A\times G\ar[d,"h_0\times 1_G"] & \\
+              & G\times B^G\times G\ar[r,"\mu_{B^G}\times 1_G"] & B^G\times G\ar[dr,"\ev_B"] & \\
+              & & & B
+        \end{tikzcd}
+    \end{center}
+
+    Horizontal first gives $\langle g,a,e\rangle\mapsto \langle g\cdot a,e\rangle\mapsto u(g\cdot a),e\rangle \mapsto (u(g\cdot a))(e)=\tilde{u}(g\cdot a,e)$.
+
+    Vertical first gives $\langle g,a,e\rangle\mapsto \langle g,u(a),e\rangle\mapsto \langle g\cdot u(a),e\rangle \mapsto (g\cdot u(a))(e)$, this is, by definition of action of $G$ on $B^G$, $(u(a))(e\cdot g)=(u(a))(g)=\tilde{u}(a,g)$.
+
+    So the commutivity gives the desired equality.
+
+     
+    Start with a map $h:A\to B$ in $\E$, it is sent to $h_0:A\to B^G$ which is the transpose of $\tilde{h_0}:A\times G\to B$ defined by $\tilde{h_0}(a,g)=h(g\cdot a)$. Then $h_0$ is sent to $h_0':A\to B$, which is the composition:
+    \begin{center}
+        \begin{tikzcd}
+            A\ar[r,"\cong"] & A\times 1\ar[r,"1_A\times e"] & A\times G\ar[r,"\tilde{h_0}"] & B
+        \end{tikzcd}
+    \end{center}
+
+    To check $h_0'=h$, we need $h_0'(a)=h(a)$ for all $a:X\to A$. By definition of $h_0'$, $h_0'(a)=h_0(g)(e)=h(e\cdot a)=h(a)$, as desired.
+
     
 
     
-    %It suffices to give a map which maps generalized element $X\to A$ to a generalized element $X\to B^G$, where the later one is a map $X\times G\to B$. 
+
+
+
+
+
+
+
     
+
+
+
     
-    %we obtain a map $A\to B^G$ defined by taking the transpose of the map $G\times A\overset{\mu_A}\to A\overset{f}\to B$.
 \end{proof}
 
 \begin{question}
@@ -263,19 +386,35 @@
 \begin{proof}
     Reference: taken the idea in the paper `On the Freyd Cover of a Topos' by Ieke Moerdijk.
 
-    The space $\hat{X}$ is a space $X\cup \{*\}$ where $*$ is a closed but not open point (take the basis as open sets in $X$ and the whole space $X\cup \{*\}$). (Have seen why we allow such a topology on this space but forgot where to find it... Remember it is obtained by taking the mapping cone with two point set with one point open and one point closed, anyway such a topology on such a space is allowed.)
+    The space $\hat{X}$ is a space $X\cup \{*\}$ where $*$ is a closed but not open point (take the basis as open sets in $X$ and the whole space $X\cup \{*\}$). 
+    
+    The key fact is that $\Hom_{\Sh(X)}(*,F)$ is $F(X)$!!! So $\Gamma:\Sh(X)\to \Sets$ is defined by $X\mapsto F(X)$.
 
-    Our aim is to show the comma category $\Sets/\Hom(1,-)$ is equivalent to the category of sheaves on $\hat{X}$. An object in $\Sets/\Hom(1,-)$ is an etale bundle $p:E\to X$ with set-theoric function from a set $S$ to the set of global sections of $E\to X$. For each such object, we need to associate it with an etale bundle on $\hat{X}$, and vice versa.
+    Firstly, observe that the objects in $\Sets/\Gamma$ are maps $S\to F(X)$, where $F$ is a sheaf on $X$ and $S$ is a set. 
+    
+    A sheaf on $\hat{X}$ is a functor $F:\mcO(\hat{X})^{\op}\to \Sets$ which satisfies the equalizer conditions, if we have a sheaf $F_0$ on $X$, then to extend it to a sheaf on $\hat{X}$, we need no more than a map $S\to F_0(X)$, where $S$ is any set. To see why it suffices, once we have such a map, we have a sheaf $F$ defined on $\hat{X}$ by $F(\hat{X})=S$, the restriction map is the given map $S\to F(X)$. Since from our topology on $\hat{X}$, the only cover of $\hat{X}$ is $\{\hat{X}\}$ (plus the fact that $F_0$ is a sheaf on $X$), the sheaf condition on $\hat{X}$ is trivially satisfied. 
+    
 
-    Given an etale bundle $p:E\to X$ and a map from a set $S$ of the set of global sections of $p$, construct an etale space $E\cup A\to X\cup \{*\}$ by taking the basis of $E\cup A$ as open sets are sets $U\cup \{a\}$ where $U$ is open in $E$ and $a\in A$, thus the map $p_A:E\cup A\to X\cup \{*\}$ defined by $p_A|_{E}=p:E\to X$ and $p_A(a)=*$ for all $a\in A$ is etale.
+    It suffices to define two functors $L:\Sh(\hat{X})\rightleftarrows\Sets/\Gamma : R$ and check they are inverses.
 
-    Claim: For any etale map $p:E\to X\cup \{*\}$, we have $E=(E\setminus p^{-1}\{*\})\cup p^{-1}\{*\}$ where $p^{-1}\{*\}$ is a set of points, each is closed and not open, and $p|_E$ is etale.
+    The functor $L:\Sh(\hat{X})\to \Sets/\Gamma$ is defined by:
 
-    Given an etale map $E\to X\cup \{*\}$, firstly, for any point $a\in E$ that is mapped to $*$, the point cannot be open, otherwise, consider the map $V_a\to X\cup \{*\}$ where $V_a$ is the a open neighbourhood of $a$ which is mapped homeomorphically to $X\cup\{*\}$. Then $p|_{V_a}$ is a homeomorphism and hence a local open map, if $\{a\}$ is open, then the fact that $p\{a\}=\{*\}$ contradicts the openess of $p|_{V_a}$.
+    On objects: Let $F$ be a sheaf on $\hat{X}$, then $L$ sends $F$ to the restriction map $F(\hat{X})\to F(X)$ induced by the inclusion $X\subseteq \hat{X}$.
 
-    Secondly, we prove $p|_{E_0}$ where $E_0= (E\setminus p^{-1}\{*\})$ is an etale map to $X$, it has the correct codomain by definition. It is continuous since since $p$ is. And for any $x\in E_0$, take a neighbourhood $V_x$ of $x$ in $E$ which is mapped homeomorphically to $X\cup \{*\}$, if it $V_x$ does not contain any preimage of $*$ then we are done, if $V_x$ contain some preimage of $*$, firstly, there is only one $s$ point in $V_x$ which is mapped to $*$, since we need $p$ to be a local homeomorphism on $V_x$. We will have $V_x\setminus \{s\}$ is also a neighbourhood of $x$ which is mapped homeomophically to its image, since restriction of homeomorphism is again a homeomorphism.
+    On morphisms: Given $F_1\to F_2$ map between sheaves on $\hat{X}$, we have 
+    \begin{center}
+        \begin{tikzcd}
+            F_1(\hat{X})\ar[r]\ar[d] & F_1(X)\ar[d] \\
+            F_2(\hat{X})\ar[r] & F_2(X)
+        \end{tikzcd}
+    \end{center}
 
-    For an etale map $p:E_0\cup A\to X\cup \{*\}$, if $*$ is not hitted by any point from $E$, then $p|_{E}:E\to X$ is etale, associate it to the map from $\emptyset$ to the set of global sections of the etale map $p|_{E}:E\to X$. If $*$ is hitted by some point in $E$, then for element $a$ in the set $p^{-1}(*)$ of preimage of $*$, there exists an open neighbourhood $V_a$ in $E$ which is mapped homeomorphically to $p(V_a)$. As homeomorphisms are bijective open maps, the image $p(V_a)$ of $V_a$ in $X\cup \{*\}$ must be open. By the topology we define on $X\cup \{*\}$, the only open set that contains $*$ is the whole $X\cup \{*\}$. Hence $p(V_a)\cong X\cup \{*\}$, and the map $(p|_{V_a})^{-1}_{|X}$ which is the restriction on $X$ of the inverse of the restriction of $p$ on $V_a$ is a global section of $p:E\to X$.
+    commutes by definition of map in the category of sheaves on $\hat{X}$. Moreover, $F_1,F_2$ are sheaves restricted to $X$.
+
+    The inverse $R:\Sets/\Gamma \to \Sh(\hat{X})$ is defined by: Given $S\to F_0(X)$ where $F_0$ is a sheaf on $X$, send it to the sheaf $F$ on $\hat{X}$ defined by $F(X)=F_0(X)$ and $F(\hat{X})=S$, and the map $S\to F_0(X)$ provides the restriction map.
+
+    Trivial to check that they are indeed inverses.
+
 
   
 \end{proof}
