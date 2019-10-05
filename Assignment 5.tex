@@ -1,0 +1,422 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+
+\newcommand{\hmwkTitle}{Assignment 5}
+\newcommand{\hmwkDueDate}{October 2019}
+\newcommand{\hmwkClass}{Sheaves in Geometric and Logic}
+\newcommand{\hmwkAuthorName}{Yiming Xu}
+
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\rwh[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+\parskip 1ex
+
+\DeclareMathOperator{\Sets}{\mathbf {Sets}}
+\DeclareMathOperator{\C}{\mathbf {C}}
+\DeclareMathOperator{\N}{\mathbf {N}}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\BG}{\mathbf BG}
+\DeclareMathOperator{\BM}{\mathbf BM}
+\DeclareMathOperator{\y}{\mathbf y}
+\DeclareMathOperator{\s}{\mathbf s}
+\DeclareMathOperator{\rr}{\mathbf r}
+\DeclareMathOperator{\FinSets}{\mathbf {FinSets}}
+\DeclareMathOperator{\Nat}{\text {Nat}}
+\DeclareMathOperator{\Hom}{\text {Hom}}
+\DeclareMathOperator{\Sub}{\text {Sub}}
+\DeclareMathOperator{\Aut}{\text {Aut}}
+\DeclareMathOperator{\Sh}{\text {Sh}}
+\DeclareMathOperator{\Et}{\text {Etale}}
+\DeclareMathOperator{\Cn}{\mathbb C}
+\DeclareMathOperator{\B}{\mathcal B}
+\DeclareMathOperator{\E}{\mathcal E}
+\DeclareMathOperator{\F}{\mathcal F}
+\DeclareMathOperator{\Ps}{\mathbb P}
+\DeclareMathOperator{\An}{\mathbb A}
+\DeclareMathOperator{\abf}{\mathbf a}
+\DeclareMathOperator{\Gm}{\mathbb G_m}
+\DeclareMathOperator{\mcO}{\mathcal {O}}
+\DeclareMathOperator{\CHOICE}{\sf CHOICE}
+\DeclareMathOperator{\pr}{\sf pr}
+\DeclareMathOperator{\dom}{\text {dom}}
+\DeclareMathOperator{\cod}{\text {cod}}
+\DeclareMathOperator{\im}{\text {im}}
+\DeclareMathOperator{\colim}{\text {colim}}
+\DeclareMathOperator{\eqlz}{\text {eq}}
+\DeclareMathOperator{\coeq}{\text {coeq}}
+\DeclareMathOperator{\ev}{\text {ev}}
+\DeclareMathOperator{\true}{\text {true}}
+
+\title{\hmwkTitle}
+\author{\textbf{\hmwkAuthorName}}
+\date{\hmwkDueDate}
+
+\begin{document}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+\begin{question}
+    Observe that a topos $\E$ satisfies the (internal) axiom of choice iff every object of $\E$ is internally projective, see Exercise 15 and 16 of Chapter IV. Rephrase some of the statements proved there, in terms of (internal) axiom of choice. Notice that if $\E$ is well-pointed then $1$ is projective in $\E$, Conclude from Exercise IV.16(c) that, for well-pointed topoi, IAC and AC are equivalent. Prove that if $\E$ satisfied IAC, then so does $\E/E$ for any object $E$ of $\E$. Is the same true for AC?
+\end{question}
+\begin{proof}
+
+    Conclude from Exercise IV.16(c) that, for well-pointed topoi, IAC and AC are equivalent:
+
+    If $\E$ is well-pointed then $1$ is projective in $\E$. (SGL page 333 (iii)).
+
+    AC: Every object in $\E$ is projective.
+
+    IAC: Every object in $\E$ is internally projective.
+
+    Hence directly by IV.16(c), the result follows.
+
+    Prove that if $\E$ satisfied IAC, then so does $\E$ for any object $E$ of $\E$:
+
+    ???
+
+    Is the same true for AC?
+
+    Yes, as a corollary of `IAC is preserved by slicing'.
+
+    Proof: AC = IAC + SS, as in:
+    https://www.andrew.cmu.edu/user/jonasf/80-514-814/clive/more-topos-props.pdf
+
+    Assume $\E$ has AC, we need to prove that $\E/E$ has AC. As $\E$ has IAC and IAC is preserved by slicing, we conclude $\E/E$ has IAC. It suffices to prove that $\E/E$ has SS. 
+
+    The terminal object in slice category is the identity $E\to E$. Let $f:A\to E$ be an object, then $f$ has a mono-epi factorization as $A\overset{e}\twoheadrightarrow f(A)\overset{m}\rightarrowtail E$ in $\E$. The epi $e$ has a section by AC in $\E$. Also, its section is indeed a map in slice category, as we can check. So AC is preserved by slicing.
+
+
+
+
+\end{proof}
+
+\begin{question}
+    Prove that an arow $f:X\to Y$ in a topos $\E$ is monomorphism iff the sentence $\forall x\in X \forall x'\in X(fx=fx'\Rightarrow x = x')$ of the Mitchell-Benabou language holds in $\E$.
+\end{question}
+\begin{proof}
+    Direction 1:
+    Suppose the composition:
+    \begin{center}
+        \begin{tikzcd}
+            1\ar[r,"\hat{f}"] & Y^X\ar[rrrr,"\forall x \forall x' (\hat{f}(x)=\hat{f}(x')\Rightarrow x = x')"] & & & & \Omega
+        \end{tikzcd}
+    \end{center}
+    is $\true:1\to \Omega$, we want to prove if we have the copositions $ft_1=f_t2$:
+    \begin{center}
+        \begin{tikzcd}
+            T\ar[r,"t_1"]\ar[r,"t_2",shift right] & X \ar[r,"f"] & Y 
+        \end{tikzcd}
+    \end{center}
+    then we have $t_1 = t_2$.
+
+    Specializing Theorem 1 (vi), for the arrow $T \overset{!}\to 1,t_1:T\to X$, we have the arrow $T\overset{!}\to 1\overset{\hat{f}}\to Y^X$ such that the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+           T\ar[r,"{\langle \hat{f} !,t_1\rangle}"] & Y^X\times X\ar[rrrr,"\forall x' ((\hat{f}!)(t_1)=(\hat{f}!)(x')\Rightarrow t_1=x')"] & & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_T:T\to \Omega$.
+
+    Specializing Theorem 1 (vi) again, for the arrow $1_T:T\to T,t_2:T\to X$, we have the composition:
+    \begin{center}
+        \begin{tikzcd}
+            T\ar[rrrr,"{\langle \langle \hat{f}!,t_1\rangle ,t_2\rangle = \langle \langle \hat{f}!,t_1\rangle\circ 1_T ,t_2\rangle}"] & & & & Y^X\times X \times X\ar[rrrr,"(\hat{f}!)(t_1)=(\hat{f}!)(t_2)\Rightarrow t_1=t_2"] & & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_T:T\to \Omega$.
+
+    By Theorem 1, it means that if $T\Vdash (\hat{f}!)(t_1)=(\hat{f}!)(t_2)$, then $T\Vdash t_1=t_2$. 
+
+    To prove our aim that $t_1=t_2$, it suffices to have $T\Vdash t_1=t_2$, since by page 298, the definition of equality means:
+    \begin{center}
+        \begin{tikzcd}
+            T\times T\ar[rrr,"{\langle t_1\pi_1,t_2\pi_2\rangle = t_1\times t_2}"] & & & X\times X\ar[r,"\delta_X"] & \Omega 
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_{T\times T}:T\times T\to \Omega$. By definition of $\delta_X$, it means that $ t_1\times t_2$ factors throught the diagonal, as in the pullback diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            T\times T\ar[drr,"!"]\ar[dr,"t"]\ar[ddr,"t_1\times t_2"] & & \\
+            & X\ar[d,"{\Delta_X=\langle 1_X,1_X\rangle}"]\ar[r,"!"] & 1\ar[d,"\true"] \\
+            & X\times X\ar[r,"\delta_X"] & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    So $t_1=1_X\circ t = t_2$. 
+
+    Now it amounts to proving $T\Vdash (\hat{f}!)(t_1)=(\hat{f}!)(t_2)$. By the interpretation of terms, we need that the maps:
+    \begin{center}
+        \begin{tikzcd}
+            T\ar[r,"{\langle \hat{f}!,t_1\rangle}"] & Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    and 
+    \begin{center}
+        \begin{tikzcd}
+            T\ar[r,"{\langle \hat{f}!,t_2\rangle}"] & Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    are equal.
+
+    By assumption, we have $ft_1=ft_2$, so $f\langle !,t_1\rangle = f\langle !,t_2\rangle$. Hence by the diagram:
+
+    \begin{center}
+        \begin{tikzcd}
+            T\ar[d,"{\langle !,t_{1,2}\rangle}"] &  \\
+            1\times X\ar[d,"\hat{f}\times 1_X"]\ar[dr,"f"] & \\
+            Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    we have the desired equality.
+
+    direction 2: Suppose $f:X\to Y$ is a mono, we need the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            1\ar[r,"\hat{f}"] & Y^X\ar[rrrr,"\forall x \forall x' (\hat{f}(x)=\hat{f}(x')\Rightarrow x = x')"] & & & & \Omega
+        \end{tikzcd}
+    \end{center}
+    is $\true:1\to \Omega$.
+
+    By Theorem 1 (vi'), it suffices to show that the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            1\times X\ar[r,"{\hat{f}\pi_1,\pi_2\rangle}"] & Y^X\times X\ar[rrrrr,"\forall x' (\hat{f}\pi_1)(\pi_2)=(\hat{f}\pi_1)(x')\Rightarrow \pi_2=x')"] & & & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_{1\times X}: 1\times X\to\Omega$.
+
+    Again by Theorem 1 (vi'), it amounts to show that the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            1\times X\times X\ar[rrr,"{\langle \langle\hat{f}\pi_1,\pi_2\rangle\circ \pi_{1\times X},\pi_X\rangle}"] & & & Y^X\times X\times X \ar[rrrrrrrrrr,"\forall x' ((\hat{f}\pi_1)\circ \pi_{1\times X})(\pi_2\circ \pi_{1\times X})=((\hat{f}\pi_1)\circ \pi_{1\times X})(\pi_X)\Rightarrow \pi_2\circ \pi_{1\times X}=\pi_X)"] & & & & & & & & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_{1\times X\times X}\to\Omega$.
+
+    That is, we want to show that once the compositions:
+
+    \begin{center}
+        \begin{tikzcd}
+            1 \times X\times X\ar[rrr,"{\langle \hat{f}\pi_1\circ \pi_{1\times X},\pi_2\circ \pi_{1\times X}\rangle}"] & & & Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    \begin{center}
+        \begin{tikzcd}
+            1 \times X\times X\ar[rr,"{\langle \hat{f}\pi_1\circ \pi_{1\times X},\pi_X\rangle}"] & & Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    are equal, then the compositions:
+
+    \begin{center}
+        \begin{tikzcd}
+            1\times X\times X\ar[r,"\pi_{1\times X}"] & 1\times X\ar[r,"\pi_2"] & X
+        \end{tikzcd}
+    \end{center}
+
+    is equal to the map :
+
+    \begin{center}
+        \begin{tikzcd}
+            1\times X \times X\ar[r,"\pi_X"] & X
+        \end{tikzcd}
+    \end{center}
+
+    For $1\times X\times X$, we have $\pi_{1\times X}\circ \pi_2$ is the projection on the middle $X$, denote it as $\pr_2$, and $\pi_X$ is the projection on the last $X$, denote it as $\pr_3$, the $\pi_1$ is the projection on $1$, denote it as $\pr_1$, then under the assumption, we need to show $\pr_2=\pr_3$. But the assumption says the vertical-horizontal composition in:
+
+    \begin{center}
+        \begin{tikzcd}
+            1\times X \times X\ar[d,"{\langle \pr_1,\pr_2\rangle}"] & \\
+            1\times X\ar[dr,"f"]\ar[d,"\hat{f}\times 1_X"] & \\
+            Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    is equal to that in:
+
+    \begin{center}
+        \begin{tikzcd}
+            1\times X \times X\ar[d,"{\langle \pr_1,\pr_3\rangle}"] & \\
+            1\times X\ar[dr,"f"]\ar[d,"\hat{f}\times 1_X"] & \\
+            Y^X\times X\ar[r,"\ev"] & Y
+        \end{tikzcd}
+    \end{center}
+
+    Hence since $f$ is mono, we have $\pr_1=\pr_3$, as desired.
+    
+
+
+
+\end{proof}
+\begin{question}
+    Prove the sentense $\forall x\exists !y\phi(x,y)\Rightarrow \exists f\in Y^X\forall x\phi(x,f(x))$ where $x$ and $y$ are variables of types $X$ and $Y$, holds for any two objects $X$ and $Y$ in any topos $\E$. [This formula expresses the ``axiom of unique choice''; as usual, $\exists ! \phi(x,y)$ is an abbreviation of $\exists y(\phi(x,y)\land \forall z (\phi(x,y)\Rightarrow y = z))$.]
+\end{question}
+\begin{proof}
+    This is a sketch of the proof idea, I can explain how intuitively does those things work. But I have big trouble figuring out a precise diagramatic argument. 
+
+    Claim (which I cannot prove precisely): For any generalized element $R:U\to \Omega^{X\times Y}$, if it factor through $Y^X$, as in:
+    
+    \begin{center}
+        \begin{tikzcd}
+             U\ar[drr,"!"]\ar[dr,"r"]\ar[ddr,"R"] & & \\
+             & Y^X\ar[r,"!"]\ar[d,"m"] & 1\ar[d,"\widehat{\true_X}"] \\
+             & \Omega^{X\times Y}\ar[r,"u"] & \Omega^X
+        \end{tikzcd}
+    \end{center}
+
+    Then we have $U\Vdash\forall x R(x,r(x))$.
+
+    For any $x:T\to X$, $r(x)$ is the evaluation:
+    \begin{center}
+        \begin{tikzcd}
+            U\times T\ar[r,"r\times x"] & Y^X\times X\ar[r,"e"] & Y
+        \end{tikzcd}
+    \end{center}
+    By SGL page 168, the map $e$ is the one comes from the pullback:
+
+    \begin{center}
+        \begin{tikzcd}
+            Y^X\times X\ar[r,"m\times 1_X"]\ar[dr,"e",dashed]\ar[ddr,"!"] & \Omega^{X\times Y}\times X\ar[dr,"v"] & \\
+            & Y\ar[r,"{\{\cdot\}_Y}"]\ar[d,"!"] & \Omega^Y\ar[d,"\sigma_C"] \\
+            & 1\ar[r,"\true"] & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    That is, given a generalized element $r:U\to Y^X$ and $x:T\to X$, it is sent to the pair $(G(r),x)$ in $\Omega^{X\times Y}\times X$ by $m\times 1_X$, where $G(r)$ is the graph of the function $r$. $v$ sends the pair $(G(r),x)$ to the subset of $Y$ where its elements are related to $x$, as $r$ is a function, such a set is a singleton, and will be sent to $\true$ by $\sigma_C$. The evaluation $Y^X\times X\to Y$ is defined by picking the element in $Y$ which is the unique element which is in the set of the elements which is related to $x$.
+
+    Hence the claimed is supposed to hold by definition...
+
+    (Sketch of) main proof:
+
+    Unwind the anticedent $\forall x\exists y (R(x,y)\land \forall z R(x,z)\Rightarrow y = z)$:
+
+    The anticedent holds iff the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            U\ar[r,"R"] & \Omega^{X\times Y}\ar[rrrrr,"{\forall x\exists y (R(x,y)\land \forall z R(x,z)\Rightarrow y = z)}"] & & & & &\Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_U:U\to \Omega$.
+
+    If an only if the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            U\times X\ar[r,"{\langle R\pi_1,\pi_2\rangle}"] & \Omega^{X\times Y}\times X\ar[rrrrr,"{\exists y (R\pi_1(\pi_2,y)\land \forall z R\pi_1(\pi_2,z)\Rightarrow y = z)}"] & & & & &\Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_{U\times Z}:U\times Z\to \Omega$.
+
+    If and only if there exists an api $p:V\twoheadrightarrow U\times X$ and generalized element $\beta:V\to Y$ such that the composition:
+    \begin{center}
+        \begin{tikzcd}
+            V\ar[rr,"{\langle R\pi_1p,\pi_2p,\beta\rangle}"] & & \Omega^{X\times Y}\times X\times Y\ar[rrrrr,"{R\pi_1p(\pi_2p,\beta)\land (\forall z R\pi_1p(\pi_2p,z)\Rightarrow \beta = z)}"] & & & & &\Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_V:V\to\Omega$.
+
+    If and only if the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            V\ar[rr,"{\langle R\pi_1p,\pi_2p,\beta\rangle}"] & & \Omega^{X\times Y}\times X\times Y\ar[r,"\ev"] & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_V:V\to \Omega$ and 
+
+    \begin{center}
+        \begin{tikzcd}
+            V\times Y\ar[rrrr,"{\langle \langle R\pi_1p,\pi_2p,\beta\rangle\circ \pi_V,\pi_Y\rangle}"] & & & & \Omega^{X\times Y}\times X\times Y\times Y\ar[rrrrr,"{(R\pi_1p\pi_V(\pi_2p\pi_V,\pi_Y)\Rightarrow \beta\pi_V = \pi_Y)}"] & & & & &\Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_{V\times Y}: V\times Y \to \Omega$.
+
+    Unwinding the conclusion $\exists f\forall x R(x,f(x))$, it is true if and only if the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            U\ar[r,"R"] & \Omega^{X\times Y}\ar[rrr,"{\exists f \forall x R(x,f(x))}"] & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_U:U\to\Omega$. 
+
+    If and only if there exists an epi $q:W\to U$ and a generalized element $r:W\to Y^X$, such that the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            W\ar[r,"{\langle Rq,r\rangle}"] & \Omega^{X\times Y}\times Y^X\ar[rrr,"{\forall x Rp(x,r(x))}"] & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_W:W\to \Omega$. 
+
+    If and only if the composition:
+
+    \begin{center}
+        \begin{tikzcd}
+            W\times X\ar[rr,"{\langle \langle Rq,r\rangle\circ \pi_1,\pi_2\rangle}"] & & \Omega^{X\times Y}\times Y^X\times X\ar[rrr,"{Rp\pi_1(\pi_2,r\pi_1(\pi_2))}"] & & & \Omega
+        \end{tikzcd}
+    \end{center}
+
+    is $\true_{W\times X}:W\times X \to\Omega$.
+
+    I think the answer is supposed to be: 
+
+    As $p:V\twoheadrightarrow U\times X$ is epi, and the projection maps from product are epis, the $U$-component $p_U:V\to U$ is a composition of epis and such is an epi. So the $W$ we require in the conclusion is $V$, and the epi $V\to U$ is $p_U$. For the required generalized element $V\to Y^X$, from the antecedent, we have a map $R\pi_1p:V\to \Omega^{X\times Y}$, and the `unique existence of $y$' is SUPPOSED TO imply that the transpose of the composition of $u$ and $R\pi_1p$ is $\true_{V\times X}$, hence we will have a map $r$ as in:
+
+    \begin{center}
+        \begin{tikzcd}
+             V\ar[drr,"!"]\ar[dr,"r",dashed]\ar[ddr,"R\pi_1p"] & & \\
+             & Y^X\ar[r,"!"]\ar[d,"m"] & 1\ar[d,"\widehat{\true_X}"] \\
+             & \Omega^{X\times Y}\ar[r,"u"] & \Omega^X
+        \end{tikzcd}
+    \end{center}
+
+    And this $r$ is SUPPOSED TO satisfy the require condition as we needed for the conclusion.
+
+
+
+
+
+
+
+
+
+
+\end{proof}
+\end{document}
